@@ -16,11 +16,9 @@ USE gamescore;
 -- ============================================================================
 SET FOREIGN_KEY_CHECKS = 0;
 
-DROP TABLE IF EXISTS email_logs;
 DROP TABLE IF EXISTS reviews;
 DROP TABLE IF EXISTS game_platforms;
 DROP TABLE IF EXISTS game_genres;
-DROP TABLE IF EXISTS audit_logs;
 DROP TABLE IF EXISTS platforms;
 DROP TABLE IF EXISTS genres;
 DROP TABLE IF EXISTS games;
@@ -56,28 +54,6 @@ CREATE TABLE users (
     INDEX idx_users_enabled (enabled)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 COMMENT='Usuarios autenticados vía OAuth2';
-
--- ============================================================================
--- TABLA: AUDIT_LOGS (Registro de auditoría)
--- ============================================================================
-CREATE TABLE audit_logs (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT,
-    action VARCHAR(50) NOT NULL,
-    entity_type VARCHAR(50),
-    entity_id BIGINT,
-    description VARCHAR(1000),
-    ip_address VARCHAR(50),
-    timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    
-    INDEX idx_audit_user (user_id),
-    INDEX idx_audit_action (action),
-    INDEX idx_audit_timestamp (timestamp DESC),
-    INDEX idx_audit_entity (entity_type, entity_id),
-    
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-COMMENT='Registro de todas las acciones del sistema';
 
 -- ============================================================================
 -- TABLA: GENRES (Géneros de videojuegos)
@@ -204,35 +180,6 @@ CREATE TABLE reviews (
 COMMENT='Reseñas de videojuegos por usuarios';
 
 -- ============================================================================
--- TABLA: EMAIL_LOGS (Registro de emails enviados)
--- ============================================================================
-CREATE TABLE email_logs (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT,
-    recipient_email VARCHAR(255) NOT NULL,
-    email_type VARCHAR(50) NOT NULL CHECK (email_type IN (
-        'WELCOME', 
-        'ACCOUNT_CONFIRMATION', 
-        'PASSWORD_RESET', 
-        'REVIEW_APPROVED', 
-        'REVIEW_REJECTED', 
-        'WEEKLY_SUMMARY'
-    )),
-    subject VARCHAR(255) NOT NULL,
-    status VARCHAR(20) NOT NULL DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'SENT', 'FAILED')),
-    error_message VARCHAR(1000),
-    sent_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    
-    INDEX idx_email_logs_user (user_id),
-    INDEX idx_email_logs_type (email_type),
-    INDEX idx_email_logs_status (status),
-    INDEX idx_email_logs_sent (sent_at DESC),
-    
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-COMMENT='Registro de todos los emails enviados por el sistema';
-
--- ============================================================================
 -- VISTAS ÚTILES
 -- ============================================================================
 
@@ -290,66 +237,4 @@ SELECT
 FROM users u
 LEFT JOIN reviews r ON u.id = r.user_id
 GROUP BY u.id, u.name, u.email, u.role, u.created_at;
-
 -- ============================================================================
--- DATOS DE EJEMPLO (SEED DATA)
--- ============================================================================
-
--- Insertar géneros comunes
-INSERT INTO genres (name, slug) VALUES
-('Action', 'action'),
-('Adventure', 'adventure'),
-('RPG', 'rpg'),
-('Strategy', 'strategy'),
-('Shooter', 'shooter'),
-('Puzzle', 'puzzle'),
-('Sports', 'sports'),
-('Racing', 'racing'),
-('Fighting', 'fighting'),
-('Platformer', 'platformer'),
-('Simulation', 'simulation'),
-('Indie', 'indie')
-ON DUPLICATE KEY UPDATE name=VALUES(name);
-
--- Insertar plataformas comunes
-INSERT INTO platforms (name, slug) VALUES
-('PC', 'pc'),
-('PlayStation 5', 'playstation-5'),
-('PlayStation 4', 'playstation-4'),
-('Xbox Series X/S', 'xbox-series-xs'),
-('Xbox One', 'xbox-one'),
-('Nintendo Switch', 'nintendo-switch'),
-('iOS', 'ios'),
-('Android', 'android'),
-('macOS', 'macos'),
-('Linux', 'linux')
-ON DUPLICATE KEY UPDATE name=VALUES(name);
-
--- Insertar usuario administrador de prueba
-INSERT INTO users (email, name, avatar_url, provider, provider_id, role)
-VALUES (
-    'admin@gamescore.com',
-    'Admin GameScore',
-    'https://ui-avatars.com/api/?name=Admin+GameScore&background=667eea&color=fff',
-    'LOCAL',
-    'admin-local-1',
-    'ADMIN'
-)
-ON DUPLICATE KEY UPDATE name=VALUES(name);
-
--- Insertar usuarios de prueba
-INSERT INTO users (email, name, provider, provider_id, role)
-VALUES 
-    ('user1@test.com', 'Test User 1', 'LOCAL', 'user-1', 'USER'),
-    ('user2@test.com', 'Test User 2', 'LOCAL', 'user-2', 'USER'),
-    ('guest@test.com', 'Guest User', 'LOCAL', 'guest-1', 'GUEST')
-ON DUPLICATE KEY UPDATE name=VALUES(name);
-
--- ============================================================================
--- MENSAJE DE ÉXITO
--- ============================================================================
-SELECT '✓ Base de datos GameScore creada exitosamente' AS Status;
-SELECT '✓ Tablas creadas: users, games, genres, platforms, reviews, audit_logs, email_logs' AS Info;
-SELECT '✓ Vistas creadas: v_reviews_full, v_game_stats, v_user_stats' AS Info;
-SELECT '✓ Datos de prueba insertados' AS Info;
-SELECT '✓ Usuario admin: admin@gamescore.com' AS Info;

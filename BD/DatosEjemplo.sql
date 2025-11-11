@@ -490,32 +490,6 @@ SELECT
     'Reseña demasiado corta y sin argumentos suficientes. Por favor, proporciona más detalles sobre tu experiencia con el juego.';
 
 -- ============================================================================
--- INSERTAR LOGS DE AUDITORÍA
--- ============================================================================
-
-INSERT INTO audit_logs (user_id, action, entity_type, entity_id, description, ip_address) VALUES
-((SELECT id FROM users WHERE email = 'admin@gamescore.com'), 'LOGIN', 'USER', (SELECT id FROM users WHERE email = 'admin@gamescore.com'), 'Admin login exitoso', '192.168.1.1'),
-((SELECT id FROM users WHERE email = 'juan.perez@gmail.com'), 'LOGIN', 'USER', (SELECT id FROM users WHERE email = 'juan.perez@gmail.com'), 'Usuario login exitoso', '192.168.1.100'),
-((SELECT id FROM users WHERE email = 'juan.perez@gmail.com'), 'CREATE_REVIEW', 'REVIEW', 1, 'Nueva reseña creada para The Witcher 3', '192.168.1.100'),
-((SELECT id FROM users WHERE email = 'admin@gamescore.com'), 'APPROVE_REVIEW', 'REVIEW', 1, 'Reseña aprobada', '192.168.1.1'),
-((SELECT id FROM users WHERE email = 'maria.garcia@outlook.com'), 'LOGIN', 'USER', (SELECT id FROM users WHERE email = 'maria.garcia@outlook.com'), 'Usuario login exitoso', '192.168.1.101'),
-((SELECT id FROM users WHERE email = 'maria.garcia@outlook.com'), 'CREATE_REVIEW', 'REVIEW', 2, 'Nueva reseña creada para GTA V', '192.168.1.101'),
-((SELECT id FROM users WHERE email = 'admin@gamescore.com'), 'APPROVE_REVIEW', 'REVIEW', 2, 'Reseña aprobada', '192.168.1.1'),
-((SELECT id FROM users WHERE email = 'admin@gamescore.com'), 'REJECT_REVIEW', 'REVIEW', 8, 'Reseña rechazada por falta de contenido', '192.168.1.1');
-
--- ============================================================================
--- INSERTAR LOGS DE EMAILS
--- ============================================================================
-
-INSERT INTO email_logs (user_id, recipient_email, email_type, subject, status) VALUES
-((SELECT id FROM users WHERE email = 'juan.perez@gmail.com'), 'juan.perez@gmail.com', 'WELCOME', 'Bienvenido a GameScore', 'SENT'),
-((SELECT id FROM users WHERE email = 'maria.garcia@outlook.com'), 'maria.garcia@outlook.com', 'WELCOME', 'Bienvenido a GameScore', 'SENT'),
-((SELECT id FROM users WHERE email = 'juan.perez@gmail.com'), 'juan.perez@gmail.com', 'REVIEW_APPROVED', 'Tu reseña ha sido aprobada', 'SENT'),
-((SELECT id FROM users WHERE email = 'maria.garcia@outlook.com'), 'maria.garcia@outlook.com', 'REVIEW_APPROVED', 'Tu reseña ha sido aprobada', 'SENT'),
-((SELECT id FROM users WHERE email = 'guest@test.com'), 'guest@test.com', 'REVIEW_REJECTED', 'Tu reseña necesita mejoras', 'SENT'),
-((SELECT id FROM users WHERE email = 'ana.martinez@hotmail.com'), 'ana.martinez@hotmail.com', 'WELCOME', 'Bienvenido a GameScore', 'PENDING');
-
--- ============================================================================
 -- RESUMEN DE DATOS INSERTADOS
 -- ============================================================================
 
@@ -529,8 +503,6 @@ UNION ALL SELECT CONCAT('Juegos: ', COUNT(*)) FROM games
 UNION ALL SELECT CONCAT('Géneros: ', COUNT(*)) FROM genres
 UNION ALL SELECT CONCAT('Plataformas: ', COUNT(*)) FROM platforms
 UNION ALL SELECT CONCAT('Reseñas: ', COUNT(*)) FROM reviews
-UNION ALL SELECT CONCAT('Logs de auditoría: ', COUNT(*)) FROM audit_logs
-UNION ALL SELECT CONCAT('Logs de email: ', COUNT(*)) FROM email_logs;
 
 SELECT '' AS '';
 SELECT 'DESGLOSE DE RESEÑAS POR ESTADO:' AS Info;
