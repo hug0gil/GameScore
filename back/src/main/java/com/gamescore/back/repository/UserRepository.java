@@ -50,16 +50,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByRole(Role role);
     
     /**
-     * Obtiene usuarios activos
-     * Usado en: Estadísticas de usuarios activos
+     * Obtiene usuarios activos y desactivados
+     * Usado en: Estadísticas de usuarios activos y Panel admin (usuarios bloqueados)
      */
-    List<User> findByEnabledTrue();
-    
-    /**
-     * Obtiene usuarios desactivados
-     * Usado en: Panel admin (usuarios bloqueados)
-     */
-    List<User> findByEnabledFalse();
+    List<User> findByEnabled(boolean enabled);
     
     /**
      * Busca usuarios por rol con paginación
@@ -118,7 +112,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * Cuenta usuarios activos
      * Usado en: Estadísticas generales
      */
-    long countByEnabledTrue();
+    long countByEnabled(boolean enabled);
     
     /**
      * Obtiene los N usuarios más recientes

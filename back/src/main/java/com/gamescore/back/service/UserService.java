@@ -187,7 +187,7 @@ public class UserService {
      */
     public List<User> findActiveUsers() {
         log.debug("Obteniendo usuarios activos");
-        return userRepository.findByEnabledTrue();
+        return userRepository.findByEnabled(true);
     }
     
     /**
@@ -220,7 +220,7 @@ public class UserService {
      * Cuenta usuarios activos
      */
     public long countActiveUsers() {
-        return userRepository.countByEnabledTrue();
+        return userRepository.countByEnabled(true);
     }
     
     /**
