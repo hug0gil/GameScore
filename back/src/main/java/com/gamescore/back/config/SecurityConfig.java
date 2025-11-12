@@ -1,4 +1,4 @@
-package com.gamescore.back.security;
+package com.gamescore.back.config;
 
 import com.gamescore.back.security.jwt.JwtAuthenticationFilter;
 import com.gamescore.back.security.oauth2.CustomOAuth2UserService;
