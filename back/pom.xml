@@ -40,10 +40,17 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+<!--_________________________________________________________________________________________________________-->
+	<!-- THYMELEAF -->
 		<dependency>
 			<groupId>me.paulschwarz</groupId>
 			<artifactId>spring-dotenv</artifactId>
 			<version>3.0.0</version>
+		</dependency>
+		<!-- para que funcionen las fechas  -->
+		<dependency>
+    		<groupId>org.thymeleaf.extras</groupId>
+    		<artifactId>thymeleaf-extras-springsecurity6</artifactId>
 		</dependency>
 
 		<!-- ========== SEGURIDAD Y OAUTH2 ========== -->
