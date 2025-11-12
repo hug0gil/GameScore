@@ -1,0 +1,11 @@
+# Ignorar basura de macOS
+.DS_Store
+**/.DS_Store
+
+# Ignorar carpetas de compilación
+target/
+
+# Ignorar variables de entorno
+.env
+**/.env
+
