@@ -1,64 +1,62 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
-<head>
-    <title>Registro</title>
-</head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head('Registro')"></head>
 <body>
 
-<div layout:fragment="content">
-    <div class="main-content-dark">
-        <div class="container py-5">
-            
-            <!-- Título Principal -->
-            <h1 class="text-center text-white mb-4">Registrarte en GameScore</h1>
+<div th:replace="layout :: header"></div>
 
-            <div class="auth-box">
-                <!--
-                    Formulario de Registro.
-                    - th:action apunta a la ruta que procesará el registro.
-                    - th:object conecta el formulario con un objeto DTO para la validación de datos.
-                -->
-                <form th:action="@{/registro}" th:object="${userRegistrationDto}" method="post">
+<main class="main-content-dark">
+    <div class="container py-5">
+        
+        <!-- Título Principal -->
+        <h1 class="text-center text-white mb-4">Registrarte en GameScore</h1>
 
-                    <!-- Mensaje de éxito/error global (opcional) -->
-                    <div th:if="${param.success}" class="alert alert-success">¡Registro completado! Ya puedes iniciar sesión.</div>
-                    <div th:if="${param.error}" class="alert alert-danger" th:text="${param.error[0]}">Hubo un error en el registro.</div>
+        <div class="auth-box">
+            <form th:action="@{/registro}" th:object="${userRegistrationDto}" method="post">
 
-                    <!-- Campo: Nombre de Usuario -->
-                    <div class="input-group mb-3">
-                        <span class="input-group-text"><i class="bi bi-person"></i></span>
-                        <input type="text" class="form-control" placeholder="nombre de usuario" th:field="*{username}" required>
-                    </div>
-                    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="validation-error mb-2"></div>
+                <!-- Mensajes globales -->
+                <div th:if="${param.success}" class="alert alert-success">
+                    ¡Registro completado! Ya puedes iniciar sesión.
+                </div>
+                <div th:if="${param.error}" class="alert alert-danger" th:text="${param.error[0]}">Hubo un error en el registro.</div>
 
-                    <!-- Campo: Email -->
-                    <div class="input-group mb-3">
-                        <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
-                        <input type="email" class="form-control" placeholder="email" th:field="*{email}" required>
-                    </div>
-                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="validation-error mb-2"></div>
+                <!-- Campo: username -->
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    <input type="text" class="form-control" placeholder="nombre de usuario" th:field="*{username}" required>
+                </div>
+                <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="validation-error mb-2"></div>
 
-                    <!-- Campo: Contraseña -->
-                    <div class="input-group mb-4">
-                        <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                        <input type="password" class="form-control" placeholder="contraseña" th:field="*{password}" required>
-                    </div>
-                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="validation-error mb-2"></div>
+                <!-- Campo: email -->
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                    <input type="email" class="form-control" placeholder="email" th:field="*{email}" required>
+                </div>
+                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="validation-error mb-2"></div>
 
-                    <!-- Botón de Submit -->
-                    <button type="submit" class="btn btn-alt w-100 btn-lg mb-4">Registrarte</button>
+                <!-- Campo: password -->
+                <div class="input-group mb-4">
+                    <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                    <input type="password" class="form-control" placeholder="contraseña" th:field="*{password}" required>
+                </div>
+                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="validation-error mb-2"></div>
 
-                    <!-- Enlace a Login -->
-                    <p class="text-center text-white-50 auth-link">
-                        ¿Ya tienes una cuenta? <a th:href="@{/login}">Iniciar Sesión aquí</a>
-                    </p>
-                </form>
-            </div>
+                <!-- Botón de registro -->
+                <button type="submit" class="btn btn-alt w-100 btn-lg mb-4">Registrarte</button>
+
+                <!-- Enlace para login -->
+                <p class="text-center text-white-50 auth-link">
+                    ¿Ya tienes una cuenta? <a th:href="@{/login}">Iniciar Sesión aquí</a>
+                </p>
+
+            </form>
         </div>
+
     </div>
-</div>
+</main>
+
+<div th:replace="layout :: footer"></div>
+<div th:replace="layout :: scripts"></div>
 
 </body>
 </html>

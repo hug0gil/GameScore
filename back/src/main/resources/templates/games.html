@@ -1,49 +1,19 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
-<head>
-    <title>Juegos</title>
-</head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head('Juegos')"></head>
 <body>
 
-<div layout:fragment="content">
-    <div class="main-content-dark">
-        <div class="container py-5">
-            
-            <!-- 
-                Ejemplo de una fila "Destacada" con un borde especial.
-                Para lograr esto, se envuelve una fila de bootstrap en un div personalizado.
-            -->
-            <div class="featured-row">
-                <div class="row g-4 justify-content-center">
-                    <!-- Aquí podrías iterar sobre una lista de juegos destacados -->
-                    <!-- Ejemplo con 3 juegos -->
-                    <div class="col-lg-3 col-md-4" th:each="game : ${featuredGames}">
-                        <a th:href="@{'/juego/' + ${game.id}}" class="game-card">
-                            <img th:src="${game.imageUrl}" class="card-img-top" alt="Portada de juego">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h5 class="card-title mb-0" th:text="${game.name}">Nombre del Juego</h5>
-                                    <span class="rating">
-                                        <span th:text="${game.rating}">5</span> <i class="bi bi-star-fill star"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
+<!-- Header de navegación -->
+<div th:replace="layout :: header"></div>
 
-            <!-- Fila de juegos normales -->
-            <div class="row g-4">
-                <!--
-                    th:each="game : ${games}"
-                    Esta es la magia de Thymeleaf. Iterará sobre la lista "games"
-                    que le pases desde tu controlador de Spring Boot.
-                    Por cada "game" en la lista, repetirá este bloque de código.
-                -->
-                <div class="col-lg-3 col-md-4" th:each="game : ${games}">
+<!-- Contenido principal -->
+<main class="main-content-dark py-5">
+    <div class="container">
+
+        <!-- Fila destacada -->
+        <div class="featured-row mb-5">
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-3 col-md-4" th:each="game : ${featuredGames}">
                     <a th:href="@{'/juego/' + ${game.id}}" class="game-card">
                         <img th:src="${game.imageUrl}" class="card-img-top" alt="Portada de juego">
                         <div class="card-body">
@@ -57,10 +27,32 @@
                     </a>
                 </div>
             </div>
-
         </div>
+
+        <!-- Lista de juegos normales -->
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-4" th:each="game : ${games}">
+                <a th:href="@{'/juego/' + ${game.id}}" class="game-card">
+                    <img th:src="${game.imageUrl}" class="card-img-top" alt="Portada de juego">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0" th:text="${game.name}">Nombre del Juego</h5>
+                            <span class="rating">
+                                <span th:text="${game.rating}">5</span> <i class="bi bi-star-fill star"></i>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
     </div>
-</div>
+</main>
+
+<!-- Footer -->
+<div th:replace="layout :: footer"></div>
+<!-- Scripts JS -->
+<div th:replace="layout :: scripts"></div>
 
 </body>
 </html>

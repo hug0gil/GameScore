@@ -33,7 +33,10 @@ public class SecurityConfig {
                                                                 "/api/auth/**",
                                                                 "/oauth2/**",
                                                                 "/login/**",
-                                                                "/login.html")
+                                                                "/login.html",
+                                                                "/images/**",
+                                                                "/css/**",
+                                                                "/js/**")
                                                 .permitAll()
 
                                                 // Solo ADMIN

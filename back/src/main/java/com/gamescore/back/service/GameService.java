@@ -63,14 +63,14 @@ public class GameService {
     }
 
     /**
-     * Busca juegos cuyo nombre o plataforma contenga la palabra clave.
+     * Busca juegos cuyo nombre contenga la palabra clave.
      * Este método requerirá que añadas un método personalizado en tu GameRepository.
      * @param keyword La palabra clave para buscar.
      * @return Una lista de juegos que coinciden con la búsqueda.
      */
     public List<Game> search(String keyword) {
         if (keyword != null && !keyword.trim().isEmpty()) {
-            return gameRepository.searchByNameOrPlatform(keyword);
+            return gameRepository.searchByName(keyword);
         }
         // Si no hay palabra clave, devuelve todos los juegos.
         return gameRepository.findAll();

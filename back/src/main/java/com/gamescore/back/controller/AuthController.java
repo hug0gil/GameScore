@@ -43,4 +43,13 @@ public class AuthController {
         
         return ResponseEntity.ok(response);
     }
+
+    /**
+     * Muestra la página de login, que ahora contiene los botones de OAuth2.
+     * @return El nombre de la plantilla "login".
+     */
+    @GetMapping("/login")
+    public String showLoginPage() {
+        return "login";
+    }
 }

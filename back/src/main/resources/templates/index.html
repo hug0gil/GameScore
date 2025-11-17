@@ -1,50 +1,23 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
-<head>
-    <title>Inicio</title>
-</head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head('Inicio')"></head>
 <body>
 
-<div layout:fragment="content">
+<!-- Contenido -->
+<main class="flex-grow-1">
 
-    <!-- 
-        HERO SECTION
-        - th:style: Permite poner la imagen de fondo dinámicamente con Thymeleaf.
-        - hero-section: Clase personalizada para el fondo y la capa oscura.
-        - d-flex, align-items-center, justify-content-center: Clases de Bootstrap para centrar el contenido vertical y horizontalmente.
-    -->
-    <section class="hero-section" th:style="'background-image: url(' + @{/images/hero-background.jpg} + ')'">
-        
-        <div class="hero-content">
-            <!-- 
-                - highlight-text: Clase para dar el color y sombra especial a "GameScore".
-                - lead: Clase de Bootstrap para que el subtítulo sea un poco más grande.
-            -->
+    <section class="hero-section" th:style="'background-image: url(' + @{/images/logo-horizontal.jpg} + ')'">
+        <div class="hero-content text-center text-white px-3">
             <h1>Bienvenido a <span class="highlight-text">GameScore</span>.</h1>
             <p class="lead mt-3">Tu blog de juegos favorito.</p>
-            
-            <!-- 
-                - btn-dark-solid: El nuevo estilo de botón que hemos creado.
-                - mt-4: Margen superior (margin-top) de Bootstrap.
-                - th:href: Enlace a la página de juegos gestionado por Thymeleaf.
-            -->
             <a th:href="@{/juegos}" class="btn btn-dark-solid mt-4">Ver Juegos</a>
         </div>
-
     </section>
-    
-    <!-- Aquí podrías añadir más secciones para tu página de inicio si lo necesitas -->
-    <!-- 
-    <div class="container my-5">
-        <h2>Últimas Novedades</h2>
-        <hr>
-        ... más contenido ...
-    </div>
-    -->
 
-</div>
+</main>
+
+<!-- JS scripts -->
+<div th:replace="layout :: scripts"></div>
 
 </body>
 </html>
