@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <!-- El título será dinámico con el nombre del juego -->
+    <title th:text="${game.name}">Detalle del Juego</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="main-content-dark game-detail-page">
+        <div class="container py-5">
+
+            <!-- 1. BANNER DEL JUEGO -->
+            <img th:src="${game.bannerUrl}" th:alt="'Banner de ' + ${game.name}" class="img-fluid rounded shadow-sm mb-4">
+
+            <!-- 2. DESCRIPCIÓN -->
+            <h2 class="section-title">Descripción</h2>
+            <p class="text-white-50" th:text="${game.description}">
+                Aquí va la descripción detallada del videojuego, explicando la trama, jugabilidad y características principales.
+            </p>
+
+            <!-- 3. CAJA DE DETALLES, RESEÑAS Y SCREENSHOTS -->
+            <div class="details-box mt-4">
+                <div class="row">
+                    <!-- Columna Izquierda: Detalles y Reseñas -->
+                    <div class="col-md-6">
+                        <h3>Detalles del juego</h3>
+                        <div class="details-list">
+                            <p><strong>Nombre:</strong> <span th:text="${game.name}">Super Mario Bros.</span></p>
+                            <p><strong>Actualización:</strong> <span th:text="${#dates.format(game.releaseDate, 'dd/MM/yyyy')}">13/09/1985</span></p>
+                            <p><strong>Plataforma:</strong> <span th:text="${game.platform}">Nintendo</span></p>
+                        </div>
+
+                        <h3 class="mt-4">Reseñas</h3>
+                        <div class="review-stars">
+                            <!--
+                                Bucle para generar 5 estrellas.
+                                'th:classappend' añade la clase 'filled' si el índice (i) es menor o igual a la puntuación del juego.
+                            -->
+                            <span th:each="i : ${#numbers.sequence(1, 5)}">
+                                <i class="bi bi-star-fill star" th:classappend="${i <= game.rating ? 'filled' : ''}"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Screenshots y Videos -->
+                    <div class="col-md-6">
+                        <h3>Screenshots y videos</h3>
+                        <div class="row g-3 media-gallery">
+                            <!--
+                                Bucle para iterar sobre la lista de media (screenshots/videos).
+                                th:if muestra el icono de play solo si el tipo es 'video'.
+                            -->
+                            <div class="col-6" th:each="media : ${game.mediaList}">
+                                <a th:href="${media.url}" data-bs-toggle="tooltip" th:title="${media.type == 'video' ? 'Ver video' : 'Ver imagen'}">
+                                    <img th:src="${media.thumbnailUrl}" class="img-fluid rounded" alt="media del juego">
+                                    <i class="bi bi-play-circle-fill play-icon" th:if="${media.type == 'video'}"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

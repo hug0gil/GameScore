@@ -1,4 +1,4 @@
-package com.gamescore.back.security.oauth2;
+package com.gamescore.back.security;
 
 import com.gamescore.back.model.User;
 import lombok.Getter;

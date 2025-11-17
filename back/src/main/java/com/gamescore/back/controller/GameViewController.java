@@ -21,6 +21,6 @@ public class GameViewController {
     public String mostrarJuegos(Model model) {
         List<Game> juegos = gameService.findAll();
         model.addAttribute("listaJuegos", juegos);
-        return "games/list"; // Ir a templates/games/list.html
+        return "games/games"; // Ir a templates/games/games.html
     }
 }

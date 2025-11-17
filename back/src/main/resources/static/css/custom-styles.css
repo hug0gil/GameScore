@@ -1,0 +1,380 @@
+/* --------------------------------------------------- */
+/* 1. IMPORTACIÓN DE FUENTES Y VARIABLES DE COLOR      */
+/* --------------------------------------------------- */
+
+/* Importamos las fuentes desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap');
+
+/* Definimos los colores de la guía como variables CSS para reutilizarlos */
+:root {
+  --color-primary: #FFB800;
+  --color-secondary: #E9E7E4;
+  --color-success: #55B957;
+  --color-alert: #F8D800;
+  --color-error: #DB4040;
+  --color-hover: #FFB5C0;
+  --color-shadow: #F38801;
+  --color-background: #FFFFFF; /* Cambiado a blanco para mejor legibilidad por defecto */
+  --color-text: #333333;
+  --color-titles-borders: #2D2D2D;
+  --font-pixel: 'Press Start 2P', cursive;
+  --font-sans: 'Roboto', sans-serif;
+}
+
+/* --------------------------------------------------- */
+/* 2. ESTILOS GENERALES Y TIPOGRAFÍA                   */
+/* --------------------------------------------------- */
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  font-size: 16px; /* Paragraph Roboto 16 */
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3 {
+  font-family: var(--font-pixel);
+  color: var(--color-titles-borders);
+  margin-bottom: 1rem;
+}
+
+h1, .h1 { font-size: 32px; }
+h2, .h2 { font-size: 24px; }
+h3, .h3 { font-size: 20px; }
+p { font-size: 16px; }
+small, .small { font-size: 12px; }
+
+/* --------------------------------------------------- */
+/* 3. BOTONES (SOBREESCRIBIENDO BOOTSTRAP)             */
+/* --------------------------------------------------- */
+
+.btn {
+  font-family: var(--font-pixel);
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--color-titles-borders);
+  box-shadow: 4px 4px 0px var(--color-shadow);
+  transition: all 0.2s ease-in-out;
+  font-size: 14px;
+}
+
+/* Botón Primario (Normal) */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-titles-borders);
+  border-color: var(--color-titles-borders);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-hover);
+  color: var(--color-titles-borders);
+  border-color: var(--color-titles-borders);
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 0px var(--color-shadow);
+}
+
+/* Botón Alternativo (Normal 2) */
+.btn-alt {
+    background-color: var(--color-shadow);
+    color: white;
+    border-color: var(--color-titles-borders);
+}
+
+.btn-alt:hover {
+    background-color: var(--color-primary);
+    color: var(--color-titles-borders);
+    transform: translateY(-2px);
+    box-shadow: 6px 6px 0px var(--color-shadow);
+}
+
+
+.btn:disabled, .btn.disabled {
+  background-color: var(--color-secondary);
+  color: #999;
+  border-color: #ccc;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* Para quitar el "glow" por defecto de Bootstrap y usar nuestro estilo */
+.btn:focus, .btn.focus {
+  box-shadow: 4px 4px 0px var(--color-shadow);
+}
+
+
+/* --------------------------------------------------- */
+/* 4. INPUTS (USANDO FLOATING LABELS DE BOOTSTRAP)     */
+/* --------------------------------------------------- */
+
+.form-control {
+  border: 2px solid var(--color-titles-borders);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.form-control:focus {
+  border-color: var(--color-success); /* Color de borde en focus */
+  box-shadow: 0 0 0 0.25rem rgba(85, 185, 87, 0.25); /* Glow de focus a juego */
+  color: var(--color-text);
+}
+
+/* Estilo para los floating labels de Bootstrap */
+.form-floating > .form-control {
+  height: calc(3.5rem + 4px); /* Ajustar altura por el borde más grueso */
+}
+
+.form-floating > label {
+  color: #888;
+}
+
+.form-control:disabled, .form-control[readonly] {
+  background-color: var(--color-secondary);
+  opacity: 0.7;
+}
+
+/* Placeholder color */
+.form-control::placeholder {
+  color: #aaa;
+}
+
+/* --------------------------------------------------- */
+/* 5. SECCIÓN HERO (PÁGINA DE INICIO)                  */
+/* --------------------------------------------------- */
+
+.hero-section {
+  position: relative;
+  height: 100vh; /* Ocupa toda la altura de la pantalla */
+  background-size: cover;
+  background-position: center;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Capa oscura semitransparente sobre la imagen de fondo */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(45, 45, 45, 0.75); /* Usamos el color de títulos con transparencia */
+  z-index: 1;
+}
+
+/* Asegura que el contenido esté por encima de la capa oscura */
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Estilo para el H1 en la sección hero */
+.hero-section h1 {
+  color: white; /* El texto base del h1 es blanco */
+  text-shadow: 3px 3px 0px var(--color-titles-borders); /* Sombra para legibilidad */
+}
+
+/* Estilo especial para la palabra "GameScore" */
+.hero-section .highlight-text {
+  color: var(--color-primary);
+  text-shadow: 3px 3px 0px var(--color-shadow);
+}
+
+/* Un nuevo estilo de botón para esta página, más sobrio */
+.btn-dark-solid {
+  background-color: var(--color-titles-borders);
+  color: white;
+  border: 2px solid var(--color-titles-borders);
+  box-shadow: none; /* Sin sombra por defecto */
+}
+
+.btn-dark-solid:hover {
+  background-color: var(--color-primary);
+  color: var(--color-titles-borders);
+  border-color: var(--color-titles-borders);
+  box-shadow: 4px 4px 0px var(--color-shadow); /* Aplicamos el efecto de la guía al pasar el ratón */
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------- */
+/* 6. LAYOUT: HEADER, FOOTER Y CONTENIDO PRINCIPAL     */
+/* --------------------------------------------------- */
+
+.app-header {
+  background-color: var(--color-primary);
+  border-bottom: 3px solid var(--color-titles-borders);
+}
+
+.app-header .user-icon {
+  font-size: 2rem;
+  color: var(--color-titles-borders);
+  transition: color 0.2s;
+}
+.app-header .user-icon:hover {
+  color: white;
+}
+
+/* Modificamos los botones para la navbar */
+.app-header .btn {
+  font-size: 12px;
+  padding: 0.5rem 1rem;
+}
+
+.main-content-dark {
+  background-color: #404040; /* Color "Background" de la guía */
+}
+
+.app-footer {
+  background-color: var(--color-primary);
+  padding: 1.5rem 0;
+  border-top: 3px solid var(--color-titles-borders);
+}
+
+.app-footer a {
+  color: var(--color-titles-borders);
+  text-decoration: none;
+  margin: 0 1rem;
+  font-family: var(--font-pixel);
+  font-size: 12px;
+}
+
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------- */
+/* 7. TARJETA DE JUEGO (GAME CARD)                     */
+/* --------------------------------------------------- */
+
+.game-card {
+  background-color: var(--color-secondary);
+  border: 2px solid var(--color-titles-borders);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  color: var(--color-text);
+  display: block;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  color: var(--color-text);
+}
+
+.game-card .card-img-top {
+  border-bottom: 2px solid var(--color-titles-borders);
+}
+
+.game-card .card-body {
+  padding: 1rem;
+}
+
+.game-card .card-title {
+  font-family: var(--font-sans);
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.game-card .rating {
+  font-weight: bold;
+}
+
+.game-card .rating .star {
+  color: var(--color-primary);
+  text-shadow: 1px 1px 0px var(--color-shadow);
+}
+
+/* Estilo para la fila destacada */
+.featured-row {
+  border: 4px solid #007bff; /* Un color azul para destacar */
+  border-radius: 12px;
+  padding: 20px 5px; /* Padding interior para separar las tarjetas del borde */
+  margin-bottom: 2rem;
+}
+
+/* --------------------------------------------------- */
+/* 8. PÁGINA DE DETALLE DE JUEGO                       */
+/* --------------------------------------------------- */
+
+.game-detail-page .section-title {
+  font-family: var(--font-pixel);
+  color: white;
+  font-size: 28px;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.details-box {
+  background-color: var(--color-secondary);
+  border-radius: 12px;
+  padding: 2rem;
+  color: var(--color-text);
+}
+
+.details-box h3 {
+    font-family: var(--font-pixel);
+    font-size: 20px;
+    color: var(--color-titles-borders);
+    margin-bottom: 1rem;
+}
+
+.details-list p {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.details-list strong {
+  color: var(--color-titles-borders);
+}
+
+.review-stars {
+  font-size: 2.5rem; /* Estrellas más grandes */
+}
+
+.review-stars .star {
+  color: #ccc; /* Color de estrella vacía */
+  transition: color 0.2s;
+}
+
+.review-stars .star.filled {
+  color: var(--color-primary); /* Color de estrella llena */
+  text-shadow: 2px 2px 0px var(--color-shadow);
+}
+
+/* Galería de Screenshots y Videos */
+.media-gallery a {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 3px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.media-gallery a:hover {
+  border-color: var(--color-primary);
+}
+
+/* Icono de "play" sobre los videos */
+.media-gallery a .play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  color: white;
+  text-shadow: 0 0 10px rgba(0,0,0,0.8);
+  pointer-events: none; /* Para que no interfiera con el click en el enlace */
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.media-gallery a:hover .play-icon {
+    opacity: 1;
+}
