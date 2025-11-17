@@ -33,7 +33,7 @@ public class SecurityConfig {
                                                                 "/api/auth/**",
                                                                 "/oauth2/**",
                                                                 "/login/**",
-                                                                "/test-oauth.html")
+                                                                "/login.html")
                                                 .permitAll()
 
                                                 // Solo ADMIN

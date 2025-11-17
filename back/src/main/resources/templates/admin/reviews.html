@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Gestión de Reseñas</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="main-content-dark">
+        <div class="container py-5">
+            
+            <!-- 1. CABECERA: Título y Botón "Filtrar" -->
+            <div class="d-flex justify-content-between align-items-center admin-header pb-3 mb-4">
+                <h1 class="text-white mb-0">Gestión de Reseñas</h1>
+                <button class="btn btn-alt" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas" aria-controls="filterOffcanvas">
+                    <i class="bi bi-funnel-fill"></i> Filtrar
+                </button>
+            </div>
+
+            <!-- 2. BUSCADOR -->
+            <form th:action="@{/admin/resenas}" method="get" class="mb-4">
+                <div class="input-group auth-box p-0">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input type="text" name="keyword" class="form-control" placeholder="buscar por título, usuario..." th:value="${keyword}">
+                </div>
+            </form>
+
+            <!-- 3. TABLA DE RESEÑAS -->
+            <div class="table-responsive">
+                <table class="table table-admin">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Usuario</th>
+                            <th class="text-center">Puntuación</th>
+                            <th>Fecha</th>
+                            <th class="text-center">Ocultar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="review : ${reviews}">
+                            <td th:text="${review.game.name}">Super Mario Bros</td>
+                            <td th:text="'@' + ${review.user.username}">@HDJDNF</td>
+                            <td class="text-center">
+                                <div class="table-rating-stars">
+                                    <span th:each="i : ${#numbers.sequence(1, 5)}">
+                                        <i class="bi bi-star-fill star" th:classappend="${i <= review.rating ? 'filled' : ''}"></i>
+                                    </span>
+                                </div>
+                            </td>
+                            <td th:text="${#dates.format(review.createdAt, 'dd/MM/yyyy')}">xx/xx/xxxx</td>
+                            <td class="text-center">
+                                <button type="button" class="btn action-icon text-danger p-0 border-0 bg-transparent"
+                                        data-bs-toggle="modal" data-bs-target="#hideModal"
+                                        th:attr="data-review-id=${review.id}, data-review-info='reseña de @' + ${review.user.username} + ' para \'' + ${review.game.name} + '\''" title="Ocultar">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(reviews)}">
+                            <td colspan="5" class="text-center p-4">No se encontraron reseñas.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ========================================= -->
+    <!-- OFFCANVAS PARA FILTROS                   -->
+    <!-- ========================================= -->
+    <div class="offcanvas offcanvas-end filter-offcanvas" tabindex="-1" id="filterOffcanvas" aria-labelledby="filterOffcanvasLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="filterOffcanvasLabel">Filtrar Reseñas</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <form th:action="@{/admin/resenas}" method="get">
+            <div class="mb-3">
+              <label for="filterUser" class="form-label">Usuario</label>
+              <input type="text" class="form-control" id="filterUser" name="user" th:value="${param.user}">
+            </div>
+            <div class="mb-3">
+              <label for="filterGame" class="form-label">Juego</label>
+              <input type="text" class="form-control" id="filterGame" name="game" th:value="${param.game}">
+            </div>
+            <div class="mb-3">
+              <label for="filterRating" class="form-label">Puntuación (mínima)</label>
+              <select class="form-select" id="filterRating" name="rating">
+                <option value="">Cualquiera</option>
+                <option value="1" th:selected="${param.rating == '1'}">★☆☆☆☆</option>
+                <option value="2" th:selected="${param.rating == '2'}">★★☆☆☆</option>
+                <option value="3" th:selected="${param.rating == '3'}">★★★☆☆</option>
+                <option value="4" th:selected="${param.rating == '4'}">★★★★☆</option>
+                <option value="5" th:selected="${param.rating == '5'}">★★★★★</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Aplicar Filtros</button>
+            <a th:href="@{/admin/resenas}" class="btn btn-secondary w-100 mt-2">Limpiar Filtros</a>
+        </form>
+      </div>
+    </div>
+    
+    <!-- ========================================= -->
+    <!-- MODAL DE CONFIRMACIÓN DE OCULTAR          -->
+    <!-- ========================================= -->
+    <div class="modal fade" id="hideModal" tabindex="-1" aria-labelledby="hideModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="hideModalLabel">Confirmar Ocultación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que quieres ocultar esta reseña? (<strong id="reviewInfoToHide"></strong>). Seguirá existiendo pero no será visible para los usuarios.
+                </div>
+                <div class="modal-footer">
+                    <form th:action="@{/admin/resenas/ocultar}" method="post">
+                        <input type="hidden" name="id" id="reviewIdToHide">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-warning">Ocultar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para el modal (debe estar dentro del fragmento de scripts) -->
+    <script layout:fragment="scripts" th:inline="javascript">
+        var hideModal = document.getElementById('hideModal');
+        if (hideModal) {
+            hideModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var reviewId = button.getAttribute('data-review-id');
+                var reviewInfo = button.getAttribute('data-review-info');
+                
+                var modalBodyInfo = hideModal.querySelector('#reviewInfoToHide');
+                var reviewIdInput = hideModal.querySelector('#reviewIdToHide');
+
+                modalBodyInfo.textContent = reviewInfo;
+                reviewIdInput.value = reviewId;
+            });
+        }
+    </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="'Perfil de ' + ${user.username}">Mi Perfil</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="main-content-dark">
+        <div class="container py-5">
+            
+            <!-- 1. CABECERA DEL PERFIL -->
+            <header class="profile-header d-flex align-items-center pb-4 mb-5">
+                <img th:src="${user.avatarUrl}" alt="Avatar del usuario" class="profile-avatar me-4">
+                <div class="profile-info text-white">
+                    <h1 th:text="${user.username}">nombrededeuser</h1>
+                    <p class="user-handle" th:text="'@' + ${user.handle}">@tunombre</p>
+                    <div class="profile-bio-bar"></div>
+                </div>
+                <a th:href="@{/perfil/editar}" class="btn btn-primary ms-auto align-self-start">Editar perfil</a>
+            </header>
+
+            <!-- 2. CONTENIDO PRINCIPAL (2 COLUMNAS) -->
+            <div class="row g-4">
+                <!-- Columna Izquierda: Datos y Estadísticas -->
+                <div class="col-lg-5 d-flex flex-column gap-4">
+                    <!-- Caja: Datos Personales -->
+                    <div class="profile-infobox">
+                        <h3>DATOS PERSONALES</h3>
+                        <div class="info-list">
+                            <div class="info-item">
+                                <strong>Telefono</strong>
+                                <span th:text="${user.phone ?: 'N/A'}">674836464</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Direccion</strong>
+                                <span th:text="${user.address ?: 'N/A'}">calle amapola</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Correo electronico</strong>
+                                <span th:text="${user.email}">loli@gmail.com</span>
+                            </div>
+                             <div class="info-item">
+                                <strong>Ciudad</strong>
+                                <span th:text="${user.city ?: 'N/A'}">Cádiz</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Caja: Estadísticas -->
+                    <div class="profile-infobox">
+                         <h3>ESTADISTICAS PRINCIPALES</h3>
+                         <div class="info-list">
+                            <div class="info-item">
+                                <strong>Juegos comprados</strong>
+                                <span th:text="${#lists.size(user.purchasedGames)}">5</span>
+                            </div>
+                             <div class="info-item">
+                                <strong>Horas jugadas</strong>
+                                <span th:text="${user.hoursPlayed}">2345</span>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Juegos Favoritos -->
+                <div class="col-lg-7">
+                    <div class="profile-infobox">
+                        <h3>JUEGOS FAVORITOS</h3>
+                        <!-- 
+                            Rejilla responsive: 2 columnas en móvil, 3 en pantallas medianas y más.
+                            Itera sobre la lista de juegos favoritos del usuario.
+                         -->
+                        <div class="row row-cols-2 row-cols-md-3 g-3 favorite-games-grid">
+                            <div class="col" th:each="game : ${user.favoriteGames}">
+                                <a th:href="@{'/juego/' + ${game.id}}">
+                                    <img th:src="${game.coverUrl}" class="img-fluid rounded" th:alt="${game.name}">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

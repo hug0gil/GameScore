@@ -378,3 +378,332 @@ small, .small { font-size: 12px; }
 .media-gallery a:hover .play-icon {
     opacity: 1;
 }
+
+/* --------------------------------------------------- */
+/* 9. PÁGINA DE LOGIN Y FORMULARIOS                    */
+/* --------------------------------------------------- */
+
+.auth-form-container {
+    max-width: 450px;
+    margin: auto;
+}
+
+/* Sobreescribimos la alerta de error de Bootstrap para que coincida con nuestro color --color-error */
+.alert-danger {
+    background-color: var(--color-error);
+    border-color: #a83232; /* Un rojo un poco más oscuro para el borde */
+    color: white;
+}
+
+/* Estilo para los checkboxes, para que usen nuestro color primario */
+.form-check-input:checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-shadow);
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 184, 0, 0.3);
+}
+
+/* Estilo para enlaces pequeños dentro del formulario */
+.small-link {
+    font-size: 0.9em;
+    color: var(--color-secondary);
+    text-decoration: none;
+}
+
+.small-link:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* --------------------------------------------------- */
+/* 10. AUTH BOX Y ESTILOS DE REGISTRO                  */
+/* --------------------------------------------------- */
+
+.auth-box {
+  background-color: rgba(0, 0, 0, 0.2); /* Fondo semitransparente más oscuro que el principal */
+  padding: 2.5rem;
+  border-radius: 12px;
+  max-width: 550px;
+  margin: auto;
+}
+
+/* Estilo para los grupos de input (icono + campo) */
+.auth-box .input-group-text {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #ccc;
+  padding-right: 1rem;
+}
+
+/* Estilo para los inputs dentro del auth-box, para que coincidan con la imagen */
+.auth-box .form-control {
+  background-color: #5a5a5a;
+  border: 2px solid #333;
+  color: white;
+  border-radius: 8px !important; /* Forzar el borde redondeado */
+  padding: 1rem;
+}
+
+.auth-box .form-control::placeholder {
+  color: #a0a0a0;
+  font-family: var(--font-pixel); /* Placeholder con fuente pixelada */
+  font-size: 14px;
+}
+
+.auth-box .form-control:focus {
+  background-color: #666;
+  color: white;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.25rem rgba(255, 184, 0, 0.25);
+}
+
+/* Estilo para el enlace de "Iniciar Sesión" */
+.auth-link a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: bold;
+  font-family: var(--font-pixel);
+  font-size: 14px;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* Estilo para mensajes de error de validación */
+.validation-error {
+  color: var(--color-error);
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+/* --------------------------------------------------- */
+/* 11. PÁGINA DE PERFIL                                */
+/* --------------------------------------------------- */
+
+.profile-header {
+  border-bottom: 2px solid #5a5a5a;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 5px solid white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  object-fit: cover; /* Asegura que la imagen no se deforme */
+}
+
+.profile-info h1 {
+  font-size: 3rem; /* Más grande que un H1 normal */
+  margin-bottom: 0;
+}
+
+.profile-info .user-handle {
+  font-family: var(--font-sans);
+  color: #a0a0a0;
+  font-size: 1.25rem;
+}
+
+.profile-bio-bar {
+  height: 8px;
+  width: 80%;
+  max-width: 300px;
+  background-color: #6c757d;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+/* Cajas de información */
+.profile-infobox {
+  background-color: #5a5a5a;
+  padding: 1.5rem;
+  border-radius: 12px;
+  height: 100%; /* Para que todas las cajas en una fila tengan la misma altura */
+}
+
+.profile-infobox h3 {
+  font-family: var(--font-pixel);
+  font-size: 1rem;
+  color: white;
+  margin-bottom: 1.5rem;
+}
+
+.info-list .info-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  color: #e0e0e0;
+}
+
+.info-list .info-item strong {
+  font-family: var(--font-pixel);
+  font-size: 0.9rem;
+  color: white;
+}
+
+/* Galería de juegos favoritos */
+.favorite-games-grid a {
+  display: block;
+  transition: transform 0.2s ease-in-out;
+}
+
+.favorite-games-grid a:hover {
+  transform: scale(1.05);
+}
+
+/* --------------------------------------------------- */
+/* 12. PANEL DE ADMINISTRACIÓN                         */
+/* --------------------------------------------------- */
+
+.admin-header {
+  border-bottom: 2px solid #5a5a5a;
+}
+
+/* Tabla de Administración */
+.table-admin {
+  border-radius: 8px;
+  overflow: hidden; /* Para que el borde redondeado afecte a la tabla */
+  border: 2px solid var(--color-titles-borders);
+}
+
+.table-admin thead {
+  background-color: #5a5a5a;
+  color: white;
+  font-family: var(--font-pixel);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.table-admin tbody {
+  background-color: var(--color-secondary);
+}
+
+.table-admin td {
+  vertical-align: middle;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-weight: 700;
+}
+
+.admin-game-thumb {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 1rem;
+}
+
+/* Iconos de acción (Editar/Eliminar) */
+.action-icon {
+  font-size: 1.5rem;
+  text-decoration: none;
+  margin: 0 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.action-icon:hover {
+  transform: scale(1.2);
+}
+
+/* --------------------------------------------------- */
+/* 13. GESTIÓN DE RESEÑAS Y PANEL DE FILTROS          */
+/* --------------------------------------------------- */
+
+.table-rating-stars {
+  font-size: 1.1rem; /* Estrellas más pequeñas para la tabla */
+  white-space: nowrap; /* Evita que las estrellas se separen en dos líneas */
+}
+
+.table-rating-stars .star.filled {
+  color: var(--color-primary);
+  text-shadow: 1px 1px 0px var(--color-shadow);
+}
+
+.table-rating-stars .star {
+  color: #ccc;
+}
+
+/* Estilos para el panel lateral de filtros (Offcanvas) */
+.filter-offcanvas {
+    background-color: #2d2d2d;
+    color: white;
+}
+
+.filter-offcanvas .offcanvas-header {
+    border-bottom: 2px solid #5a5a5a;
+}
+
+.filter-offcanvas .offcanvas-title {
+    font-family: var(--font-pixel);
+}
+
+.filter-offcanvas .form-label {
+    font-family: var(--font-pixel);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+/* --------------------------------------------------- */
+/* 14. GESTIÓN DE USUARIOS Y BADGES DE ROL              */
+/* --------------------------------------------------- */
+
+.admin-user-avatar {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 0.75rem;
+  border: 2px solid #ccc;
+}
+
+/* Badges para los roles de usuario */
+.badge-role {
+    font-family: var(--font-sans);
+    font-weight: bold;
+    font-size: 0.8em;
+    padding: 0.4em 0.8em;
+}
+
+/* --------------------------------------------------- */
+/* 15. ADMIN DASHBOARD                                 */
+/* --------------------------------------------------- */
+
+.stat-card {
+    background-color: #5a5a5a;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+}
+
+.stat-card-title {
+    font-family: var(--font-pixel);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: #ccc;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card-number {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.management-buttons a.btn {
+    font-size: 1.2rem;
+    padding: 1rem;
+    text-align: center;
+}
+
+.chart-container {
+    background-color: var(--color-secondary);
+    padding: 1.5rem;
+    border-radius: 12px;
+}

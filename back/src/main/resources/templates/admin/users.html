@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Gestión de Usuarios</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="main-content-dark">
+        <div class="container py-5">
+            
+            <!-- 1. CABECERA: Título y Botón "Filtrar" -->
+            <div class="d-flex justify-content-between align-items-center admin-header pb-3 mb-4">
+                <h1 class="text-white mb-0">Gestión de Usuarios</h1>
+                <button class="btn btn-alt" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterUsersOffcanvas" aria-controls="filterUsersOffcanvas">
+                    <i class="bi bi-funnel-fill"></i> Filtrar
+                </button>
+            </div>
+
+            <!-- 2. BUSCADOR -->
+            <form th:action="@{/admin/usuarios}" method="get" class="mb-4">
+                <div class="input-group auth-box p-0">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input type="text" name="keyword" class="form-control" placeholder="buscar por nombre, usuario, email..." th:value="${keyword}">
+                </div>
+            </form>
+
+            <!-- 3. TABLA DE USUARIOS -->
+            <div class="table-responsive">
+                <table class="table table-admin">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th class="text-center">Rol</th>
+                            <th>Fecha de Registro</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="user : ${users}">
+                            <td>
+                                <img th:src="${user.avatarUrl}" class="admin-user-avatar" alt="Avatar">
+                                <span th:text="${user.username}">@HDJDNF</span>
+                            </td>
+                            <td class="text-center">
+                                <!-- Badge de Bootstrap para el rol, con color dinámico -->
+                                <span class="badge rounded-pill badge-role"
+                                      th:text="${user.role}"
+                                      th:classappend="${user.role == 'ADMIN' ? 'bg-danger' : (user.role == 'MODERATOR' ? 'bg-info' : 'bg-success')}">
+                                    usuario
+                                </span>
+                            </td>
+                            <td th:text="${#dates.format(user.registrationDate, 'dd/MM/yyyy')}">xx/xx/xxxx</td>
+                            <td class="text-center">
+                                <a th:href="@{/admin/usuarios/editar/{id}(id=${user.id})}" class="action-icon text-primary" title="Editar Rol">
+                                    <i class="bi bi-shield-lock-fill"></i>
+                                </a>
+                                <button type="button" class="btn action-icon text-danger p-0 border-0 bg-transparent"
+                                        data-bs-toggle="modal" data-bs-target="#deleteUserModal"
+                                        th:attr="data-user-id=${user.id}, data-user-name=${user.username}" title="Eliminar Usuario">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(users)}">
+                            <td colspan="4" class="text-center p-4">No se encontraron usuarios.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ========================================= -->
+    <!-- OFFCANVAS PARA FILTROS                   -->
+    <!-- ========================================= -->
+    <div class="offcanvas offcanvas-end filter-offcanvas" tabindex="-1" id="filterUsersOffcanvas" aria-labelledby="filterOffcanvasLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="filterOffcanvasLabel">Filtrar Usuarios</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <form th:action="@{/admin/usuarios}" method="get">
+            <div class="mb-3">
+              <label for="filterRole" class="form-label">Rol de Usuario</label>
+              <select class="form-select" id="filterRole" name="role">
+                <option value="">Todos los roles</option>
+                <option value="USER" th:selected="${param.role == 'USER'}">Usuario</option>
+                <option value="MODERATOR" th:selected="${param.role == 'MODERATOR'}">Moderador</option>
+                <option value="ADMIN" th:selected="${param.role == 'ADMIN'}">Administrador</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Aplicar Filtros</button>
+            <a th:href="@{/admin/usuarios}" class="btn btn-secondary w-100 mt-2">Limpiar Filtros</a>
+        </form>
+      </div>
+    </div>
+    
+    <!-- ========================================= -->
+    <!-- MODAL DE CONFIRMACIÓN DE BORRADO          -->
+    <!-- ========================================= -->
+    <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteUserModalLabel">Confirmar Eliminación de Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="fs-5">¿Estás seguro de que quieres eliminar al usuario <strong id="usernameToDelete"></strong>?</p>
+                    <p class="text-danger fw-bold"><i class="bi bi-exclamation-triangle-fill"></i> ¡Esta acción es irreversible y eliminará todos los datos asociados al usuario!</p>
+                </div>
+                <div class="modal-footer">
+                    <form th:action="@{/admin/usuarios/eliminar}" method="post">
+                        <input type="hidden" name="id" id="userIdToDelete">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Sí, eliminar usuario</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para el modal (debe estar dentro del fragmento de scripts) -->
+    <script layout:fragment="scripts" th:inline="javascript">
+        var deleteUserModal = document.getElementById('deleteUserModal');
+        if (deleteUserModal) {
+            deleteUserModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var userId = button.getAttribute('data-user-id');
+                var userName = button.getAttribute('data-user-name');
+                
+                var modalBodyName = deleteUserModal.querySelector('#usernameToDelete');
+                var userIdInput = deleteUserModal.querySelector('#userIdToDelete');
+
+                modalBodyName.textContent = userName;
+                userIdInput.value = userId;
+            });
+        }
+    </script>
+</div>
+</body>
+</html>
