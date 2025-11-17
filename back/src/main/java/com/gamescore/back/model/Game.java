@@ -16,54 +16,44 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Data
 @NoArgsConstructor
 public class Game {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(nullable = false, unique = true)
     private String name;
-    
+
     private String slug;
-    
+
     @Column(columnDefinition = "TEXT")
     private String description;
-    
-    private String coverUrl;
-    
+
     private String backgroundUrl;
-    
+
     private LocalDate releaseDate;
-    
+
     private BigDecimal rating;
-    
+
     private Integer metacritic;
-    
+
     private Long rawgId;
-    
-    private String youtubeKey;
-    
+
+    private String youtubeUrl;
+
     private String website;
-    
-    @ManyToMany
-    @JoinTable(
-        name = "game_genres",
-        joinColumns = @JoinColumn(name = "game_id"),
-        inverseJoinColumns = @JoinColumn(name = "genre_id")
-    )
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "game_genres", joinColumns = @JoinColumn(name = "game_id"), inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres = new HashSet<>();
-    
-    @ManyToMany
-    @JoinTable(
-        name = "game_platforms",
-        joinColumns = @JoinColumn(name = "game_id"),
-        inverseJoinColumns = @JoinColumn(name = "platform_id")
-    )
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "game_platforms", joinColumns = @JoinColumn(name = "game_id"), inverseJoinColumns = @JoinColumn(name = "platform_id"))
     private Set<Platform> platforms = new HashSet<>();
-    
+
     @CreationTimestamp
     private LocalDateTime createdAt;
-    
+
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 }

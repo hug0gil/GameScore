@@ -265,4 +265,9 @@ public class UserService {
             default -> false;
         };
     }
+
+    public Object findAllFilteredByRole(String role) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findAllFilteredByRole'");
+    }
 }

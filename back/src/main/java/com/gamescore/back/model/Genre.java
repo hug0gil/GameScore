@@ -8,19 +8,27 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Genre {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(nullable = false, unique = true)
     private String name;
-    
+
     @Column(nullable = false, unique = true)
     private String slug;
-    
+
     private String imageUrl;
-    
+
     @Column(unique = true)
     private Integer rawgId;
+
+    public Genre(String name) {
+        this.name = name;
+    }
+
+    public static String toSlug(String input) {
+        return input.toLowerCase().replaceAll("[^a-z0-9]+", "-").replaceAll("(^-|-$)", "");
+    }
 }
