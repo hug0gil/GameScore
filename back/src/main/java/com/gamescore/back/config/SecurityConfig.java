@@ -1,60 +1,77 @@
 package com.gamescore.back.config;
 
+import com.gamescore.back.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import com.gamescore.back.security.CustomOAuth2UserService;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-        private final CustomOAuth2UserService customOAuth2UserService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-        @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-                http
-                                // Configuración básica de CORS y CSRF
-                                .cors(cors -> cors.configure(http))
-                                .csrf(csrf -> csrf.disable())
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-                                // Autorización de endpoints
-                                .authorizeHttpRequests(auth -> auth
-                                                // Endpoints públicos
-                                                .requestMatchers(
-                                                                "/api/public/**",
-                                                                "/api/auth/**",
-                                                                "/oauth2/**",
-                                                                "/login/**",
-                                                                "/login.html")
-                                                .permitAll()
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
 
-                                                // Solo ADMIN
-                                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(authorize -> authorize
+                // Rutas públicas que cualquiera puede ver
+                .requestMatchers(
+                    "/",
+                    "/juegos",
+                    "/juego/**",
+                    "/login",       // La página que mostrará los botones de OAuth2
+                    "/registro",    // Página de registro
+                    "/api/auth/**", // Endpoints de autenticación
+                    "/error",
+                    "/css/**",
+                    "/js/**",
+                    "/images/**"
+                ).permitAll()
 
-                                                // USER o ADMIN
-                                                .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
+                // Cualquier otra ruta requiere que el usuario esté autenticado
+                .anyRequest().authenticated()
+            )
+            // Configura el login con OAuth2
+            .oauth2Login(oauth2 -> oauth2
+                // Especifica que nuestra página en /login es donde empieza el flujo
+                .loginPage("/login")
+                // A dónde ir después de un login exitoso
+                .defaultSuccessUrl("/perfil", true)
+            )
+            // Configura el logout
+            .logout(logout -> logout
+                .logoutSuccessUrl("/?logout") // Redirige a la página de inicio con un mensaje
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+            )
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-                                                // Todo lo demás requiere autenticación
-                                                .anyRequest().authenticated())
-
-                                // Login con formulario (opcional)
-                                .formLogin(form -> form
-                                                .loginPage("/login") // Puedes cambiarlo por tu propia vista de login
-                                                .permitAll())
-
-                                // Login con OAuth2
-                                .oauth2Login(oauth2 -> oauth2
-                                                .userInfoEndpoint(userInfo -> userInfo
-                                                                .userService(customOAuth2UserService)));
-
-                return http.build();
-        }
+        return http.build();
+    }
 }

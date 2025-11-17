@@ -13,14 +13,12 @@ import org.springframework.stereotype.Repository;
 public interface GameRepository extends JpaRepository<Game, Long> {
 
     /**
-     * Busca juegos donde el nombre o la plataforma contengan la palabra clave,
-     * ignorando mayúsculas/minúsculas.
-     * 
+     * Busca juegos donde el nombre del juego o el nombre de CUALQUIERA de sus plataformas
+     * contenga la palabra clave, ignorando mayúsculas/minúsculas.
      * @param keyword La palabra clave a buscar.
      * @return Lista de juegos que coinciden.
      */
-
-    @Query("SELECT g FROM Game g WHERE LOWER(g.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(g.plataforma) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    @Query("SELECT DISTINCT g FROM Game g LEFT JOIN g.platforms p WHERE LOWER(g.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Game> searchByNameOrPlatform(@Param("keyword") String keyword);
 
 }
