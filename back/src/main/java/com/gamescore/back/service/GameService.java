@@ -18,6 +18,7 @@ public class GameService {
 
     /**
      * Devuelve una lista de todos los juegos en la base de datos.
+     * 
      * @return Lista de todos los juegos.
      */
     public List<Game> findAll() {
@@ -26,17 +27,24 @@ public class GameService {
 
     /**
      * Busca un juego por su ID.
+     * 
      * @param id El ID del juego.
-     * @return Un Optional que contiene el juego si se encuentra, o un Optional vacío si no.
+     * @return Un Optional que contiene el juego si se encuentra, o un Optional
+     *         vacío si no.
      */
     public Optional<Game> findById(Long id) {
         return gameRepository.findById(id);
+    }
+
+    public Optional<Game> findBySlug(String slug) {
+        return gameRepository.findBySlug(slug);
     }
 
     /**
      * Devuelve una lista de juegos destacados.
      * Lógica de ejemplo: devuelve los 3 juegos con la puntuación (rating) más alta.
      * Puedes ajustar esta lógica según tus necesidades.
+     * 
      * @return Lista de juegos destacados.
      */
     public List<Game> findFeatured() {
@@ -46,7 +54,9 @@ public class GameService {
     }
 
     /**
-     * Guarda un juego en la base de datos (para crear uno nuevo o actualizar uno existente).
+     * Guarda un juego en la base de datos (para crear uno nuevo o actualizar uno
+     * existente).
+     * 
      * @param game El objeto Game a guardar.
      * @return El juego guardado (con su ID si es nuevo).
      */
@@ -56,15 +66,20 @@ public class GameService {
 
     /**
      * Elimina un juego por su ID.
+     * 
      * @param id El ID del juego a eliminar.
      */
     public void deleteById(Long id) {
         gameRepository.deleteById(id);
     }
 
+
+
     /**
      * Busca juegos cuyo nombre contenga la palabra clave.
-     * Este método requerirá que añadas un método personalizado en tu GameRepository.
+     * Este método requerirá que añadas un método personalizado en tu
+     * GameRepository.
+     * 
      * @param keyword La palabra clave para buscar.
      * @return Una lista de juegos que coinciden con la búsqueda.
      */

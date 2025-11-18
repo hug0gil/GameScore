@@ -28,10 +28,10 @@ public class GameController {
         return "games";
     }
 
-    @GetMapping("/juego/{id}")
-    public String showGameDetailPage(@PathVariable("id") Long id, Model model) {
-        Game game = gameService.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Juego no encontrado"));
+    @GetMapping("/juego/{slug}")
+    public String showGameDetailPage(@PathVariable("slug") String slug, Model model) {
+        Game game = gameService.findBySlug(slug)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Juego no encontrado"));
         model.addAttribute("game", game);
         return "game-detail";
     }

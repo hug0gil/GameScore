@@ -19,10 +19,6 @@ public class Platform {
     @Column(nullable = false, unique = true)
     private String slug;
 
-    private String imageUrl;
-
-    @Column(unique = true)
-    private Integer rawgId;
 
     public Platform(String name) {
         this.name = name;

@@ -3,6 +3,7 @@ package com.gamescore.back.repository;
 import com.gamescore.back.model.Game;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +26,8 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
     boolean existsByRawgId(Long rawgId);
 
+    Optional<Game> findById(long id);
+
+    @Query("SELECT g FROM Game g JOIN FETCH g.genres JOIN FETCH g.platforms WHERE g.slug = :slug")
+    Optional<Game> findBySlug(@Param("slug") String slug);
 }
