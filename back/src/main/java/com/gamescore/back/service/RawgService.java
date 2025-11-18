@@ -117,11 +117,11 @@ public class RawgService {
         // Descripción: Priorizamos 'description_raw' (texto plano) sobre 'description'
         // (con HTML).
         Object descriptionObj = data.get("description_raw");
-        if (descriptionObj == null) {
-            descriptionObj = data.get("description"); // Fallback a la descripción con HTML
+        if (descriptionObj != null) {
+            String originalDesc = descriptionObj.toString();
+            String translated = translateToSpanish(originalDesc);
+            game.setDescription(translated);
         }
-        if (descriptionObj != null)
-            game.setDescription(descriptionObj.toString());
 
         Object bgImageObj = data.get("background_image");
         if (bgImageObj != null)
@@ -217,4 +217,60 @@ public class RawgService {
         System.out.println("✓ Juego guardado con éxito: " + game.getName() + " (rawgId: " + rawgId + ")");
 
     }
+
+    /**
+     * Método auxiliar para traducir texto de Inglés a Español
+     * Utiliza la API gratuita de Google Translate (GTX).
+     * NOTA: No usar en producción masiva, Google puede bloquear la IP si hay muchas
+     * peticiones.
+     */
+    private String translateToSpanish(String text) {
+        if (text == null || text.isEmpty()) {
+            return "";
+        }
+
+        try {
+            // Construimos la URL para la API de Google Translate
+            // sl=en (source language), tl=es (target language), dt=t (data type text)
+            String url = UriComponentsBuilder.fromUriString("https://translate.googleapis.com/translate_a/single")
+                    .queryParam("client", "gtx")
+                    .queryParam("sl", "en")
+                    .queryParam("tl", "es")
+                    .queryParam("dt", "t")
+                    .queryParam("q", text)
+                    .build()
+                    .toUriString();
+
+            // La respuesta es un Array JSON complejo. Usamos Object para flexibilidad.
+            // Estructura típica: [[["Hola","Hello",...], ["Mundo","World",...]], ...]
+            List<Object> response = restTemplate.getForObject(url, List.class);
+
+            if (response == null || response.isEmpty()) {
+                return text; // Si falla, devolvemos original
+            }
+
+            // Parseamos la respuesta manual para extraer el texto traducido
+            StringBuilder translation = new StringBuilder();
+
+            // El primer elemento (índice 0) contiene las oraciones traducidas
+            List<Object> sentences = (List<Object>) response.get(0);
+
+            for (Object sentenceObj : sentences) {
+                List<Object> sentence = (List<Object>) sentenceObj;
+                if (!sentence.isEmpty() && sentence.get(0) != null) {
+                    // El texto traducido es el primer elemento de cada array de oración
+                    translation.append(sentence.get(0).toString());
+                }
+            }
+
+            return translation.toString();
+
+        } catch (Exception e) {
+            System.err.println("Error traduciendo texto: " + e.getMessage());
+            // En caso de error (ej. sin internet o bloqueo), devolvemos el texto original
+            // en inglés
+            return text;
+        }
+    }
+
 }
