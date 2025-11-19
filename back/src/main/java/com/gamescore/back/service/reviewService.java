@@ -4,7 +4,7 @@ import com.gamescore.back.model.Review;
 import com.gamescore.back.model.User; // Necesitas estas clases
 import com.gamescore.back.model.Game; // Necesitas estas clases
 import com.gamescore.back.model.enums.ReviewStatus;
-import com.gamescore.back.repository.reviewRepository;
+import com.gamescore.back.repository.ReviewRepository;
 import com.gamescore.back.repository.UserRepository;
 import com.gamescore.back.repository.GameRepository;
 import org.springframework.stereotype.Service;
@@ -16,14 +16,14 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-public class reviewService {
+public class ReviewService {
 
-    private final reviewRepository reviewRepository;
+    private final ReviewRepository reviewRepository;
     private final UserRepository userRepository; // Para buscar el User
     private final GameRepository gameRepository; // Para buscar el Game
 
     // Inyección de dependencias
-    public reviewService(reviewRepository reviewRepository,
+    public ReviewService(ReviewRepository reviewRepository,
             UserRepository userRepository,
             GameRepository gameRepository) {
         this.reviewRepository = reviewRepository;

@@ -11,7 +11,8 @@
     <main class="main-content-dark game-detail-page">
         <div class="container py-5">
 
-            <!-- 1. BANNER DEL JUEGO -->
+            <h2 class="section-title" th:text="${game.name}"></h2>
+
             <!-- Usamos th:if para evitar un error si la URL es nula -->
             <img th:if="${game.backgroundUrl}" th:src="${game.backgroundUrl}" th:alt="'Banner de ' + ${game.name}"
                 class="img-fluid rounded shadow-sm mb-4">

@@ -3,7 +3,8 @@ package com.gamescore.back.controller;
 import com.gamescore.back.model.Review;
 import com.gamescore.back.model.User; // Necesaria para la moderación
 import com.gamescore.back.model.enums.ReviewStatus;
-import com.gamescore.back.service.reviewService;
+import com.gamescore.back.service.ReviewService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +14,11 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/reviews")
-public class reviewController {
+public class ReviewController {
 
-    private final reviewService reviewService;
+    private final ReviewService reviewService;
 
-    public reviewController(reviewService reviewService) {
+    public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
 

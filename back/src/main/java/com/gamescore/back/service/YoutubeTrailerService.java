@@ -31,7 +31,7 @@ public class YoutubeTrailerService {
         logger.info("--- INICIO BÚSQUEDA DE TRÁILER PARA: '{}' ---", game.getName());
 
         logger.info(">>> INTENTO 1: Búsqueda genérica ('official trailer').");
-        String genericQuery = game.getName() + " trailer oficial en español ";
+        String genericQuery = game.getName() + " teaser trailer";
         Optional<String> trailerUrl = executeSearchWithJsoup(genericQuery);
 
         if (trailerUrl.isPresent()) {
@@ -40,7 +40,7 @@ public class YoutubeTrailerService {
         }
 
         logger.warn(">>> INTENTO 1 FALLIDO. Realizando INTENTO 2 (Fallback): Búsqueda en español.");
-        String specificQuery = game.getName() + " trailer oficial en español ";
+        String specificQuery = game.getName() + " teaser trailer";
         Optional<String> fallbackUrl = executeSearchWithJsoup(specificQuery);
 
         if (fallbackUrl.isPresent()) {
@@ -106,7 +106,7 @@ public class YoutubeTrailerService {
     public String testYoutubeSearch(String gameName) {
         // ... (puedes actualizar este método para que también use
         // executeSearchWithJsoup si quieres)
-        String genericQuery = gameName + " trailer oficial en español";
+        String genericQuery = gameName + " teaser trailer";
         Optional<String> result = executeSearchWithJsoup(genericQuery);
         return result.orElse("No se encontró tráiler en la prueba con JSoup.");
     }
