@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: head('Sobre Nosotros - GameScore')"></head>
+
+<body>
+
+    <!-- HEADER -->
+    <div th:replace="layout :: header"></div>
+
+    <main class="container my-5">
+
+        <h1 class="text-center mb-4 fw-bold">Sobre Nosotros</h1>
+
+        <p class="lead text-center mb-5">
+            GameScore es una empresa creada por Hugo Gil, David Orellana y María Abascal, siendo una plataforma moderna
+            creada para auténticos apasionados de los videojuegos.
+            Nuestro propósito es reunir en un único espacio todo lo que un jugador necesita: información, comunidad,
+            reseñas y seguimiento personal de su actividad gamer.
+        </p>
+
+        <section class="mb-5">
+            <h2 class="fw-semibold">Nuestra misión</h2>
+            <p>
+                El proyecto nace con un objetivo claro: construir un entorno digital completo donde cada usuario pueda
+                descubrir videojuegos, consultar datos actualizados y compartir sus experiencias con la comunidad.
+            </p>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="fw-semibold">¿Qué ofrecemos?</h2>
+
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>✔ Un catálogo completo:</strong> Podrás encontrar información de muchísimos videojuegos de
+                    forma rápida y sencilla.
+                </li>
+
+                <li class="list-group-item">
+                    <strong>✔ Una comunidad activa:</strong> Los usuarios pueden dejar sus opiniones, valorar juegos y
+                    descubrir nuevos títulos recomendados por otros.
+                </li>
+
+                <li class="list-group-item">
+                    <strong>✔ Tu espacio personal:</strong> Cada jugador tiene su propia zona donde puede guardar sus
+                    favoritos y llevar un registro de su actividad.
+                </li>
+
+                <li class="list-group-item">
+                    <strong>✔ Contenido cuidado:</strong> Nos aseguramos de que las reseñas y la información publicada
+                    sean adecuadas y respetuosas.
+                </li>
+
+                <li class="list-group-item">
+                    <strong>✔ Un entorno seguro:</strong> Protegemos los datos de los usuarios y el acceso a las
+                    distintas funciones de la plataforma.
+                </li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <div th:replace="layout :: footer"></div>
+
+    <!-- SCRIPTS -->
+    <div th:replace="layout :: scripts"></div>
+
+</body>
+
+</html>
