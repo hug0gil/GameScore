@@ -1,23 +1,28 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout :: head('Inicio')"></head>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <title>GameScore - Inicio</title>
+</head>
+
 <body>
-
-<!-- Contenido -->
-<main class="flex-grow-1">
-
-    <section class="hero-section" th:style="'background-image: url(' + @{/images/logo-horizontal.jpg} + ')'">
-        <div class="hero-content text-center text-white px-3">
-            <h1>Bienvenido a <span class="highlight-text">GameScore</span>.</h1>
-            <p class="lead mt-3">Tu blog de juegos favorito.</p>
-            <a th:href="@{/juegos}" class="btn btn-dark-solid mt-4">Ver Juegos</a>
+    <header class="header content">
+        <!-- Video de fondo -->
+        <div class="header-video">
+            <video th:src="@{/videos/retrowave.mp4}" autoplay muted loop playsinline></video>
         </div>
-    </section>
 
-</main>
+        <!-- Overlay semitransparente -->
+        <div class="header-overlay"></div>
 
-<!-- JS scripts -->
-<div th:replace="layout :: scripts"></div>
-
+        <!-- Contenido principal -->
+        <div class="header-content">
+            <h1>Bienvenido a <span class="title">GameScore</span></h1>
+            <p class="lead mt-3">Tu blog de juegos favorito.</p>
+            <a th:href="@{/juegos}" class="btn">Ver Juegos</a>
+        </div>
+    </header>
 </body>
+
 </html>

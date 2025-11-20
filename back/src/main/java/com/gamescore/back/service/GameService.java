@@ -1,9 +1,13 @@
 package com.gamescore.back.service;
 
 import com.gamescore.back.model.Game;
+import com.gamescore.back.model.DTOs.GameListDTO;
 import com.gamescore.back.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -30,8 +34,18 @@ public class GameService {
         }
     }
 
+    public Page<GameListDTO> findAllPagedLight(int page, int size) {
+        return gameRepository.findAllLight(PageRequest.of(page, size));
+    }
+
+    @Cacheable("featuredGames")
+    public List<GameListDTO> findFeaturedLight() {
+        return gameRepository.findTop3ByOrderByRatingDesc();
+    }
+
     /**
      * Busca un juego por su ID.
+     * 
      * @param id El ID del juego.
      * @return un Optional que contiene el juego si se encuentra.
      */
@@ -41,19 +55,6 @@ public class GameService {
 
     public Optional<Game> findBySlug(String slug) {
         return gameRepository.findBySlug(slug);
-    }
-
-    /**
-     * Devuelve una lista de juegos destacados.
-     * Lógica de ejemplo: devuelve los 3 juegos con la puntuación (rating) más alta.
-     * Puedes ajustar esta lógica según tus necesidades.
-     * 
-     * @return Lista de juegos destacados.
-     */
-    public List<Game> findFeatured() {
-        // PageRequest.of(página, tamaño, orden)
-        // Página 0 (la primera), tamaño 3, orden descendente por el campo "rating".
-        return gameRepository.findAll(PageRequest.of(0, 3, Sort.by("rating").descending())).getContent();
     }
 
     /**
@@ -74,5 +75,9 @@ public class GameService {
      */
     public void deleteById(Long id) {
         gameRepository.deleteById(id);
+    }
+
+    public List<Game> findAll() {
+        return gameRepository.findAll();
     }
 }
