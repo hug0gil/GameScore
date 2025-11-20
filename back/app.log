@@ -11120,3 +11120,476 @@ java.time.zone.ZoneRulesException: Unknown time-zone ID: es
 2025-11-20 12:55:18.342 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
 >>>>>>> 73b66b0 (Index nuevo)
 >>>>>>> c05aa87ad71331e06b7b8675a8fec7850fdaa7f5
+2025-11-20 13:24:32.529 [restartedMain] INFO  com.gamescore.back.BackApplication - Starting BackApplication using Java 25 with PID 4176 (C:\GameScore\back\target\classes started by daw in C:\GameScore\back)
+2025-11-20 13:24:32.531 [restartedMain] DEBUG com.gamescore.back.BackApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-20 13:24:32.531 [restartedMain] INFO  com.gamescore.back.BackApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-20 13:24:32.585 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-11-20 13:24:32.585 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-11-20 13:24:33.522 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-20 13:24:33.617 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 79 ms. Found 5 JPA repository interfaces.
+2025-11-20 13:24:34.321 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-20 13:24:34.337 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-20 13:24:34.338 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-20 13:24:34.426 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-20 13:24:34.427 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1841 ms
+2025-11-20 13:24:34.495 [restartedMain] WARN  o.a.c.c.C.[Tomcat].[localhost].[/] - Cannot deserialize session attribute [SPRING_SECURITY_CONTEXT] for session [82D32A8F086A3808684F16B6D7D2997C]
+2025-11-20 13:24:34.662 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-20 13:24:34.725 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.33.Final
+2025-11-20 13:24:34.765 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-20 13:24:35.085 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-20 13:24:35.123 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-20 13:24:37.358 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@15de651
+2025-11-20 13:24:37.362 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-20 13:24:37.786 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-20 13:24:37.804 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 9.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-20 13:24:38.852 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-20 13:24:42.918 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-20 13:24:43.238 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-20 13:24:44.450 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-11-20 13:24:44.636 [restartedMain] DEBUG o.s.s.c.a.a.c.AuthenticationConfiguration$DefaultPasswordEncoderAuthenticationManagerBuilder - No authenticationProviders and no parentAuthenticationManager defined. Returning null.
+2025-11-20 13:24:44.785 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-11-20 13:24:45.212 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://root:tkLpBtTxRBVsqioSkUDlqnbgmFKxVtiE@crossover.proxy.rlwy.net:27029/railway'
+2025-11-20 13:24:45.337 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-20 13:24:45.385 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-11-20 13:24:45.398 [restartedMain] INFO  com.gamescore.back.BackApplication - Started BackApplication in 13.369 seconds (process running for 14.272)
+2025-11-20 13:24:45.484 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-20 13:24:45.485 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-20 13:24:45.486 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-11-20 13:24:45.506 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /
+2025-11-20 13:24:45.518 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /
+2025-11-20 13:24:45.981 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        g1_0.id,
+        g1_0.background_url,
+        g1_0.created_at,
+        g1_0.description,
+        g1_0.metacritic,
+        g1_0.name,
+        g1_0.rating,
+        g1_0.rawg_id,
+        g1_0.release_date,
+        g1_0.slug,
+        g1_0.updated_at,
+        g1_0.website,
+        g1_0.youtube_url 
+    from
+        game g1_0
+2025-11-20 13:24:47.206 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 13:24:47.323 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-20 13:24:47.323 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/main.css
+2025-11-20 13:24:47.323 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/main.css
+2025-11-20 13:24:47.324 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-20 13:24:47.350 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 13:24:48.487 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 13:24:54.918 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /juegos
+2025-11-20 13:24:54.919 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /juegos
+2025-11-20 13:24:54.982 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        g1_0.id,
+        g1_0.name,
+        g1_0.slug,
+        g1_0.rating,
+        g1_0.background_url 
+    from
+        game g1_0 
+    limit
+        ?
+2025-11-20 13:24:55.372 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        count(g1_0.id) 
+    from
+        game g1_0
+2025-11-20 13:24:55.572 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        g1_0.id,
+        g1_0.name,
+        g1_0.slug,
+        g1_0.rating,
+        g1_0.background_url,
+        g1_0.youtube_url 
+    from
+        game g1_0 
+    order by
+        4 desc 
+    limit
+        ?
+2025-11-20 13:24:55.782 [http-nio-8080-exec-2] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-2][games] Deprecated unwrapped fragment expression "layout :: head('Juegos')" found in template games, line 4, col 7. Please use the complete syntax of fragment expressions instead ("~{layout :: head('Juegos')}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:24:55.818 [http-nio-8080-exec-2] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-2][games] Deprecated unwrapped fragment expression "layout :: header" found in template games, line 9, col 10. Please use the complete syntax of fragment expressions instead ("~{layout :: header}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:24:55.857 [http-nio-8080-exec-2] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-2][games] Deprecated unwrapped fragment expression "layout :: footer" found in template games, line 57, col 10. Please use the complete syntax of fragment expressions instead ("~{layout :: footer}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:24:55.865 [http-nio-8080-exec-2] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-2][games] Deprecated unwrapped fragment expression "layout :: scripts" found in template games, line 59, col 10. Please use the complete syntax of fragment expressions instead ("~{layout :: scripts}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:24:55.870 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/custom-styles.css
+2025-11-20 13:24:55.872 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/custom-styles.css
+2025-11-20 13:24:55.872 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 13:24:55.873 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/GameScoreLogo.png
+2025-11-20 13:24:55.874 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/GameScoreLogo.png
+2025-11-20 13:24:55.881 [http-nio-8080-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 13:24:55.888 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 13:24:56.274 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/GameScoreLogo.png
+2025-11-20 13:24:56.275 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/GameScoreLogo.png
+2025-11-20 13:24:56.285 [http-nio-8080-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 13:25:05.127 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /perfil
+2025-11-20 13:25:05.128 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 13:25:05.135 [http-nio-8080-exec-8] DEBUG o.s.s.w.s.HttpSessionRequestCache - Saved request http://localhost:8080/perfil?continue to session
+2025-11-20 13:25:05.136 [http-nio-8080-exec-8] DEBUG o.s.s.web.DefaultRedirectStrategy - Redirecting to http://localhost:8080/login
+2025-11-20 13:25:05.141 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-11-20 13:25:05.142 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-11-20 13:25:05.151 [http-nio-8080-exec-9] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 13:25:05.169 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/custom-styles.css
+2025-11-20 13:25:05.170 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/custom-styles.css
+2025-11-20 13:25:05.174 [http-nio-8080-exec-10] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 13:25:06.577 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /oauth2/authorization/google
+2025-11-20 13:25:06.594 [http-nio-8080-exec-1] DEBUG o.s.s.web.DefaultRedirectStrategy - Redirecting to https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=932991391551-im7o767pmoq7cot9s27gqa3ddrirre88.apps.googleusercontent.com&scope=profile%20email&state=dEOTjBfJ9QlrzQwePz5gsp1fZ4ZIDp9zrR9TSsnR3fU%3D&redirect_uri=http://localhost:8080/login/oauth2/code/google
+2025-11-20 13:25:08.867 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login/oauth2/code/google?state=dEOTjBfJ9QlrzQwePz5gsp1fZ4ZIDp9zrR9TSsnR3fU%3D&code=4%2F0Ab32j90JVCcZhcX0un27Qzg8akL4erOADi4ht2qK1u4vLrOWCvwKrxcHgr0xulSv_eJ6Sg&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&authuser=1&prompt=none
+2025-11-20 13:25:09.219 [http-nio-8080-exec-3] INFO  c.g.b.s.CustomOAuth2UserService - --- ATRIBUTOS CRUDOS RECIBIDOS DEL PROVEEDOR: GOOGLE ---
+2025-11-20 13:25:09.220 [http-nio-8080-exec-3] INFO  c.g.b.s.CustomOAuth2UserService - Atributo: [sub], Valor: [101759680960583651230]
+2025-11-20 13:25:09.220 [http-nio-8080-exec-3] INFO  c.g.b.s.CustomOAuth2UserService - Atributo: [name], Valor: [David Ore]
+2025-11-20 13:25:09.220 [http-nio-8080-exec-3] INFO  c.g.b.s.CustomOAuth2UserService - Atributo: [given_name], Valor: [David]
+2025-11-20 13:25:09.221 [http-nio-8080-exec-3] INFO  c.g.b.s.CustomOAuth2UserService - Atributo: [family_name], Valor: [Ore]
+2025-11-20 13:25:09.221 [http-nio-8080-exec-3] INFO  c.g.b.s.CustomOAuth2UserService - Atributo: [picture], Valor: [https://lh3.googleusercontent.com/a/ACg8ocJfvIDHRxvaFmxcI_5lMNNR_sxIqfu0VagfwtdUAMmbxFNc-ck=s96-c]
+2025-11-20 13:25:09.221 [http-nio-8080-exec-3] INFO  c.g.b.s.CustomOAuth2UserService - Atributo: [email], Valor: [davilitoorellana@gmail.com]
+2025-11-20 13:25:09.221 [http-nio-8080-exec-3] INFO  c.g.b.s.CustomOAuth2UserService - Atributo: [email_verified], Valor: [true]
+2025-11-20 13:25:09.221 [http-nio-8080-exec-3] INFO  c.g.b.s.CustomOAuth2UserService - ---------------------------------------------------------
+2025-11-20 13:25:09.222 [http-nio-8080-exec-3] INFO  c.g.b.s.CustomOAuth2UserService - Datos extraídos -> Email: [davilitoorellana@gmail.com], Nombre: [David Ore], Avatar: [https://lh3.googleusercontent.com/a/ACg8ocJfvIDHRxvaFmxcI_5lMNNR_sxIqfu0VagfwtdUAMmbxFNc-ck=s96-c]
+2025-11-20 13:25:09.599 [http-nio-8080-exec-3] INFO  c.gamescore.back.service.UserService - Buscando o creando usuario OAuth2: davilitoorellana@gmail.com
+2025-11-20 13:25:09.609 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.avatar_url,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.enabled,
+        u1_0.last_login,
+        u1_0.name,
+        u1_0.provider,
+        u1_0.provider_id,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        user u1_0 
+    where
+        u1_0.provider=? 
+        and u1_0.provider_id=?
+2025-11-20 13:25:09.829 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    update
+        user 
+    set
+        avatar_url=?,
+        created_at=?,
+        email=?,
+        enabled=?,
+        last_login=?,
+        name=?,
+        provider=?,
+        provider_id=?,
+        role=?,
+        updated_at=? 
+    where
+        id=?
+2025-11-20 13:25:10.404 [http-nio-8080-exec-3] INFO  c.g.b.s.CustomOAuth2UserService - Usuario procesado en la DB: davilitoorellana@gmail.com (GOOGLE)
+2025-11-20 13:25:10.417 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.s.ChangeSessionIdAuthenticationStrategy - Changed session id from 82D32A8F086A3808684F16B6D7D2997C
+2025-11-20 13:25:10.418 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Stored SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]] to HttpSession [org.apache.catalina.session.StandardSessionFacade@2e90c22d]
+2025-11-20 13:25:10.419 [http-nio-8080-exec-3] DEBUG o.s.s.o.c.w.OAuth2LoginAuthenticationFilter - Set SecurityContextHolder to OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]
+2025-11-20 13:25:10.420 [http-nio-8080-exec-3] DEBUG o.s.s.web.DefaultRedirectStrategy - Redirecting to http://localhost:8080/perfil?continue
+2025-11-20 13:25:10.425 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /perfil?continue
+2025-11-20 13:25:10.426 [http-nio-8080-exec-4] DEBUG o.s.s.w.s.HttpSessionRequestCache - Loaded matching saved request http://localhost:8080/perfil?continue
+2025-11-20 13:25:10.427 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:25:10.428 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /perfil?continue
+2025-11-20 13:25:10.430 [http-nio-8080-exec-4] INFO  c.g.b.controller.ProfileController - --- INICIANDO DEPURACIÓN DE /perfil ---
+2025-11-20 13:25:10.430 [http-nio-8080-exec-4] INFO  c.g.b.controller.ProfileController - Clase del principal recibido: com.gamescore.back.security.CustomOAuth2User
+2025-11-20 13:25:10.430 [http-nio-8080-exec-4] INFO  c.g.b.controller.ProfileController - El principal es de tipo 'CustomOAuth2User'. ¡Correcto!
+2025-11-20 13:25:10.430 [http-nio-8080-exec-4] INFO  c.g.b.controller.ProfileController - Email del usuario: davilitoorellana@gmail.com
+2025-11-20 13:25:10.430 [http-nio-8080-exec-4] INFO  c.g.b.controller.ProfileController - --- DEPURACIÓN COMPLETADA --- Renderizando vista 'perfil'.
+2025-11-20 13:25:10.436 [http-nio-8080-exec-4] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-4][profile] Deprecated unwrapped fragment expression "layout :: head('Perfil de ' + ${user.name ?: 'Usuario'})" found in template profile, line 3, col 7. Please use the complete syntax of fragment expressions instead ("~{layout :: head('Perfil de ' + ${user.name ?: 'Usuario'})}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:25:10.439 [http-nio-8080-exec-4] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-4][profile] Deprecated unwrapped fragment expression "layout :: header" found in template profile, line 6, col 6. Please use the complete syntax of fragment expressions instead ("~{layout :: header}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:25:10.465 [http-nio-8080-exec-4] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-4][profile] Deprecated unwrapped fragment expression "layout :: footer" found in template profile, line 58, col 6. Please use the complete syntax of fragment expressions instead ("~{layout :: footer}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:25:10.467 [http-nio-8080-exec-4] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-4][profile] Deprecated unwrapped fragment expression "layout :: scripts" found in template profile, line 59, col 6. Please use the complete syntax of fragment expressions instead ("~{layout :: scripts}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:25:10.664 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/custom-styles.css
+2025-11-20 13:25:10.664 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/custom-styles.css
+2025-11-20 13:25:10.666 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/GameScoreLogo.png
+2025-11-20 13:25:10.667 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/GameScoreLogo.png
+2025-11-20 13:25:10.668 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:25:10.675 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:30:15.477 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /perfil?continue
+2025-11-20 13:30:15.478 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:30:15.478 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /perfil?continue
+2025-11-20 13:30:15.479 [http-nio-8080-exec-9] INFO  c.g.b.controller.ProfileController - --- INICIANDO DEPURACIÓN DE /perfil ---
+2025-11-20 13:30:15.479 [http-nio-8080-exec-9] INFO  c.g.b.controller.ProfileController - Clase del principal recibido: com.gamescore.back.security.CustomOAuth2User
+2025-11-20 13:30:15.479 [http-nio-8080-exec-9] INFO  c.g.b.controller.ProfileController - El principal es de tipo 'CustomOAuth2User'. ¡Correcto!
+2025-11-20 13:30:15.479 [http-nio-8080-exec-9] INFO  c.g.b.controller.ProfileController - Email del usuario: davilitoorellana@gmail.com
+2025-11-20 13:30:15.479 [http-nio-8080-exec-9] INFO  c.g.b.controller.ProfileController - --- DEPURACIÓN COMPLETADA --- Renderizando vista 'perfil'.
+2025-11-20 13:30:15.481 [http-nio-8080-exec-9] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-9][profile] Deprecated unwrapped fragment expression "layout :: head('Perfil de ' + ${user.name ?: 'Usuario'})" found in template profile, line 3, col 7. Please use the complete syntax of fragment expressions instead ("~{layout :: head('Perfil de ' + ${user.name ?: 'Usuario'})}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:30:15.484 [http-nio-8080-exec-9] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-9][profile] Deprecated unwrapped fragment expression "layout :: header" found in template profile, line 6, col 6. Please use the complete syntax of fragment expressions instead ("~{layout :: header}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:30:15.488 [http-nio-8080-exec-9] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-9][profile] Deprecated unwrapped fragment expression "layout :: footer" found in template profile, line 58, col 6. Please use the complete syntax of fragment expressions instead ("~{layout :: footer}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:30:15.492 [http-nio-8080-exec-9] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-9][profile] Deprecated unwrapped fragment expression "layout :: scripts" found in template profile, line 59, col 6. Please use the complete syntax of fragment expressions instead ("~{layout :: scripts}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:30:15.520 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/GameScoreLogo.png
+2025-11-20 13:30:15.520 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/custom-styles.css
+2025-11-20 13:30:15.521 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/custom-styles.css
+2025-11-20 13:30:15.521 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/GameScoreLogo.png
+2025-11-20 13:30:15.528 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:30:15.533 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:30:15.628 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/GameScoreLogo.png
+2025-11-20 13:30:15.630 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/GameScoreLogo.png
+2025-11-20 13:30:15.642 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:30:16.673 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /perfil
+2025-11-20 13:30:16.673 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:30:16.674 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /perfil
+2025-11-20 13:30:16.674 [http-nio-8080-exec-4] INFO  c.g.b.controller.ProfileController - --- INICIANDO DEPURACIÓN DE /perfil ---
+2025-11-20 13:30:16.674 [http-nio-8080-exec-4] INFO  c.g.b.controller.ProfileController - Clase del principal recibido: com.gamescore.back.security.CustomOAuth2User
+2025-11-20 13:30:16.674 [http-nio-8080-exec-4] INFO  c.g.b.controller.ProfileController - El principal es de tipo 'CustomOAuth2User'. ¡Correcto!
+2025-11-20 13:30:16.674 [http-nio-8080-exec-4] INFO  c.g.b.controller.ProfileController - Email del usuario: davilitoorellana@gmail.com
+2025-11-20 13:30:16.675 [http-nio-8080-exec-4] INFO  c.g.b.controller.ProfileController - --- DEPURACIÓN COMPLETADA --- Renderizando vista 'perfil'.
+2025-11-20 13:30:16.677 [http-nio-8080-exec-4] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-4][profile] Deprecated unwrapped fragment expression "layout :: head('Perfil de ' + ${user.name ?: 'Usuario'})" found in template profile, line 3, col 7. Please use the complete syntax of fragment expressions instead ("~{layout :: head('Perfil de ' + ${user.name ?: 'Usuario'})}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:30:16.679 [http-nio-8080-exec-4] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-4][profile] Deprecated unwrapped fragment expression "layout :: header" found in template profile, line 6, col 6. Please use the complete syntax of fragment expressions instead ("~{layout :: header}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:30:16.682 [http-nio-8080-exec-4] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-4][profile] Deprecated unwrapped fragment expression "layout :: footer" found in template profile, line 58, col 6. Please use the complete syntax of fragment expressions instead ("~{layout :: footer}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:30:16.685 [http-nio-8080-exec-4] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-4][profile] Deprecated unwrapped fragment expression "layout :: scripts" found in template profile, line 59, col 6. Please use the complete syntax of fragment expressions instead ("~{layout :: scripts}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:30:16.709 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/custom-styles.css
+2025-11-20 13:30:16.710 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/custom-styles.css
+2025-11-20 13:30:16.712 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/GameScoreLogo.png
+2025-11-20 13:30:16.713 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/GameScoreLogo.png
+2025-11-20 13:30:16.716 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:30:16.725 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:30:18.045 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /perfil
+2025-11-20 13:30:18.046 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:30:18.046 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /perfil
+2025-11-20 13:30:18.046 [http-nio-8080-exec-6] INFO  c.g.b.controller.ProfileController - --- INICIANDO DEPURACIÓN DE /perfil ---
+2025-11-20 13:30:18.047 [http-nio-8080-exec-6] INFO  c.g.b.controller.ProfileController - Clase del principal recibido: com.gamescore.back.security.CustomOAuth2User
+2025-11-20 13:30:18.047 [http-nio-8080-exec-6] INFO  c.g.b.controller.ProfileController - El principal es de tipo 'CustomOAuth2User'. ¡Correcto!
+2025-11-20 13:30:18.047 [http-nio-8080-exec-6] INFO  c.g.b.controller.ProfileController - Email del usuario: davilitoorellana@gmail.com
+2025-11-20 13:30:18.047 [http-nio-8080-exec-6] INFO  c.g.b.controller.ProfileController - --- DEPURACIÓN COMPLETADA --- Renderizando vista 'perfil'.
+2025-11-20 13:30:18.049 [http-nio-8080-exec-6] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-6][profile] Deprecated unwrapped fragment expression "layout :: head('Perfil de ' + ${user.name ?: 'Usuario'})" found in template profile, line 3, col 7. Please use the complete syntax of fragment expressions instead ("~{layout :: head('Perfil de ' + ${user.name ?: 'Usuario'})}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:30:18.051 [http-nio-8080-exec-6] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-6][profile] Deprecated unwrapped fragment expression "layout :: header" found in template profile, line 6, col 6. Please use the complete syntax of fragment expressions instead ("~{layout :: header}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:30:18.056 [http-nio-8080-exec-6] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-6][profile] Deprecated unwrapped fragment expression "layout :: footer" found in template profile, line 58, col 6. Please use the complete syntax of fragment expressions instead ("~{layout :: footer}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:30:18.058 [http-nio-8080-exec-6] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-6][profile] Deprecated unwrapped fragment expression "layout :: scripts" found in template profile, line 59, col 6. Please use the complete syntax of fragment expressions instead ("~{layout :: scripts}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:30:18.077 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/custom-styles.css
+2025-11-20 13:30:18.078 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/custom-styles.css
+2025-11-20 13:30:18.079 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/GameScoreLogo.png
+2025-11-20 13:30:18.080 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/GameScoreLogo.png
+2025-11-20 13:30:18.083 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:30:18.091 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:30:21.162 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /
+2025-11-20 13:30:21.163 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /
+2025-11-20 13:30:21.728 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        g1_0.id,
+        g1_0.background_url,
+        g1_0.created_at,
+        g1_0.description,
+        g1_0.metacritic,
+        g1_0.name,
+        g1_0.rating,
+        g1_0.rawg_id,
+        g1_0.release_date,
+        g1_0.slug,
+        g1_0.updated_at,
+        g1_0.website,
+        g1_0.youtube_url 
+    from
+        game g1_0
+2025-11-20 13:30:22.341 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-11-20 13:30:22.342 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-11-20 13:30:22.359 [http-nio-8080-exec-10] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-10][login] Deprecated unwrapped fragment expression "layout :: head('Iniciar Sesión en GameScore')" found in template login, line 5, col 7. Please use the complete syntax of fragment expressions instead ("~{layout :: head('Iniciar Sesión en GameScore')}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:30:22.362 [http-nio-8080-exec-10] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-10][login] Deprecated unwrapped fragment expression "layout :: scripts" found in template login, line 50, col 10. Please use the complete syntax of fragment expressions instead ("~{layout :: scripts}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 13:30:22.365 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:30:22.396 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/custom-styles.css
+2025-11-20 13:30:22.397 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/custom-styles.css
+2025-11-20 13:30:22.400 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:30:22.411 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-20 13:30:22.412 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-20 13:30:22.633 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:30:24.644 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:30:42.597 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-20 13:30:42.598 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-20 13:30:42.640 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:30:42.642 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-20 13:30:42.643 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-20 13:30:42.650 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:31:02.705 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-20 13:31:02.705 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-20 13:31:02.713 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:31:59.975 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-11-20 13:31:59.976 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-11-20 13:31:59.995 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:32:00.028 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/custom-styles.css
+2025-11-20 13:32:00.029 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/custom-styles.css
+2025-11-20 13:32:00.033 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:32:00.143 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/GameScoreLogo.png
+2025-11-20 13:32:00.143 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/GameScoreLogo.png
+2025-11-20 13:32:00.151 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:32:01.421 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-11-20 13:32:01.421 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-11-20 13:32:01.426 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:32:01.450 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/custom-styles.css
+2025-11-20 13:32:01.451 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/custom-styles.css
+2025-11-20 13:32:01.456 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:32:01.580 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/GameScoreLogo.png
+2025-11-20 13:32:01.580 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/GameScoreLogo.png
+2025-11-20 13:32:01.589 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:32:17.853 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-11-20 13:32:17.855 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-11-20 13:32:17.872 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:32:17.889 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/custom-styles.css
+2025-11-20 13:32:17.890 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/custom-styles.css
+2025-11-20 13:32:17.895 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 13:32:17.999 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/GameScoreLogo.png
+2025-11-20 13:32:17.999 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/GameScoreLogo.png
+2025-11-20 13:32:18.008 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@13751c63, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=82D32A8F086A3808684F16B6D7D2997C], Granted Authorities=[ROLE_USER]]]
+2025-11-20 14:28:43.645 [restartedMain] INFO  com.gamescore.back.BackApplication - Starting BackApplication using Java 25 with PID 15504 (C:\GameScore\back\target\classes started by daw in C:\GameScore\back)
+2025-11-20 14:28:43.647 [restartedMain] DEBUG com.gamescore.back.BackApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-20 14:28:43.648 [restartedMain] INFO  com.gamescore.back.BackApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-20 14:28:43.708 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-11-20 14:28:43.709 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-11-20 14:28:44.655 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-20 14:28:44.748 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 79 ms. Found 5 JPA repository interfaces.
+2025-11-20 14:28:45.491 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-20 14:28:45.507 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-20 14:28:45.508 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-20 14:28:45.601 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-20 14:28:45.602 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1892 ms
+2025-11-20 14:28:45.821 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-20 14:28:45.884 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.33.Final
+2025-11-20 14:28:45.925 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-20 14:28:46.242 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-20 14:28:46.279 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-20 14:28:48.952 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4ef88e3a
+2025-11-20 14:28:48.957 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-20 14:28:49.392 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-20 14:28:49.414 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 9.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-20 14:28:50.506 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-20 14:28:54.607 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-20 14:28:54.959 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-20 14:28:56.266 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-11-20 14:28:57.080 [restartedMain] DEBUG o.s.s.c.a.a.c.AuthenticationConfiguration$DefaultPasswordEncoderAuthenticationManagerBuilder - No authenticationProviders and no parentAuthenticationManager defined. Returning null.
+2025-11-20 14:28:57.752 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-11-20 14:28:58.420 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://root:tkLpBtTxRBVsqioSkUDlqnbgmFKxVtiE@crossover.proxy.rlwy.net:27029/railway'
+2025-11-20 14:28:58.688 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-20 14:28:58.760 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-11-20 14:28:58.777 [restartedMain] INFO  com.gamescore.back.BackApplication - Started BackApplication in 15.645 seconds (process running for 16.543)
+2025-11-20 14:29:00.219 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-20 14:29:00.223 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-20 14:29:00.228 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 4 ms
+2025-11-20 14:29:00.270 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /
+2025-11-20 14:29:00.302 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /
+2025-11-20 14:29:01.020 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        g1_0.id,
+        g1_0.background_url,
+        g1_0.created_at,
+        g1_0.description,
+        g1_0.metacritic,
+        g1_0.name,
+        g1_0.rating,
+        g1_0.rawg_id,
+        g1_0.release_date,
+        g1_0.slug,
+        g1_0.updated_at,
+        g1_0.website,
+        g1_0.youtube_url 
+    from
+        game g1_0
+2025-11-20 14:29:02.244 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:29:02.369 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-20 14:29:02.369 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/main.css
+2025-11-20 14:29:02.370 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/main.css
+2025-11-20 14:29:02.370 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-20 14:29:02.392 [http-nio-8080-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:29:02.576 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:29:02.633 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /favicon.ico
+2025-11-20 14:29:02.634 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /favicon.ico
+2025-11-20 14:29:02.641 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:29:02.649 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-11-20 14:29:02.650 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /error
+2025-11-20 14:29:02.713 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:29:03.587 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /juegos
+2025-11-20 14:29:03.589 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /juegos
+2025-11-20 14:29:03.648 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        g1_0.id,
+        g1_0.name,
+        g1_0.slug,
+        g1_0.rating,
+        g1_0.background_url 
+    from
+        game g1_0 
+    limit
+        ?
+2025-11-20 14:29:04.042 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        count(g1_0.id) 
+    from
+        game g1_0
+2025-11-20 14:29:04.244 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        g1_0.id,
+        g1_0.name,
+        g1_0.slug,
+        g1_0.rating,
+        g1_0.background_url,
+        g1_0.youtube_url 
+    from
+        game g1_0 
+    order by
+        4 desc 
+    limit
+        ?
+2025-11-20 14:29:04.454 [http-nio-8080-exec-4] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-4][games] Deprecated unwrapped fragment expression "layout :: head('Juegos')" found in template games, line 4, col 7. Please use the complete syntax of fragment expressions instead ("~{layout :: head('Juegos')}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 14:29:04.494 [http-nio-8080-exec-4] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-4][games] Deprecated unwrapped fragment expression "layout :: header" found in template games, line 9, col 10. Please use the complete syntax of fragment expressions instead ("~{layout :: header}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 14:29:04.569 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/custom-styles.css
+2025-11-20 14:29:04.569 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/GameScoreLogo.png
+2025-11-20 14:29:04.570 [http-nio-8080-exec-4] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-4][games] Deprecated unwrapped fragment expression "layout :: footer" found in template games, line 57, col 10. Please use the complete syntax of fragment expressions instead ("~{layout :: footer}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 14:29:04.571 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/custom-styles.css
+2025-11-20 14:29:04.571 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/GameScoreLogo.png
+2025-11-20 14:29:04.576 [http-nio-8080-exec-4] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-4][games] Deprecated unwrapped fragment expression "layout :: scripts" found in template games, line 59, col 10. Please use the complete syntax of fragment expressions instead ("~{layout :: scripts}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-20 14:29:04.581 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:29:04.585 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:29:04.599 [http-nio-8080-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:29:06.149 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /perfil
+2025-11-20 14:29:06.149 [http-nio-8080-exec-9] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:29:06.168 [http-nio-8080-exec-9] DEBUG o.s.s.w.s.HttpSessionRequestCache - Saved request http://localhost:8080/perfil?continue to session
+2025-11-20 14:29:06.169 [http-nio-8080-exec-9] DEBUG o.s.s.web.DefaultRedirectStrategy - Redirecting to http://localhost:8080/login
+2025-11-20 14:29:06.175 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-11-20 14:29:06.176 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-11-20 14:29:06.195 [http-nio-8080-exec-10] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:29:06.219 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-20 14:29:06.219 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/main.css
+2025-11-20 14:29:06.219 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/main.css
+2025-11-20 14:29:06.220 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-20 14:29:06.225 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:29:08.588 [http-nio-8080-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:29:26.406 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-20 14:29:26.407 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-20 14:29:26.446 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:29:26.449 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-20 14:29:26.449 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-20 14:29:26.457 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:29:46.511 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-20 14:29:46.513 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-20 14:29:46.524 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:31:52.697 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-20 14:31:52.697 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-20 14:31:52.783 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:31:54.290 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-11-20 14:31:54.290 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-11-20 14:31:54.312 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:31:54.333 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/main.css
+2025-11-20 14:31:54.334 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/main.css
+2025-11-20 14:31:54.348 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-20 14:31:54.349 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-20 14:31:54.355 [http-nio-8080-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:31:54.375 [http-nio-8080-exec-9] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-20 14:31:55.541 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-20 14:31:55.542 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-20 14:31:55.550 [http-nio-8080-exec-10] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext

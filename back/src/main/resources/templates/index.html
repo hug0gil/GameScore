@@ -2,27 +2,52 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameScore - Inicio</title>
+    <!-- Iconos FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 
-<body>
-    <header class="header content">
-        <!-- Video de fondo -->
-        <div class="header-video">
+<!-- Usamos la misma clase 'retro-page' que define el layout -->
+<body class="retro-page">
+
+    <div class="page-container">
+        
+        <!-- 1. Video de Fondo (Ahora se verá nítido) -->
+        <div class="video-wrapper">
             <video th:src="@{/videos/retrowave.mp4}" autoplay muted loop playsinline></video>
         </div>
 
-        <!-- Overlay semitransparente -->
-        <div class="header-overlay"></div>
+        <!-- 2. Overlay (Ahora solo oscurece un poco, sin puntos) -->
+        <div class="video-overlay"></div>
 
-        <!-- Contenido principal -->
-        <div class="header-content">
-            <h1>Bienvenido a <span class="title">GameScore</span></h1>
-            <p class="lead mt-3">Tu blog de juegos favorito.</p>
-            <a th:href="@{/juegos}" class="btn">Ver Juegos</a>
+        <!-- 3. Tarjeta Central (Estilo Variables: Blanca, borde negro, sombra naranja) -->
+        <div class="retro-card">
+            <div class="card-content">
+                <!-- Texto pequeño estilo pixel -->
+                <p class="welcome-text">BIENVENIDO A</p>
+                
+                <!-- Título grande amarillo -->
+                <h1 class="main-title">
+                    GAME<br>SCORE
+                </h1>
+                
+                <!-- Línea divisoria negra -->
+                <div class="divider"></div>
+                
+                <!-- Subtítulo -->
+                <p class="subtitle">Tu foro de juegos favorito.</p>
+                
+                <!-- Botón de acción (Amarillo con sombra dura) -->
+                <a th:href="@{/juegos}" class="btn-retro btn-primary-action">
+                    <span>Ver Juegos</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
         </div>
-    </header>
-</body>
+    </div>
 
+</body>
 </html>

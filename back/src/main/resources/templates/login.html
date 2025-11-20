@@ -1,32 +1,50 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout :: head('Iniciar Sesión')}"></head>
-<body>
-    
-<main class="main-content-dark d-flex align-items-center justify-content-center" style="min-height: 70vh;">
-    <div class="container text-center text-white">
-        <h1 class="mb-4">Iniciar Sesión</h1>
-        <p class="lead mb-5">Para continuar, elige uno de los siguientes proveedores.</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameScore - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+
+<!-- Clase login-page obligatoria -->
+<body class="login-page">
+
+    <div class="login-container">
+        <!-- Video -->
+        <div class="video-wrapper">
+            <video th:src="@{/videos/retrowave.mp4}" autoplay muted loop playsinline></video>
+        </div>
         
-        <div class="d-grid gap-3 col-md-5 mx-auto">
-            <!-- 
-                Estos enlaces son estándar de Spring Security.
-                Al hacer clic, inician el flujo de autenticación con el proveedor correspondiente.
-            -->
-            <a class="btn btn-danger btn-lg d-flex align-items-center justify-content-center" href="/oauth2/authorization/google">
-                <i class="fab fa-google me-2"></i> Continuar con Google
-            </a>
-            <a class="btn btn-dark btn-lg d-flex align-items-center justify-content-center" href="/oauth2/authorization/github">
-                <i class="fab fa-github me-2"></i> Continuar con GitHub
-            </a>
-            <a class="btn btn-primary btn-lg d-flex align-items-center justify-content-center" href="/oauth2/authorization/discord">
-                <i class="fab fa-discord me-2"></i> Continuar con Discord
-            </a>
+        <!-- Overlay -->
+        <div class="video-overlay"></div>
+
+        <!-- Tarjeta Central -->
+        <div class="login-card">
+            <div class="card-header">
+                <i class="fas fa-gamepad logo-icon"></i>
+                <h1>GAME SCORE</h1>
+            </div>
+            
+            <p class="insert-coin">INSERT COIN TO START</p>
+            
+            <div class="divider"></div>
+            
+            <div class="actions">
+                <!-- Botones con clases de marca -->
+                <a class="btn-login google" href="/oauth2/authorization/google">
+                    <i class="fab fa-google"></i> <span>Google</span>
+                </a>
+                <a class="btn-login github" href="/oauth2/authorization/github">
+                    <i class="fab fa-github"></i> <span>GitHub</span>
+                </a>
+                <a class="btn-login discord" href="/oauth2/authorization/discord">
+                    <i class="fab fa-discord"></i> <span>Discord</span>
+                </a>
+            </div>
         </div>
     </div>
-</main>
-
-<div th:replace="~{layout :: scripts}"></div>
 
 </body>
 </html>
