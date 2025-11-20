@@ -1,7 +1,6 @@
 package com.gamescore.back.controller;
 
 import com.gamescore.back.model.Review;
-import com.gamescore.back.model.User; // Necesaria para la moderación
 import com.gamescore.back.model.enums.ReviewStatus;
 import com.gamescore.back.service.ReviewService;
 
