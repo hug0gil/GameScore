@@ -10,19 +10,17 @@
 
         <h1 class="text-white mb-5">Panel de Administración</h1>
 
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4 mb-5">
+        <!-- CAMBIO: Se ajusta la grilla a 4 columnas en pantallas grandes (de row-cols-lg-5 a row-cols-lg-4) -->
+        <div class="row row-cols-2 row-cols-md-4 g-4 mb-5">
             <div class="col">
                 <div class="stat-card">
                     <span class="stat-card-title">Users Totales</span>
                     <span class="stat-card-number" th:text="${stats.totalUsers}">34566</span>
                 </div>
             </div>
-            <div class="col">
-                <div class="stat-card">
-                    <span class="stat-card-title">Tiempo de Uso</span>
-                    <span class="stat-card-number" th:text="${stats.avgSessionTime} + ' h'">4 h</span>
-                </div>
-            </div>
+
+            <!-- ELIMINADO: Se quita la tarjeta de "Tiempo de Uso" -->
+
             <div class="col">
                 <div class="stat-card">
                     <span class="stat-card-title">Users Nuevos</span>
@@ -43,8 +41,9 @@
             </div>
         </div>
 
+        <!-- El resto del archivo no necesita cambios -->
         <div class="row g-5">
-            <div class="col-lg-5">
+             <div class="col-lg-5">
                 <h2 class="text-white mb-4">Gestiones Rápidas</h2>
                 <div class="d-grid gap-3 management-buttons">
                     <a th:href="@{/admin/juegos}" class="btn btn-primary">Gestionar Juegos</a>
@@ -68,6 +67,7 @@
 <div th:replace="layout :: scripts"></div>
 
 <script th:inline="javascript">
+    // El script del gráfico no necesita cambios
     const chartLabels = /*[[${chartData.labels}]]*/ ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'];
     const chartDataPoints = /*[[${chartData.dataPoints}]]*/ [120, 190, 310, 500, 420, 550];
 

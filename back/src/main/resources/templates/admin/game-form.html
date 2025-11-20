@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(${game.id == null ? 'Nuevo Juego' : 'Editar Juego'})}"></head>
+<body>
+
+<div th:replace="~{layout :: header}"></div>
+
+<main class="main-content-dark">
+    <div class="container py-5">
+        
+        <!-- Título dinámico -->
+        <h1 class="text-white mb-4" th:text="${game.id == null ? 'Añadir Nuevo Juego' : 'Editar Juego'}">Formulario de Juego</h1>
+
+        <!-- 
+            Formulario dinámico:
+            - th:action se ajusta si estamos creando o editando.
+            - th:object vincula el formulario con el DTO/entidad 'game' en el modelo.
+        -->
+        <form th:action="${game.id == null} ? @{/admin/juegos/nuevo} : @{/admin/juegos/editar/{id}(id=${game.id})}"
+              th:object="${game}"
+              method="post" 
+              class="text-white">
+
+            <!-- Campo oculto para el ID en modo edición -->
+            <input type="hidden" th:if="${game.id != null}" th:field="*{id}" />
+
+            <!-- Fila 1: Nombre y Fecha de Lanzamiento -->
+            <div class="row">
+                <div class="col-md-8 mb-3">
+                    <label for="name" class="form-label">Nombre del Juego</label>
+                    <input type="text" class="form-control" id="name" th:field="*{name}" required>
+                    <!-- Bloque para mostrar errores de validación (opcional) -->
+                    <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="releaseDate" class="form-label">Fecha de Lanzamiento</label>
+                    <input type="date" class="form-control" id="releaseDate" th:field="*{releaseDate}">
+                </div>
+            </div>
+
+            <!-- Fila 2: Descripción -->
+            <div class="mb-3">
+                <label for="description" class="form-label">Descripción</label>
+                <textarea class="form-control" id="description" rows="5" th:field="*{description}"></textarea>
+            </div>
+
+            <!-- Fila 3: URLs -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="backgroundUrl" class="form-label">URL de la Imagen de Fondo</label>
+                    <input type="url" class="form-control" id="backgroundUrl" th:field="*{backgroundUrl}">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="website" class="form-label">Sitio Web Oficial</label>
+                    <input type="url" class="form-control" id="website" th:field="*{website}">
+                </div>
+            </div>
+            
+             <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="youtubeUrl" class="form-label">URL de YouTube (Trailer)</label>
+                    <input type="url" class="form-control" id="youtubeUrl" th:field="*{youtubeUrl}">
+                </div>
+            </div>
+
+            <!-- Fila 4: Ratings -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="rating" class="form-label">Rating (0.0 a 10.0)</label>
+                    <input type="number" class="form-control" id="rating" th:field="*{rating}" step="0.01" min="0" max="10">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="metacritic" class="form-label">Puntuación Metacritic (0 a 100)</label>
+                    <input type="number" class="form-control" id="metacritic" th:field="*{metacritic}" min="0" max="100">
+                </div>
+            </div>
+            
+            <!-- Aquí irían campos para Géneros y Plataformas (requiere más lógica) -->
+            <!-- Por ahora, los omitimos para mantenerlo simple -->
+
+            <hr class="my-4">
+
+            <!-- Botones de Acción -->
+            <div class="d-flex justify-content-end gap-2">
+                <a th:href="@{/admin/juegos}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary" th:text="${game.id == null ? 'Crear Juego' : 'Guardar Cambios'}">Guardar</button>
+            </div>
+
+        </form>
+
+    </div>
+</main>
+
+<div th:replace="~{layout :: footer}"></div>
+<div th:replace="~{layout :: scripts}"></div>
+
+</body>
+</html>

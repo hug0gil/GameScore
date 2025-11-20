@@ -138,4 +138,29 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE LOWER(u.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
            "OR LOWER(u.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
     Page<User> searchByEmailOrName(@Param("searchTerm") String searchTerm, Pageable pageable);
+
+    
+    // ========================================================================
+    // MÉTODOS AÑADIDOS PARA EL DASHBOARD
+    // ========================================================================
+
+    /**
+     * Cuenta usuarios creados después de una fecha específica.
+     * Usado en: Tarjeta "Users Nuevos".
+     */
+    long countByCreatedAtAfter(LocalDateTime date);
+
+    /**
+     * Cuenta usuarios creados en un rango de fechas.
+     * Usado en: Gráfico de nuevos usuarios. Es más eficiente que findByCreatedAtBetween().
+     */
+    long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
+
+    /**
+     * Cuenta usuarios cuyo estado cambió a 'desactivado' (enabled=false)
+     * después de una fecha específica. Asumimos que 'updatedAt' se actualiza
+     * al cambiar el estado.
+     * Usado en: Tarjeta "Users Baja".
+     */
+    long countByEnabledFalseAndUpdatedAtAfter(LocalDateTime date);
 }

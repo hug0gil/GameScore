@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,11 +45,16 @@ public class UserService {
     }
     
     /**
-     * Busca usuario por email
+     * Busca un usuario por su email. Lanza una excepción si no se encuentra.
+     * Esencial para obtener los datos del usuario logueado.
+     *
+     * @param email El email del usuario a buscar.
+     * @return El objeto User encontrado.
+     * @throws UsernameNotFoundException si el usuario no existe.
      */
-    public Optional<User> findByEmail(String email) {
-        log.debug("Buscando usuario por email: {}", email);
-        return userRepository.findByEmail(email);
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con el email: " + email));
     }
     
     /**

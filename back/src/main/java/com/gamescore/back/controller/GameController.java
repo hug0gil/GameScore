@@ -23,7 +23,7 @@ public class GameController {
 
     @GetMapping("/juegos")
     public String showGamesListPage(Model model) {
-        model.addAttribute("games", gameService.findAll());
+        model.addAttribute("games", gameService.search(null));
         model.addAttribute("featuredGames", gameService.findFeatured());
         return "games";
     }
