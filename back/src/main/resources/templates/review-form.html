@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="~{layout :: head(${review.id == null ? 'Nueva Reseña' : 'Editar Reseña'})}"></head>
+
+
+<body>
+
+
+    <div th:replace="~{layout :: header}"></div>
+
+
+    <main class="main-content-dark">
+        <div class="container py-5">
+
+
+            <!-- Título dinámico -->
+            <h1 class="text-white mb-4" th:text="${review.id == null ? 'Añadir Nueva Reseña' : 'Editar Reseña'}">
+                Formulario de Reseña</h1>
+
+
+            <!-- Formulario dinámico -->
+            <form th:action="${review.id == null} ? @{/reviews/nueva} : @{/reviews/editar/{id}(id=${review.id})}"
+                th:object="${review}" method="post" class="text-white">
+
+
+                <!-- Campo oculto para el ID en modo edición -->
+                <input type="hidden" th:if="${review.id != null}" th:field="*{id}" />
+
+
+                <!-- Fila 1: Selección de Juego y Calificación -->
+                <div class="row">
+                    <div class="col-md-8 mb-3">
+                        <label for="game" class="form-label">Juego *</label>
+                        <select class="form-select" id="game" th:field="*{game.id}" required>
+                            <option value="">Selecciona un juego</option>
+                            <option th:each="g : ${games}" th:value="${g.id}" th:text="${g.name}">
+                            </option>
+                        </select>
+                        <div class="text-danger" th:if="${#fields.hasErrors('game')}" th:errors="*{game}"></div>
+                    </div>
+
+
+                    <div class="col-md-4 mb-3">
+                        <label for="rating" class="form-label">Calificación * (1-5)</label>
+                        <div class="rating-container">
+                            <div class="star-rating">
+                                <input type="radio" id="star5" th:field="*{rating}" value="5" required>
+                                <label for="star5" class="star">★</label>
+
+
+                                <input type="radio" id="star4" th:field="*{rating}" value="4">
+                                <label for="star4" class="star">★</label>
+
+
+                                <input type="radio" id="star3" th:field="*{rating}" value="3">
+                                <label for="star3" class="star">★</label>
+
+
+                                <input type="radio" id="star2" th:field="*{rating}" value="2">
+                                <label for="star2" class="star">★</label>
+
+
+                                <input type="radio" id="star1" th:field="*{rating}" value="1">
+                                <label for="star1" class="star">★</label>
+                            </div>
+                            <span class="rating-value ms-3">
+                                <span th:text="${review.rating != null ? review.rating : 0}">0</span>/5
+                            </span>
+                        </div>
+                        <div class="text-danger" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}"></div>
+                    </div>
+                </div>
+
+
+                <!-- Fila 2: Título de la Reseña -->
+                <div class="mb-3">
+                    <label for="title" class="form-label">Título de la Reseña *</label>
+                    <input type="text" class="form-control" id="title" th:field="*{title}"
+                        placeholder="Resume tu opinión en pocas palabras" maxlength="100" required>
+                    <small class="text-muted d-block text-end mt-1">
+                        <span class="char-count"
+                            th:text="${review.title != null ? #strings.length(review.title) : 0}">0</span>/100
+                    </small>
+                    <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                </div>
+
+
+                <!-- Fila 3: Comentario -->
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Comentario *</label>
+                    <textarea class="form-control" id="comment" rows="6" th:field="*{comment}"
+                        placeholder="Comparte tu experiencia con el juego..." maxlength="1000" required></textarea>
+                    <small class="text-muted d-block text-end mt-1">
+                        <span class="char-count"
+                            th:text="${review.comment != null ? #strings.length(review.comment) : 0}">0</span>/1000
+                    </small>
+                    <div class="text-danger" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></div>
+                </div>
+
+
+                <!-- Fila 4: Pros y Contras -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="pros" class="form-label">Aspectos Positivos</label>
+                        <textarea class="form-control" id="pros" rows="4" th:field="*{pros}"
+                            placeholder="¿Qué te gustó del juego?"></textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="cons" class="form-label">Aspectos Negativos</label>
+                        <textarea class="form-control" id="cons" rows="4" th:field="*{cons}"
+                            placeholder="¿Qué mejorarías?"></textarea>
+                    </div>
+                </div>
+
+
+                <!-- Fila 5: Horas Jugadas y Recomendación -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="hoursPlayed" class="form-label">Horas Jugadas</label>
+                        <input type="number" class="form-control" id="hoursPlayed" th:field="*{hoursPlayed}" step="0.5"
+                            min="0" placeholder="Ej: 25">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label d-block">¿Recomendarías este juego?</label>
+                        <div class="btn-group" role="group">
+                            <input type="radio" class="btn-check" id="recommendYes" th:field="*{recommend}" value="true"
+                                autocomplete="off">
+                            <label class="btn btn-outline-success" for="recommendYes">
+                                <i class="bi bi-hand-thumbs-up"></i> Sí
+                            </label>
+
+
+                            <input type="radio" class="btn-check" id="recommendNo" th:field="*{recommend}" value="false"
+                                autocomplete="off">
+                            <label class="btn btn-outline-danger" for="recommendNo">
+                                <i class="bi bi-hand-thumbs-down"></i> No
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <hr class="my-4 border-secondary">
+
+
+                <!-- Botones de Acción -->
+                <div class="d-flex justify-content-end gap-2">
+                    <a th:href="@{/reviews}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary"
+                        th:text="${review.id == null ? 'Publicar Reseña' : 'Guardar Cambios'}">
+                        Publicar Reseña
+                    </button>
+                </div>
+
+
+            </form>
+
+
+        </div>
+    </main>
+
+
+    <div th:replace="~{layout :: footer}"></div>
+    <div th:replace="~{layout :: scripts}"></div>
+
+
+    <!-- Scripts adicionales para el formulario -->
+    <script th:inline="javascript">
+        // Contador de caracteres en tiempo real
+        document.addEventListener('DOMContentLoaded', function () {
+            // Título
+            const titleInput = document.getElementById('title');
+            if (titleInput) {
+                titleInput.addEventListener('input', function () {
+                    const counter = this.parentElement.querySelector('.char-count');
+                    counter.textContent = this.value.length;
+                });
+            }
+
+
+            // Comentario
+            const commentInput = document.getElementById('comment');
+            if (commentInput) {
+                commentInput.addEventListener('input', function () {
+                    const counter = this.parentElement.querySelector('.char-count');
+                    counter.textContent = this.value.length;
+                });
+            }
+
+
+            // Actualizar valor de rating visual
+            const ratingInputs = document.querySelectorAll('input[name="rating"]');
+            const ratingValue = document.querySelector('.rating-value span');
+
+
+            ratingInputs.forEach(input => {
+                input.addEventListener('change', function () {
+                    if (ratingValue) {
+                        ratingValue.textContent = this.value;
+                    }
+                });
+            });
+        });
+    </script>
+
+
+</body>
+
+
+</html>
