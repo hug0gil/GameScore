@@ -1,58 +1,60 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<!-- CORRECCIÓN: Se quitan las llaves y la tilde ~{} -->
-<head th:replace="layout :: head('Perfil de ' + ${user.name})"></head>
+<head th:replace="layout :: head('Perfil de ' + ${user.name ?: 'Usuario'})"></head>
 <body>
 
-<!-- CORRECCIÓN: Se quitan las llaves y la tilde ~{} -->
 <div th:replace="layout :: header"></div>
 
 <main class="main-content-dark">
     <div class="container py-5">
-        
-        <header class="profile-header d-flex align-items-center pb-4 mb-5">
-            <img th:src="${user.avatarUrl != null ? user.avatarUrl : '/images/default-avatar.png'}" 
-                 alt="Avatar del usuario" 
-                 class="profile-avatar me-4">
-            <div class="profile-info text-white">
-                <h1 th:text="${user.name}">Nombre del Usuario</h1>
-                <p class="user-handle" th:text="'@' + ${user.email}">@usuario@email.com</p>
-                <div class="profile-bio-bar"></div>
-            </div>
-            <a th:href="@{/perfil/editar}" class="btn btn-primary ms-auto align-self-start">Editar perfil</a>
-        </header>
+        <div th:if="${user}">
+            <header class="profile-header d-flex align-items-center pb-4 mb-5">
+                <img th:src="${user.avatarUrl ?: '/images/default-avatar.png'}" 
+                     alt="Avatar del usuario" 
+                     class="profile-avatar me-4">
+                <div class="profile-info text-white">
+                    <h1 th:text="${user.name ?: 'Nombre no disponible'}">Nombre del Usuario</h1>
+                    <p class="user-handle" th:text="'@' + ${user.email ?: 'email-no-disponible'}">@usuario@email.com</p>
+                    <div class="profile-bio-bar"></div>
+                </div>
+                <a th:href="@{/perfil/editar}" class="btn btn-primary ms-auto align-self-start">Editar perfil</a>
+            </header>
 
-        <div class="row g-4">
-            <div class="col-lg-5 d-flex flex-column gap-4">
-                <div class="profile-infobox">
-                    <h3>DATOS DE CONTACTO</h3>
-                    <div class="info-list">
-                        <div class="info-item">
-                            <strong>Correo electronico</strong>
-                            <span th:text="${user.email}">loli@gmail.com</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Miembro desde</strong>
-                            <span th:if="${user.createdAt}" th:text="${#temporals.format(user.createdAt, 'dd MMMM yyyy', 'es')}">01 Enero 2023</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Rol</strong>
-                            <span class="badge bg-primary" th:text="${user.role}">USER</span>
+            <div class="row g-4">
+                <div class="col-lg-5 d-flex flex-column gap-4">
+                    <div class="profile-infobox">
+                        <h3>DATOS DE CONTACTO</h3>
+                        <div class="info-list">
+                            <div class="info-item">
+                                <strong>Correo electronico</strong>
+                                <span th:text="${user.email ?: 'N/A'}">loli@gmail.com</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Miembro desde</strong>
+                                <!-- ESTA ES LA LÍNEA CORREGIDA -->
+                                <span th:if="${user.createdAt}" th:text="${#temporals.format(user.createdAt, 'dd MMMM yyyy', new java.util.Locale('es'))}">N/A</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Rol</strong>
+                                <span class="badge bg-primary" th:if="${user.role}" th:text="${user.role.name()}">N/A</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-7">
-                <div class="profile-infobox">
-                    <h3>ACTIVIDAD RECIENTE</h3>
-                    <p class="text-muted">Próximamente podrás ver tus reseñas y juegos favoritos aquí.</p>
+                <div class="col-lg-7">
+                    <div class="profile-infobox">
+                        <h3>ACTIVIDAD RECIENTE</h3>
+                        <p class="text-muted">Próximamente podrás ver tus reseñas y juegos favoritos aquí.</p>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div th:unless="${user}" class="text-center text-white">
+            <h2>Error al cargar el perfil del usuario.</h2>
         </div>
     </div>
 </main>
 
-<!-- CORRECCIÓN: Se quitan las llaves y la tilde ~{} en todos los replaces -->
 <div th:replace="layout :: footer"></div>
 <div th:replace="layout :: scripts"></div>
 

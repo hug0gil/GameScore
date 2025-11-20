@@ -3,48 +3,41 @@ package com.gamescore.back.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-
 import com.gamescore.back.security.CustomOAuth2UserService;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+        // 1. Inyecta el servicio correcto (del paquete 'security')
         private final CustomOAuth2UserService customOAuth2UserService;
 
         @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http
-                                .csrf(csrf -> csrf
-                                                .ignoringRequestMatchers("/api/rawg/fetch", "/api/rawg/test-youtube"))
-
-                                .authorizeHttpRequests(auth -> auth
-                                                // 🔓 Todo permitido temporalmente
-                                                .anyRequest().permitAll());
-
-                // ❌ Login con formulario — DESACTIVADO
-                // .formLogin(form -> form
-                // .loginPage("/login")
-                // .permitAll()
-                // );
-
-                // ❌ Login con OAuth2 — DESACTIVADO
-                // .oauth2Login(oauth2 -> oauth2
-                // .userInfoEndpoint(userInfo -> userInfo
-                // .userService(customOAuth2UserService)
-                // )
-                // );
-
+                                .authorizeHttpRequests(authorize -> authorize
+                                                .requestMatchers("/perfil/**").authenticated() // 2. Protege la ruta
+                                                .requestMatchers("/", "/css/**", "/js/**", "/images/**").permitAll()
+                                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                                .requestMatchers("/perfil/**", "/foro/nueva-resena/**").authenticated()
+                                                .anyRequest().permitAll())
+                                .oauth2Login(oauth2 -> oauth2
+                                                .loginPage("/login")
+                                                .userInfoEndpoint(userInfo -> userInfo
+                                                                // 3. ¡ESTA ES LA LÍNEA MÁS IMPORTANTE!
+                                                                // Le dice a Spring que use TU servicio para procesar el
+                                                                // usuario de OAuth2.
+                                                                .userService(customOAuth2UserService)));
+                // ...
                 return http.build();
         }
 }
 
+// --- Antiguo SecurityConfig ---
 // package com.gamescore.back.config;
 
 // import lombok.RequiredArgsConstructor;
