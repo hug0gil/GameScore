@@ -1,41 +1,42 @@
 package com.gamescore.back.controller;
 
-import com.gamescore.back.security.CustomOAuth2User; // <-- IMPORTANTE: Importa tu clase
+import com.gamescore.back.security.CustomOAuth2User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
+@Slf4j
 public class ProfileController {
 
-    /**
-     * Muestra la página de perfil del usuario autenticado.
-     * 
-     * @param customOAuth2User Inyectado por Spring. Este es TU objeto personalizado
-     *                         que contiene la entidad 'User'.
-     * @param model            El modelo para pasar datos a la vista.
-     * @return El nombre de la plantilla de perfil.
-     */
     @GetMapping("/perfil")
-    public String profile(Model model, @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
-        // 1. Verificamos que el principal (el usuario logueado) no sea nulo.
-        if (customOAuth2User == null) {
-            // Si no está autenticado, lo mandamos al login.
-            return "/login";
+    public String profile(Model model, @AuthenticationPrincipal(errorOnInvalidType = false) Object principal) {
+        
+        log.info("--- INICIANDO DEPURACIÓN DE /perfil ---");
+
+        if (principal == null) {
+            log.error("¡ERROR GRAVE! El 'principal' (usuario autenticado) es NULO. Spring Security no lo está inyectando.");
+            // Forzamos un error más claro en lugar de un NullPointerException
+            throw new IllegalStateException("El principal de seguridad es nulo. Verifique la configuración de autenticación.");
         }
 
-        // 2. Obtenemos el objeto 'User' que está dentro de tu 'CustomOAuth2User'.
-        // Tu clase CustomOAuth2User tiene un campo 'user' y un getter gracias a Lombok
-        // (@Getter).
-        model.addAttribute("user", customOAuth2User.getUser());
-
-        // 3. Devolvemos el nombre de la vista.
-        return "perfil";
+        log.info("Clase del principal recibido: {}", principal.getClass().getName());
+        
+        if (principal instanceof CustomOAuth2User) {
+            CustomOAuth2User customOAuth2User = (CustomOAuth2User) principal;
+            log.info("El principal es de tipo 'CustomOAuth2User'. ¡Correcto!");
+            log.info("Email del usuario: {}", customOAuth2User.getEmail());
+            
+            model.addAttribute("user", customOAuth2User.getUser());
+            log.info("--- DEPURACIÓN COMPLETADA --- Renderizando vista 'perfil'.");
+            return "profile";
+        } else {
+            log.error("¡ERROR DE TIPO! El principal NO es 'CustomOAuth2User', sino '{}'.", principal.getClass().getName());
+            log.error("Contenido del principal: {}", principal.toString());
+            throw new IllegalStateException("El tipo del principal es incorrecto. Se esperaba CustomOAuth2User.");
+        }
     }
-
-    @GetMapping("/login")
-    public String login() {
-        return "login"; // Nombre de la plantilla HTML
-    }
+    
 }

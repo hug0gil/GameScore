@@ -27,15 +27,26 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         Map<String, Object> attributes = oauth2User.getAttributes();
         
-        log.info("OAuth2 Login - Provider: {}", registrationId);
+        // --- LOGS DE DEPURACIÓN ---
+        log.info("--- ATRIBUTOS CRUDOS RECIBIDOS DEL PROVEEDOR: {} ---", registrationId.toUpperCase());
+        attributes.forEach((key, value) -> log.info("Atributo: [{}], Valor: [{}]", key, value));
+        log.info("---------------------------------------------------------");
         
-        // Extraer información según el proveedor
+        // Extraer información de forma segura
         String email = extractEmail(registrationId, attributes);
         String name = extractName(registrationId, attributes);
         String avatarUrl = extractAvatarUrl(registrationId, attributes);
         String providerId = extractProviderId(registrationId, attributes);
         AuthProvider provider = AuthProvider.valueOf(registrationId.toUpperCase());
+
+        // Si el email es nulo, el login no puede continuar.
+        if (email == null) {
+            log.error("El email recibido del proveedor {} es nulo. Revisa los 'scopes' de tu configuración.", registrationId);
+            throw new OAuth2AuthenticationException("No se pudo obtener el email del proveedor de OAuth2.");
+        }
         
+        log.info("Datos extraídos -> Email: [{}], Nombre: [{}], Avatar: [{}]", email, name, avatarUrl);
+
         // Buscar o crear usuario
         User user = userService.findOrCreateOAuth2User(
             email, 
@@ -45,40 +56,48 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             providerId
         );
         
-        log.info("Usuario OAuth2 procesado: {} ({})", email, provider);
+        log.info("Usuario procesado en la DB: {} ({})", user.getEmail(), user.getProvider());
         
         return new CustomOAuth2User(oauth2User, user);
     }
     
+    // --- MÉTODOS DE EXTRACCIÓN MÁS ROBUSTOS ---
+
     private String extractEmail(String provider, Map<String, Object> attributes) {
-        return switch (provider.toLowerCase()) {
-            case "google" -> (String) attributes.get("email");
-            case "github" -> (String) attributes.get("email");
-            case "discord" -> (String) attributes.get("email");
-            default -> throw new OAuth2AuthenticationException("Proveedor no soportado: " + provider);
-        };
+        // GitHub puede no devolver el email si no se pide el scope 'user:email'
+        // o si el usuario no lo tiene público.
+        return (String) attributes.get("email");
     }
     
     private String extractName(String provider, Map<String, Object> attributes) {
-        return switch (provider.toLowerCase()) {
-            case "google" -> (String) attributes.get("name");
-            case "github" -> (String) attributes.get("name");
-            case "discord" -> {
-                String username = (String) attributes.get("username");
-                String globalName = (String) attributes.get("global_name");
-                yield globalName != null ? globalName : username;
+        String extractedName = (String) attributes.get("name");
+        
+        // Si el nombre es nulo (común en GitHub), usamos un fallback.
+        if (extractedName == null || extractedName.isBlank()) {
+            if ("github".equalsIgnoreCase(provider)) {
+                // El 'login' de GitHub siempre existe.
+                return (String) attributes.get("login");
             }
-            default -> "Usuario";
-        };
+            if ("discord".equalsIgnoreCase(provider)) {
+                String globalName = (String) attributes.get("global_name");
+                return globalName != null ? globalName : (String) attributes.get("username");
+            }
+            // Fallback final: coge el email y quítale el @...
+            String email = (String) attributes.get("email");
+            if (email != null) {
+                return email.split("@")[0];
+            }
+        }
+        return extractedName;
     }
     
     private String extractProviderId(String provider, Map<String, Object> attributes) {
-        return switch (provider.toLowerCase()) {
-            case "google" -> (String) attributes.get("sub");
-            case "github" -> attributes.get("id").toString();
-            case "discord" -> (String) attributes.get("id");
-            default -> null;
-        };
+        // El 'id' en GitHub es un número, hay que pasarlo a String.
+        Object id = attributes.get("id");
+        if (id != null && "github".equalsIgnoreCase(provider)) {
+            return id.toString();
+        }
+        return (String) attributes.get("sub"); // 'sub' es el estándar para Google
     }
     
     private String extractAvatarUrl(String provider, Map<String, Object> attributes) {
@@ -91,7 +110,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 if (avatarHash != null) {
                     yield "https://cdn.discordapp.com/avatars/" + userId + "/" + avatarHash + ".png";
                 }
-                yield null;
+                yield null; // Sin fallback si no hay avatar
             }
             default -> null;
         };

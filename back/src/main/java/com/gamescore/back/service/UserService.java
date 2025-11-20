@@ -21,13 +21,13 @@ import java.util.Optional;
 @Slf4j
 @Transactional
 public class UserService {
-    
+
     private final UserRepository userRepository;
-    
+
     // ========================================================================
     // CRUD BÁSICO
     // ========================================================================
-    
+
     /**
      * Obtiene todos los usuarios con paginación
      */
@@ -35,7 +35,7 @@ public class UserService {
         log.debug("Obteniendo todos los usuarios - Página: {}", pageable.getPageNumber());
         return userRepository.findAll(pageable);
     }
-    
+
     /**
      * Busca usuario por ID
      */
@@ -43,7 +43,7 @@ public class UserService {
         log.debug("Buscando usuario con ID: {}", id);
         return userRepository.findById(id);
     }
-    
+
     /**
      * Busca un usuario por su email. Lanza una excepción si no se encuentra.
      * Esencial para obtener los datos del usuario logueado.
@@ -56,7 +56,7 @@ public class UserService {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con el email: " + email));
     }
-    
+
     /**
      * Crea o actualiza un usuario
      */
@@ -64,7 +64,7 @@ public class UserService {
         log.info("Guardando usuario: {}", user.getEmail());
         return userRepository.save(user);
     }
-    
+
     /**
      * Elimina un usuario
      */
@@ -72,70 +72,83 @@ public class UserService {
         log.warn("Eliminando usuario con ID: {}", id);
         userRepository.deleteById(id);
     }
-    
+
     // ========================================================================
     // LÓGICA DE NEGOCIO
     // ========================================================================
-    
+
     /**
      * Busca o crea usuario desde OAuth2
      * Usado en: CustomOAuth2UserService
      */
+    @Transactional
     public User findOrCreateOAuth2User(
             String email,
             String name,
             String avatarUrl,
             AuthProvider provider,
-            String providerId
-    ) {
+            String providerId) {
         log.info("Buscando o creando usuario OAuth2: {}", email);
-        
-        // Buscar por proveedor y providerId primero
-        Optional<User> existingUser = userRepository.findByProviderAndProviderId(provider, providerId);
-        
-        if (existingUser.isPresent()) {
-            // Usuario existe, actualizar información
-            User user = existingUser.get();
+
+        // Tu lógica de búsqueda por proveedor y providerId es buena, la mantenemos.
+        Optional<User> existingUserByProvider = userRepository.findByProviderAndProviderId(provider, providerId);
+
+        if (existingUserByProvider.isPresent()) {
+            // --- BLOQUE DE ACTUALIZACIÓN MEJORADO ---
+            User user = existingUserByProvider.get();
+            log.debug("Usuario existente encontrado por proveedor: {}. Actualizando...", email);
+
             user.setName(name);
             user.setAvatarUrl(avatarUrl);
             user.setLastLogin(LocalDateTime.now());
-            
-            log.debug("Usuario existente actualizado: {}", email);
+
+            // ¡CÓDIGO DEFENSIVO! Si el rol es nulo por alguna razón, lo arreglamos.
+            if (user.getRole() == null) {
+                log.warn("Usuario {} encontrado con rol nulo. Asignando rol USER por defecto.", user.getEmail());
+                user.setRole(Role.USER);
+            }
+
             return userRepository.save(user);
         }
-        
-        // Si no existe por provider, buscar por email
+
+        // Si no, buscar por email (tu lógica también es buena aquí)
         Optional<User> userByEmail = userRepository.findByEmail(email);
-        
         if (userByEmail.isPresent()) {
-            // Email existe con otro proveedor, actualizar
+            // --- BLOQUE DE ACTUALIZACIÓN MEJORADO (TAMBIÉN AQUÍ) ---
             User user = userByEmail.get();
+            log.warn("Usuario encontrado por email con otro proveedor. Actualizando proveedor a {}", provider);
+
             user.setProvider(provider);
             user.setProviderId(providerId);
             user.setName(name);
             user.setAvatarUrl(avatarUrl);
             user.setLastLogin(LocalDateTime.now());
-            
-            log.warn("Usuario encontrado por email, actualizando proveedor: {}", email);
+
+            // ¡CÓDIGO DEFENSIVO! Arreglamos el rol nulo también en este caso.
+            if (user.getRole() == null) {
+                log.warn("Usuario {} encontrado con rol nulo. Asignando rol USER por defecto.", user.getEmail());
+                user.setRole(Role.USER);
+            }
+
             return userRepository.save(user);
         }
-        
-        // Crear nuevo usuario
+
+        // Si no existe de ninguna manera, crear nuevo usuario (tu lógica es correcta)
+        log.info("Nuevo usuario no encontrado por proveedor ni email. Creando: {}", email);
         User newUser = User.builder()
                 .email(email)
                 .name(name)
                 .avatarUrl(avatarUrl)
                 .provider(provider)
                 .providerId(providerId)
-                .role(Role.USER)
+                .role(Role.USER) // Aseguramos que se establece en la creación
                 .enabled(true)
                 .lastLogin(LocalDateTime.now())
                 .build();
-        
-        log.info("Nuevo usuario creado: {}", email);
+
         return userRepository.save(newUser);
     }
-    
+
     /**
      * Actualiza el último login del usuario
      */
@@ -144,7 +157,7 @@ public class UserService {
         userRepository.save(user);
         log.debug("Último login actualizado para: {}", user.getEmail());
     }
-    
+
     /**
      * Cambia el rol de un usuario
      * Solo ADMIN puede hacer esto
@@ -152,34 +165,34 @@ public class UserService {
     public User changeRole(Long userId, Role newRole) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        
+
         Role oldRole = user.getRole();
         user.setRole(newRole);
-        
+
         log.warn("Rol cambiado para {}: {} → {}", user.getEmail(), oldRole, newRole);
         return userRepository.save(user);
     }
-    
+
     /**
      * Activa o desactiva un usuario
      */
     public User toggleEnabled(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        
+
         user.setEnabled(!user.getEnabled());
-        
-        log.warn("Usuario {} {}", 
-                user.getEmail(), 
+
+        log.warn("Usuario {} {}",
+                user.getEmail(),
                 user.getEnabled() ? "activado" : "desactivado");
-        
+
         return userRepository.save(user);
     }
-    
+
     // ========================================================================
     // BÚSQUEDAS ESPECIALES
     // ========================================================================
-    
+
     /**
      * Obtiene usuarios por rol
      */
@@ -187,7 +200,7 @@ public class UserService {
         log.debug("Buscando usuarios con rol: {}", role);
         return userRepository.findByRole(role);
     }
-    
+
     /**
      * Obtiene solo usuarios activos
      */
@@ -195,7 +208,7 @@ public class UserService {
         log.debug("Obteniendo usuarios activos");
         return userRepository.findByEnabled(true);
     }
-    
+
     /**
      * Busca usuarios por nombre o email
      */
@@ -203,39 +216,39 @@ public class UserService {
         log.debug("Buscando usuarios con término: {}", searchTerm);
         return userRepository.searchByEmailOrName(searchTerm, pageable);
     }
-    
+
     // ========================================================================
     // ESTADÍSTICAS
     // ========================================================================
-    
+
     /**
      * Cuenta total de usuarios
      */
     public long countAll() {
         return userRepository.count();
     }
-    
+
     /**
      * Cuenta usuarios por rol
      */
     public long countByRole(Role role) {
         return userRepository.countByRole(role);
     }
-    
+
     /**
      * Cuenta usuarios activos
      */
     public long countActiveUsers() {
         return userRepository.countByEnabled(true);
     }
-    
+
     /**
      * Cuenta usuarios por proveedor OAuth2
      */
     public long countByProvider(AuthProvider provider) {
         return userRepository.countByProvider(provider);
     }
-    
+
     /**
      * Obtiene usuarios recientes
      */
@@ -243,18 +256,18 @@ public class UserService {
         log.debug("Obteniendo usuarios recientes");
         return userRepository.findAllByOrderByCreatedAtDesc(pageable);
     }
-    
+
     // ========================================================================
     // VALIDACIONES
     // ========================================================================
-    
+
     /**
      * Verifica si un email ya existe
      */
     public boolean emailExists(String email) {
         return userRepository.existsByEmail(email);
     }
-    
+
     /**
      * Verifica si el usuario puede realizar una acción
      */
@@ -263,7 +276,7 @@ public class UserService {
             log.warn("Usuario deshabilitado intentó: {}", action);
             return false;
         }
-        
+
         return switch (action) {
             case "CREATE_REVIEW" -> user.getRole() == Role.USER || user.getRole() == Role.ADMIN;
             case "MODERATE_REVIEW" -> user.getRole() == Role.ADMIN;

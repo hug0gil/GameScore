@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout :: head('Iniciar Sesión')"></head>
+<head th:replace="~{layout :: head('Iniciar Sesión')}"></head>
 <body>
-
-<!-- Header -->
-<div th:replace="layout :: header"></div>
-
-<main class="container py-5 text-center">
-    <h1>Inicia sesión usando:</h1>
-    <a href="/oauth2/authorization/google" class="btn btn-danger mb-2">Google</a>
-    <a href="/oauth2/authorization/github" class="btn btn-dark mb-2">GitHub</a>
-    <a href="/oauth2/authorization/discord" class="btn btn-primary mb-2">Discord</a>
+    
+<main class="main-content-dark d-flex align-items-center justify-content-center" style="min-height: 70vh;">
+    <div class="container text-center text-white">
+        <h1 class="mb-4">Iniciar Sesión</h1>
+        <p class="lead mb-5">Para continuar, elige uno de los siguientes proveedores.</p>
+        
+        <div class="d-grid gap-3 col-md-5 mx-auto">
+            <!-- 
+                Estos enlaces son estándar de Spring Security.
+                Al hacer clic, inician el flujo de autenticación con el proveedor correspondiente.
+            -->
+            <a class="btn btn-danger btn-lg d-flex align-items-center justify-content-center" href="/oauth2/authorization/google">
+                <i class="fab fa-google me-2"></i> Continuar con Google
+            </a>
+            <a class="btn btn-dark btn-lg d-flex align-items-center justify-content-center" href="/oauth2/authorization/github">
+                <i class="fab fa-github me-2"></i> Continuar con GitHub
+            </a>
+            <a class="btn btn-primary btn-lg d-flex align-items-center justify-content-center" href="/oauth2/authorization/discord">
+                <i class="fab fa-discord me-2"></i> Continuar con Discord
+            </a>
+        </div>
+    </div>
 </main>
 
-<!-- Footer -->
-<div th:replace="layout :: footer"></div>
-<!-- JS -->
-<div th:replace="layout :: scripts"></div>
+<div th:replace="~{layout :: scripts}"></div>
+
 </body>
 </html>
