@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: head('Política de Privacidad - GameScore')"></head>
+
+<body>
+
+    <!-- HEADER -->
+    <div th:replace="layout :: header"></div>
+
+    <main class="container my-5">
+
+        <h1 class="text-center mb-4 fw-bold">Política de Privacidad</h1>
+
+        <p class="lead text-center mb-5">
+            En GameScore nos tomamos muy en serio la privacidad de nuestros usuarios.
+            Queremos que tengas la total confianza de que tus datos están protegidos y que siempre
+            se utilizarán de manera responsable.
+        </p>
+
+        <section class="mb-5">
+            <h2 class="fw-semibold">¿Qué datos recopilamos?</h2>
+            <p>
+                Solo recopilamos la información necesaria para que la plataforma funcione correctamente.
+                Entre estos datos se encuentran:
+            </p>
+            <ul>
+                <li>Tu nombre de usuario y correo electrónico al registrarte.</li>
+                <li>Las reseñas y valoraciones que publiques.</li>
+                <li>Tus juegos favoritos y actividad dentro de tu panel personal.</li>
+                <li>Datos técnicos básicos como tu dirección IP o tipo de dispositivo (solo para fines estadísticos).
+                </li>
+            </ul>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="fw-semibold">¿Para qué usamos tus datos?</h2>
+            <p>Utilizamos la información únicamente para mejorar tu experiencia dentro de GameScore:</p>
+            <ul>
+                <li>Guardar tus preferencias y favoritos.</li>
+                <li>Mostrarte estadísticas y actividad dentro de tu perfil.</li>
+                <li>Ofrecer un entorno seguro y detecta usos indebidos.</li>
+                <li>Mejorar la plataforma basándonos en datos de uso generales.</li>
+            </ul>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="fw-semibold">¿Compartimos tus datos?</h2>
+            <p>
+                No vendemos, no cedemos y no compartimos tus datos personales con terceros.
+                Únicamente trabajamos con servicios externos para obtener información de videojuegos,
+                pero nunca enviamos tus datos personales a esas APIs.
+            </p>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="fw-semibold">Seguridad y protección</h2>
+            <p>
+                Tomamos todas las medidas necesarias para que tus datos estén seguros.
+                Utilizamos sistemas modernos de autenticación y control de accesos,
+                asegurando que únicamente tú puedas acceder a tu cuenta.
+            </p>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="fw-semibold">Tus derechos</h2>
+            <p>
+                Tienes derecho a acceder, modificar o eliminar tus datos personales cuando lo necesites.
+                Si quieres ejercer alguno de estos derechos, puedes ponerte en contacto con nosotros.
+            </p>
+        </section>
+
+        <p class="text-center mt-4">
+            Si tienes cualquier duda sobre nuestra política de privacidad,
+            estaremos encantados de ayudarte.
+        </p>
+
+    </main>
+
+    <!-- FOOTER -->
+    <div th:replace="layout :: footer"></div>
+
+    <!-- SCRIPTS -->
+    <div th:replace="layout :: scripts"></div>
+
+</body>
+
+</html>
