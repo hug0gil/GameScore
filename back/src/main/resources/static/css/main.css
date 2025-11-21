@@ -270,19 +270,26 @@ body.retro-page, body.login-page {
     50% { opacity: 0; }
 }
 
-/* Móviles */
-@media (max-width: 600px) {
-    .retro-card, .login-card {
-        width: 95%;
-        padding: 30px 20px;
-        box-shadow: 8px 8px 0px var(--color-shadow); /* Sombra un poco más pequeña */
-    }
+/* =========================================
+   ESTILO PARA LA IMAGEN DEL JOYSTICK
+   ========================================= */
+
+.card-header img {
+    display: block;
+    margin: 0 auto 15px auto; /* Centrado horizontal y separación del título */
+    width: 80px;              /* Tamaño controlado (ajusta si tu imagen es muy pequeña o grande) */
+    height: auto;             /* Mantiene la proporción */
     
-    .main-title {
-        font-size: 2rem;
-    }
+    /* EFECTO RETRO: */
+    /* Esto crea una sombra sólida negra detrás de la imagen (forma de silueta),
+       simulando el borde grueso que tenían los iconos de fuente */
+    filter: drop-shadow(4px 4px 0px var(--color-titles-borders));
     
-    .logo-icon {
-        font-size: 2.5rem;
-    }
+    /* Animación suave al pasar el mouse */
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Efecto divertido al pasar el mouse sobre el joystick */
+.card-header img:hover {
+    transform: scale(1.1) rotate(-10deg);
 }

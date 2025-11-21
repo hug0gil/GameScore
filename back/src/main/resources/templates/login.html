@@ -6,6 +6,7 @@
     <title>GameScore - Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="icon" th:href="@{/images/GameScoreLogo.png}" type="image/png">
 </head>
 
 <!-- Clase login-page obligatoria -->
@@ -23,7 +24,9 @@
         <!-- Tarjeta Central -->
         <div class="login-card">
             <div class="card-header">
-                <i class="fas fa-gamepad logo-icon"></i>
+                <a th:href="@{/}">
+                <img th:src="@{/images/Joystick.png}" alt="Joystick">
+                </a>
                 <h1>GAME SCORE</h1>
             </div>
             
