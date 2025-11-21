@@ -6,6 +6,8 @@ import com.gamescore.back.model.enums.Role;
 import com.gamescore.back.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +26,13 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    // Inyecciones específicas para la funcionalidad de registro (Del Código 1)
+    @Autowired
+    private EmailService emailService;
+
+    @Value("${app.base.url}")
+    private String baseUrl;
 
     // ========================================================================
     // CRUD BÁSICO
@@ -47,10 +57,6 @@ public class UserService {
     /**
      * Busca un usuario por su email. Lanza una excepción si no se encuentra.
      * Esencial para obtener los datos del usuario logueado.
-     *
-     * @param email El email del usuario a buscar.
-     * @return El objeto User encontrado.
-     * @throws UsernameNotFoundException si el usuario no existe.
      */
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
@@ -58,12 +64,9 @@ public class UserService {
     }
 
     /**
-     * Busca un usuario por su nombre de usuario (que es el email en esta
-     * aplicación)
-     * para usarlo en la lógica de seguridad/negocio del controlador.
-     *
-     * @param username El nombre de usuario (email) a buscar.
-     * @return Un Optional del objeto User.
+     * Busca un usuario por su nombre de usuario (email).
+     * Método wrapper útil para integración con Spring Security o validaciones.
+     * (Funcionalidad extraída del Código 2)
      */
     public Optional<User> findByUsername(String username) {
         log.debug("Buscando usuario por username/email: {}", username);
@@ -92,7 +95,6 @@ public class UserService {
 
     /**
      * Busca o crea usuario desde OAuth2
-     * Usado en: CustomOAuth2UserService
      */
     @Transactional
     public User findOrCreateOAuth2User(
@@ -103,11 +105,9 @@ public class UserService {
             String providerId) {
         log.info("Buscando o creando usuario OAuth2: {}", email);
 
-        // Tu lógica de búsqueda por proveedor y providerId es buena, la mantenemos.
         Optional<User> existingUserByProvider = userRepository.findByProviderAndProviderId(provider, providerId);
 
         if (existingUserByProvider.isPresent()) {
-            // --- BLOQUE DE ACTUALIZACIÓN MEJORADO ---
             User user = existingUserByProvider.get();
             log.debug("Usuario existente encontrado por proveedor: {}. Actualizando...", email);
 
@@ -115,7 +115,6 @@ public class UserService {
             user.setAvatarUrl(avatarUrl);
             user.setLastLogin(LocalDateTime.now());
 
-            // ¡CÓDIGO DEFENSIVO! Si el rol es nulo por alguna razón, lo arreglamos.
             if (user.getRole() == null) {
                 log.warn("Usuario {} encontrado con rol nulo. Asignando rol USER por defecto.", user.getEmail());
                 user.setRole(Role.USER);
@@ -124,10 +123,8 @@ public class UserService {
             return userRepository.save(user);
         }
 
-        // Si no, buscar por email (tu lógica también es buena aquí)
         Optional<User> userByEmail = userRepository.findByEmail(email);
         if (userByEmail.isPresent()) {
-            // --- BLOQUE DE ACTUALIZACIÓN MEJORADO (TAMBIÉN AQUÍ) ---
             User user = userByEmail.get();
             log.warn("Usuario encontrado por email con otro proveedor. Actualizando proveedor a {}", provider);
 
@@ -137,7 +134,6 @@ public class UserService {
             user.setAvatarUrl(avatarUrl);
             user.setLastLogin(LocalDateTime.now());
 
-            // ¡CÓDIGO DEFENSIVO! Arreglamos el rol nulo también en este caso.
             if (user.getRole() == null) {
                 log.warn("Usuario {} encontrado con rol nulo. Asignando rol USER por defecto.", user.getEmail());
                 user.setRole(Role.USER);
@@ -146,7 +142,6 @@ public class UserService {
             return userRepository.save(user);
         }
 
-        // Si no existe de ninguna manera, crear nuevo usuario (tu lógica es correcta)
         log.info("Nuevo usuario no encontrado por proveedor ni email. Creando: {}", email);
         User newUser = User.builder()
                 .email(email)
@@ -154,7 +149,7 @@ public class UserService {
                 .avatarUrl(avatarUrl)
                 .provider(provider)
                 .providerId(providerId)
-                .role(Role.USER) // Aseguramos que se establece en la creación
+                .role(Role.USER)
                 .enabled(true)
                 .lastLogin(LocalDateTime.now())
                 .build();
@@ -173,7 +168,6 @@ public class UserService {
 
     /**
      * Cambia el rol de un usuario
-     * Solo ADMIN puede hacer esto
      */
     public User changeRole(Long userId, Role newRole) {
         User user = userRepository.findById(userId)
@@ -202,29 +196,47 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    /**
+     * Registra un usuario y envía correo de confirmación.
+     * (Funcionalidad extraída del Código 1)
+     */
+    public void registerUser(String email, String name) {
+        // 1. Lógica para guardar usuario en DB...
+        
+        // 2. Generar token
+        String token = UUID.randomUUID().toString();
+        // TODO: Guardar token en DB asociado al usuario (TokenRepository)
+
+        // 3. Construir link y HTML
+        String confirmLink = baseUrl + "/api/auth/confirm?token=" + token;
+        
+        String html = "<h1>¡Hola " + name + "!</h1>"
+                    + "<p>Bienvenido. Confirma tu cuenta aquí:</p>"
+                    + "<a href='" + confirmLink + "'>Confirmar Cuenta</a>";
+
+        // 4. Enviar
+        try {
+            emailService.sendEmail(email, name, "Bienvenido - Confirma tu cuenta", html);
+        } catch (Exception e) {
+            log.error("Error enviando email de confirmación a {}: {}", email, e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     // ========================================================================
     // BÚSQUEDAS ESPECIALES
     // ========================================================================
 
-    /**
-     * Obtiene usuarios por rol
-     */
     public List<User> findByRole(Role role) {
         log.debug("Buscando usuarios con rol: {}", role);
         return userRepository.findByRole(role);
     }
 
-    /**
-     * Obtiene solo usuarios activos
-     */
     public List<User> findActiveUsers() {
         log.debug("Obteniendo usuarios activos");
         return userRepository.findByEnabled(true);
     }
 
-    /**
-     * Busca usuarios por nombre o email
-     */
     public Page<User> searchUsers(String searchTerm, Pageable pageable) {
         log.debug("Buscando usuarios con término: {}", searchTerm);
         return userRepository.searchByEmailOrName(searchTerm, pageable);
@@ -234,37 +246,22 @@ public class UserService {
     // ESTADÍSTICAS
     // ========================================================================
 
-    /**
-     * Cuenta total de usuarios
-     */
     public long countAll() {
         return userRepository.count();
     }
 
-    /**
-     * Cuenta usuarios por rol
-     */
     public long countByRole(Role role) {
         return userRepository.countByRole(role);
     }
 
-    /**
-     * Cuenta usuarios activos
-     */
     public long countActiveUsers() {
         return userRepository.countByEnabled(true);
     }
 
-    /**
-     * Cuenta usuarios por proveedor OAuth2
-     */
     public long countByProvider(AuthProvider provider) {
         return userRepository.countByProvider(provider);
     }
 
-    /**
-     * Obtiene usuarios recientes
-     */
     public Page<User> findRecentUsers(Pageable pageable) {
         log.debug("Obteniendo usuarios recientes");
         return userRepository.findAllByOrderByCreatedAtDesc(pageable);
@@ -274,16 +271,10 @@ public class UserService {
     // VALIDACIONES
     // ========================================================================
 
-    /**
-     * Verifica si un email ya existe
-     */
     public boolean emailExists(String email) {
         return userRepository.existsByEmail(email);
     }
 
-    /**
-     * Verifica si el usuario puede realizar una acción
-     */
     public boolean canPerformAction(User user, String action) {
         if (!user.getEnabled()) {
             log.warn("Usuario deshabilitado intentó: {}", action);
