@@ -1,11 +1,17 @@
 package com.gamescore.back.service;
 
+import com.gamescore.back.model.Game;
 import com.gamescore.back.model.User;
 import com.mailjet.client.MailjetClient;
 import com.mailjet.client.MailjetRequest;
 import com.mailjet.client.MailjetResponse;
 import com.mailjet.client.errors.MailjetException;
 import com.mailjet.client.resource.Emailv31;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,21 +42,35 @@ public class EmailService {
     /**
      * Envía el resumen semanal (Llamado desde ProfileController)
      */
-    public void sendWeeklySummary(User user) {
-        Context context = new Context();
-        context.setVariable("user", user);
-        
-        // Datos Dummy para rellenar la plantilla hasta que tengas reseñas reales
-        context.setVariable("totalReviews", 12);
-        context.setVariable("avgScore", 8.5);
-        context.setVariable("gamesPlayed", 5);
-
-        // Procesamos la plantilla 'summary-template.html'
-        String htmlContent = templateEngine.process("email/summary-template", context);
-
-        // Enviamos
-        sendEmail(user.getEmail(), user.getName(), "🎮 Tu Resumen de GameScore", htmlContent);
+public void sendWeeklySummary(User user) {
+    Context context = new Context();
+    
+    // Pasamos el usuario
+    context.setVariable("user", user);
+    
+    // DATO REAL 1: Contador de Logins
+    context.setVariable("loginCount", user.getLoginCount());
+    
+    // DATO REAL 2: Cantidad de Favoritos (Protegemos contra nulos)
+    int favCount = (user.getFavorites() != null) ? user.getFavorites().size() : 0;
+    context.setVariable("favoritesCount", favCount);
+    
+    // DATO REAL 3: Lista de nombres de los 3 primeros favoritos
+    List<String> favNames = new ArrayList<>();
+    if (user.getFavorites() != null && !user.getFavorites().isEmpty()) {
+        favNames = user.getFavorites().stream()
+                .limit(3)
+                .map(Game::getName) // Asumiendo que Game tiene getName()
+                .collect(Collectors.toList());
+    } else {
+        favNames.add("Ninguno aún");
     }
+    context.setVariable("favoriteGamesList", favNames);
+
+    // Procesar plantilla
+    String htmlContent = templateEngine.process("email/summary-template", context);
+    sendEmail(user.getEmail(), user.getName(), "🎮 Tu Estadísticas de GameScore", htmlContent);
+}
 
     /**
      * Envía bienvenida y link de confirmación (Llamado desde AuthController)

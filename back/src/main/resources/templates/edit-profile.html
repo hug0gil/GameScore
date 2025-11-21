@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout :: head('Editar Perfil')}"></head>
+
+<body>
+
+    <div th:replace="~{layout :: header}"></div>
+
+    <main class="main-content-dark">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+
+                    <!-- Botón Volver -->
+                    <a th:href="@{/perfil}" class="btn-link-retro mb-4 d-inline-block">
+                        <i class="fas fa-arrow-left me-2"></i> VOLVER AL PERFIL
+                    </a>
+
+                    <!-- TARJETA DE EDICIÓN -->
+                    <div class="retro-card p-5">
+
+                        <h2 class="text-center mb-4"
+                            style="font-family: 'Press Start 2P'; color: #2D2D2D; font-size: 1.5rem;">
+                            CONFIGURACIÓN DE PERSONAJE
+                        </h2>
+                        <hr style="border-top: 4px dashed #2D2D2D; opacity: 1; margin-bottom: 30px;">
+
+                        <!-- FORMULARIO -->
+                        <form th:action="@{/perfil/actualizar}" method="post" th:object="${user}">
+                            <!-- CSRF Token (Seguridad) -->
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                            <!-- PREVISUALIZACIÓN AVATAR -->
+                            <div class="text-center mb-4">
+                                <div class="avatar-preview-container mx-auto">
+                                    <img id="avatarPreview" th:src="*{avatarUrl ?: '/images/default-avatar.png'}"
+                                        class="profile-avatar-lg" onerror="this.src='/images/default-avatar.png'">
+                                </div>
+                                <p class="text-muted small mt-2">Vista previa actual</p>
+                            </div>
+
+                            <!-- CAMPO: URL AVATAR -->
+                            <div class="mb-4">
+                                <label class="form-label retro-label">URL del Avatar (Imagen)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text retro-addon"><i class="fas fa-image"></i></span>
+                                    <input type="text" name="avatarUrl" th:value="${user.avatarUrl}" id="avatarInput"
+                                        class="form-control retro-input">
+                                </div>
+                                <div class="form-text">Pega una URL de imagen (png, jpg) para cambiar tu aspecto.</div>
+                            </div>
+
+                            <!-- CAMPO: NOMBRE -->
+                            <div class="mb-4">
+                                <label class="form-label retro-label">Nombre de Jugador</label>
+                                <div class="input-group">
+                                    <span class="input-group-text retro-addon"><i class="fas fa-user"></i></span>
+                                    <input type="text" name="name" th:value="${user.name}"
+                                        class="form-control retro-input" required>
+                                </div>
+                            </div>
+
+                            <!-- CAMPO: EMAIL (SOLO LECTURA) -->
+                            <div class="mb-4">
+                                <label class="form-label retro-label">Correo Electrónico (ID)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text retro-addon" style="background: #ccc;"><i
+                                            class="fas fa-lock"></i></span>
+                                    <input type="text" th:value="*{email}" class="form-control retro-input" readonly
+                                        style="background-color: #e9ecef; color: #6c757d;">
+                                </div>
+                                <div class="form-text text-danger" style="font-size: 0.8rem;">
+                                    * El email no se puede cambiar porque es tu identificador de cuenta.
+                                </div>
+                            </div>
+
+                            <!-- BOTONES DE ACCIÓN -->
+                            <div class="d-flex gap-3 mt-5">
+                                <a th:href="@{/perfil}" class="btn btn-secondary w-50 retro-btn-cancel">
+                                    CANCELAR
+                                </a>
+                                <button type="submit" class="btn btn-primary w-50 retro-btn-save">
+                                    <i class="fas fa-save me-2"></i> GUARDAR CAMBIOS
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{layout :: footer}"></div>
+    <div th:replace="~{layout :: scripts}"></div>
+
+    <!-- SCRIPT: Actualizar imagen al pegar URL -->
+    <script>
+        document.getElementById('avatarInput').addEventListener('input', function () {
+            const url = this.value;
+            const preview = document.getElementById('avatarPreview');
+            if (url.length > 10) { // Validación básica
+                preview.src = url;
+            } else {
+                preview.src = '/images/default-avatar.png';
+            }
+        });
+    </script>
+
+</body>
+
+</html>

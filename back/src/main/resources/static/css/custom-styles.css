@@ -856,3 +856,80 @@ small, .small { font-size: 12px; }
     padding: 1.5rem;
     border-radius: 12px;
 }
+
+/* =========================================
+   ESTILOS EDICIÓN DE PERFIL
+   ========================================= */
+
+.retro-label {
+    font-family: var(--font-pixel);
+    font-size: 0.8rem;
+    color: var(--color-titles-borders);
+    margin-bottom: 8px;
+}
+
+.retro-input {
+    border: 3px solid var(--color-titles-borders) !important;
+    padding: 12px;
+    font-weight: bold;
+    color: #333;
+}
+
+.retro-input:focus {
+    box-shadow: 4px 4px 0 var(--color-primary) !important;
+    border-color: var(--color-titles-borders) !important;
+}
+
+.retro-addon {
+    background-color: var(--color-titles-borders);
+    color: #fff;
+    border: 3px solid var(--color-titles-borders);
+    font-size: 1.2rem;
+}
+
+/* Avatar grande para preview */
+.profile-avatar-lg {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #fff;
+    box-shadow: 0 0 0 4px var(--color-titles-borders); /* Doble borde truco */
+    background-color: #fff;
+    transition: transform 0.3s;
+}
+
+/* Botones del formulario */
+.retro-btn-save {
+    font-family: var(--font-pixel);
+    font-size: 0.8rem;
+    border: 3px solid var(--color-titles-borders);
+    box-shadow: 4px 4px 0 var(--color-titles-borders);
+}
+.retro-btn-save:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--color-titles-borders);
+}
+
+.retro-btn-cancel {
+    font-family: var(--font-pixel);
+    font-size: 0.8rem;
+    background-color: #fff;
+    color: var(--color-titles-borders);
+    border: 3px solid var(--color-titles-borders);
+    box-shadow: 4px 4px 0 #ccc;
+}
+.retro-btn-cancel:hover {
+    background-color: #eee;
+    color: var(--color-titles-borders);
+}
+
+.btn-link-retro {
+    color: #fff;
+    text-decoration: none;
+    font-family: var(--font-pixel);
+    font-size: 0.7rem;
+}
+.btn-link-retro:hover {
+    color: var(--color-primary);
+}

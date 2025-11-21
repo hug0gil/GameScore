@@ -3,6 +3,7 @@ package com.gamescore.back.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.gamescore.back.model.enums.AuthProvider;
@@ -10,10 +11,15 @@ import com.gamescore.back.model.enums.Role;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users") // Buena práctica especificar nombre de tabla
 @Data
+@DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -89,4 +95,25 @@ public class User {
         // Convertimos a porcentaje (sobre 30 días)
         return (int) ((daysIntoLevel / 30.0) * 100);
     }
+
+    // 1. Contador de Logins
+    @Column(nullable = false)
+    @Builder.Default
+    private Integer loginCount = 0;
+
+    // 2. Relación con Juegos Favoritos (Asumiendo que tienes una entidad Game)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_favorites", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "game_id"))
+    @Builder.Default
+    private Set<Game> favorites = new HashSet<>();
+
+    // Helper para añadir favoritos fácilmente
+    public void addFavorite(Game game) {
+        this.favorites.add(game);
+    }
+
+    // 3. Relación con Reviews escritas por el usuario
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<Review> reviews = new ArrayList<>();
 }
