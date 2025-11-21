@@ -58,6 +58,19 @@ public class UserService {
     }
 
     /**
+     * Busca un usuario por su nombre de usuario (que es el email en esta
+     * aplicación)
+     * para usarlo en la lógica de seguridad/negocio del controlador.
+     *
+     * @param username El nombre de usuario (email) a buscar.
+     * @return Un Optional del objeto User.
+     */
+    public Optional<User> findByUsername(String username) {
+        log.debug("Buscando usuario por username/email: {}", username);
+        return userRepository.findByEmail(username);
+    }
+
+    /**
      * Crea o actualiza un usuario
      */
     public User save(User user) {

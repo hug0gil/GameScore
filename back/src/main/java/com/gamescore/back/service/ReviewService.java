@@ -1,8 +1,8 @@
 package com.gamescore.back.service;
 
 import com.gamescore.back.model.Review;
-import com.gamescore.back.model.User; // Necesitas estas clases
-import com.gamescore.back.model.Game; // Necesitas estas clases
+import com.gamescore.back.model.User;
+import com.gamescore.back.model.Game;
 import com.gamescore.back.model.enums.ReviewStatus;
 import com.gamescore.back.repository.ReviewRepository;
 import com.gamescore.back.repository.UserRepository;
@@ -41,11 +41,23 @@ public class ReviewService {
         return reviewRepository.findById(id);
     }
 
+    // Método existente (NO SE RECOMIENDA usar en el frontend ya que trae todos los
+    // estados)
     public List<Review> findReviewsByGameId(Long gameId) {
         // Asumiendo que GameRepository tiene un findById que retorna Optional<Game>
         Game game = gameRepository.findById(gameId)
                 .orElseThrow(() -> new NoSuchElementException("Game not found with ID: " + gameId));
         return reviewRepository.findByGame(game);
+    }
+
+    // 📢 NUEVO MÉTODO: Obtiene solo las reseñas APROBADAS para mostrar en la vista
+    // de detalle.
+    public List<Review> findApprovedReviewsByGameId(Long gameId) {
+        Game game = gameRepository.findById(gameId)
+                .orElseThrow(() -> new NoSuchElementException("Game not found with ID: " + gameId));
+
+        // Usa el método del repositorio para filtrar por Game y por estado 'APPROVED'
+        return reviewRepository.findByGameAndStatus(game, ReviewStatus.APPROVED);
     }
 
     // --- CREACIÓN (CREATE) ---
@@ -61,6 +73,14 @@ public class ReviewService {
                 .orElseThrow(() -> new NoSuchElementException("User not found: " + review.getUser().getId()));
         Game game = gameRepository.findById(review.getGame().getId())
                 .orElseThrow(() -> new NoSuchElementException("Game not found: " + review.getGame().getId()));
+
+        // 🚨 NUEVA VALIDACIÓN: Impedir que un usuario cree una segunda reseña para el
+        // mismo juego.
+        if (reviewRepository.findByUserAndGame(user, game).isPresent()) {
+            throw new IllegalArgumentException(
+                    "You have already reviewed this game. You can edit your existing review instead.");
+        }
+        // -------------------------------------------------------------------------------------
 
         review.setUser(user);
         review.setGame(game);
@@ -80,8 +100,8 @@ public class ReviewService {
 
     /**
      * Permite al autor de la reseña modificar el título, contenido y rating.
+     * * @param id El ID de la reseña a modificar.
      * 
-     * @param id            El ID de la reseña a modificar.
      * @param updatedReview La entidad con los nuevos datos.
      * @return La Review actualizada.
      */

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
@@ -35,4 +36,28 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
      * @return Lista de Reviews.
      */
     List<Review> findByStatus(ReviewStatus status);
+
+    // -------------------------------------------------------------------
+    // --- NUEVOS MÉTODOS PARA LA FUNCIONALIDAD DE DETALLE DEL JUEGO ---
+    // -------------------------------------------------------------------
+
+    /**
+     * Busca todas las reseñas asociadas a un juego con un estado específico.
+     * 💡 Usado para obtener las reseñas APROBADAS en la vista pública.
+     * 
+     * @param game   El objeto Game.
+     * @param status El estado de la reseña (ReviewStatus, ej: APPROVED).
+     * @return Lista de Reviews.
+     */
+    List<Review> findByGameAndStatus(Game game, ReviewStatus status);
+
+    /**
+     * Busca si existe una reseña hecha por un usuario para un juego específico.
+     * 💡 Se usa para validar que un usuario no cree más de una reseña por juego.
+     * 
+     * @param user El objeto User.
+     * @param game El objeto Game.
+     * @return Optional<Review> (vacío si no existe).
+     */
+    Optional<Review> findByUserAndGame(User user, Game game);
 }

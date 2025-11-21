@@ -1,109 +1,260 @@
 <!DOCTYPE html>
+
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+
 
 <head th:replace="~{layout :: head(${game.name})}"></head>
 
+
+
 <body>
 
-    <!-- HEADER -->
+
+
     <div th:replace="~{layout :: header}"></div>
 
+
+
     <main class="main-content-dark game-detail-page">
+
         <div class="container py-5">
+
+
 
             <h2 class="section-title" th:text="${game.name}"></h2>
 
-            <!-- Usamos th:if para evitar un error si la URL es nula -->
+
+
             <img th:if="${game.backgroundUrl}" th:src="${game.backgroundUrl}" th:alt="'Banner de ' + ${game.name}"
                 class="img-fluid rounded shadow-sm mb-4">
 
-            <!-- 2. DESCRIPCIÓN -->
+
+
             <h2 class="section-title">Descripción</h2>
+
             <p class="text-white-50" th:text="${game.description}">
+
                 Aquí va la descripción detallada del videojuego...
+
             </p>
 
-            <!-- 3. DETALLES DEL JUEGO + VIDEO -->
+
+
             <div class="details-box mt-4">
+
                 <div class="row">
-                    <!-- Columna izquierda: Detalles del juego -->
+
                     <div class="col-md-7">
+
                         <h3>Detalles del juego</h3>
+
                         <div class="details-list">
+
                             <p><strong>Nombre:</strong> <span th:text="${game.name}">Nombre del Juego</span></p>
+
                             <p><strong>Fecha de lanzamiento:</strong>
+
                                 <span th:if="${game.releaseDate}"
                                     th:text="${#temporals.format(game.releaseDate, 'dd/MM/yyyy')}">N/A</span>
+
                             </p>
 
-                            <!-- NUEVO: Mostrar Géneros -->
+
+
                             <p><strong>Géneros:</strong>
+
                                 <span th:unless="${#lists.isEmpty(game.genres)}" th:each="genre, iter : ${game.genres}">
+
                                     <span th:text="${genre.name}">Aventura</span><span th:if="${!iter.last}">, </span>
+
                                 </span>
+
                             </p>
 
-                            <!-- Mostrar Plataformas -->
+
+
                             <p><strong>Plataformas:</strong>
+
                                 <span th:unless="${#lists.isEmpty(game.platforms)}"
                                     th:each="platform, iter : ${game.platforms}">
+
                                     <span th:text="${platform.name}">PC</span><span th:if="${!iter.last}">, </span>
+
                                 </span>
+
                             </p>
 
-                            <!-- NUEVO: Mostrar Metacritic -->
+
+
                             <p th:if="${game.metacritic != null and game.metacritic > 0}">
+
                                 <strong>Metacritic:</strong>
+
                                 <span th:text="${game.metacritic}" class="badge bg-warning text-dark">95</span>
+
                             </p>
 
-                            <!-- NUEVO: Mostrar Sitio Web -->
+
+
                             <p th:if="${game.website != null and !game.website.isEmpty()}">
+
                                 <strong>Sitio Web:</strong>
+
                                 <a th:href="${game.website}" target="_blank">Visitar sitio oficial</a>
+
                             </p>
+
                         </div>
 
-                        <!-- Calificación con estrellas (Rating) -->
+
+
                         <h3 class="mt-4">Calificación</h3>
+
                         <div class="review-stars" th:if="${game.rating != null and game.rating > 0}">
+
                             <span th:each="i : ${#numbers.sequence(1, 5)}">
-                                <!-- La comparación funciona con BigDecimal. Se mostrarán estrellas completas. -->
+
                                 <i class="bi"
                                     th:classappend="${i <= game.rating.doubleValue()} ? 'bi-star-fill filled' : 'bi-star'"></i>
+
                             </span>
+
                             <span class="ms-2" th:text="${#numbers.formatDecimal(game.rating, 1, 1)} + ' / 5'">4.5 /
+
                                 5</span>
+
                         </div>
+
                         <p th:unless="${game.rating != null and game.rating > 0}" class="text-white-50">Sin calificación
+
                             todavía.</p>
+
+
 
                     </div>
 
-                    <!-- Columna derecha: Video de YouTube (Reemplaza la galería) -->
+
+
                     <div class="col-md-5">
+
                         <h3 th:if="${game.youtubeUrl != null and !game.youtubeUrl.isEmpty()}">Trailer / Gameplay</h3>
-                        <!-- Solo se muestra si existe una URL de YouTube -->
+
                         <div class="ratio ratio-16x9" th:if="${game.youtubeUrl != null and !game.youtubeUrl.isEmpty()}">
-                            <!-- Transforma la URL de YouTube (watch?v=) a una URL para incrustar (embed/) -->
+
                             <iframe th:src="${#strings.replace(game.youtubeUrl, 'watch?v=', 'embed/')}"
                                 title="YouTube video player" frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen>
+
                             </iframe>
+
                         </div>
+
                     </div>
+
                 </div>
+
+            </div>
+
+
+
+            <div class="reviews-section pt-4 border-top border-secondary mt-5">
+
+                <h2 class="section-title mb-4">Reseñas de Usuarios</h2>
+
+
+
+                <div th:if="${#authentication.name != 'anonymousUser'}" class="mb-4 text-end">
+
+                    <a th:href="@{/reviews/nueva(gameId=${game.id})}" class="btn btn-warning btn-lg">
+
+                        <i class="bi bi-pencil-square"></i> Añadir tu Reseña
+
+                    </a>
+
+                </div>
+
+
+
+                <div th:if="${#lists.isEmpty(reviews)}" class="alert alert-info bg-dark-lighter text-white-50"
+                    role="alert">
+
+                    Aún no hay reseñas aprobadas para este juego. ¡Sé el primero en escribir una!
+
+                </div>
+
+
+
+                <div th:unless="${#lists.isEmpty(reviews)}">
+
+                    <div th:each="review : ${reviews}" class="review-card p-4 mb-4 rounded shadow-sm bg-dark-lighter">
+
+
+
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+
+                            <h5 th:text="${review.title}" class="text-warning mb-0 me-3">Título de la Reseña</h5>
+
+
+
+                            <div class="review-stars small flex-shrink-0">
+
+                                <span th:each="i : ${#numbers.sequence(1, 5)}">
+
+                                    <i class="bi"
+                                        th:classappend="${i <= review.rating} ? 'bi-star-fill filled text-warning' : 'bi-star text-white-50'"></i>
+
+                                </span>
+
+                                <span class="ms-1" th:text="${review.rating} + ' / 5'">4 / 5</span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <p class="small text-white-50 mb-3">
+
+                            Por <strong th:text="${review.user.username}">Nombre de Usuario</strong>
+
+                            el <span th:text="${#temporals.format(review.createdAt, 'dd/MM/yyyy')}">Fecha</span>
+
+                        </p>
+
+
+
+                        <p th:text="${review.content}" class="text-white">
+
+                            Contenido del comentario...
+
+                        </p>
+
+
+
+                    </div>
+
+                </div>
+
+
+
             </div>
 
         </div>
+
     </main>
 
-    <!-- FOOTER -->
+
+
     <div th:replace="~{layout :: footer}"></div>
-    <!-- SCRIPTS -->
+
     <div th:replace="~{layout :: scripts}"></div>
 
+
+
 </body>
+
+
 
 </html>
