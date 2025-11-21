@@ -3,103 +3,104 @@ package com.gamescore.back.controller;
 import com.gamescore.back.model.Review;
 import com.gamescore.back.model.Game;
 import com.gamescore.back.model.User;
-import com.gamescore.back.service.ReviewService;
 import com.gamescore.back.service.GameService;
-import com.gamescore.back.service.UserService;
+import com.gamescore.back.service.ReviewService;
+import com.gamescore.back.service.UserService; // Asume que tienes un UserService
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.NoSuchElementException;
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/reviews")
+@RequiredArgsConstructor
 public class ReviewFormController {
 
-    private final ReviewService reviewService;
     private final GameService gameService;
-    private final UserService userService;
+    private final ReviewService reviewService;
+    private final UserService userService; // ⬅️ IMPORTANTE: Necesitas inyectar un servicio para obtener el usuario
 
     /**
-     * Muestra el formulario para crear una nueva reseña, preseleccionando el juego.
-     * Mapeo: GET /reviews/nueva?gameId={id}
+     * Muestra el formulario para crear una nueva reseña.
+     * GET /reviews/nueva?gameId={id}
      */
     @GetMapping("/nueva")
-    public String showNewReviewForm(@RequestParam Long gameId, Model model, Authentication authentication) {
-
-        // 1. Seguridad
-        if (authentication == null || !authentication.isAuthenticated()
-                || "anonymousUser".equals(authentication.getName())) {
+    public String showNewReviewForm(@RequestParam Long gameId, Model model, Principal principal) {
+        // La seguridad de Spring debería manejar esto, pero verificamos.
+        if (principal == null) {
             return "redirect:/login";
         }
 
-        // 2. Cargar Juego
+        // 1. Cargar el juego
         Game game = gameService.findById(gameId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Juego no encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Juego no encontrado con ID: " + gameId));
 
-        // 3. Cargar Usuario (Usando el nuevo método findByUsername)
-        User currentUser = userService.findByUsername(authentication.getName())
-                .orElseThrow(() -> new NoSuchElementException("User not found: " + authentication.getName()));
+        // 2. Crear una nueva Review para el binding
+        Review newReview = new Review();
 
-        // 4. Crear Reseña
-        Review review = new Review();
-        review.setGame(game);
-        review.setUser(currentUser);
+        // 3. Establecer el objeto Game con solo el ID (para el campo oculto del
+        // formulario)
+        newReview.setGame(game);
 
-        // 5. Pasar al modelo
-        model.addAttribute("review", review);
-        model.addAttribute("currentGame", game);
+        // 4. Pasar objetos al modelo
+        model.addAttribute("review", newReview);
 
-        return "review-form";
+        return "review-form"; // Retorna la plantilla review-form.html
     }
 
     /**
-     * Procesa el envío del formulario para guardar una nueva reseña.
-     * Mapeo: POST /reviews/nueva
+     * Procesa el envío del formulario para crear una nueva reseña.
+     * POST /reviews/nueva
      */
     @PostMapping("/nueva")
-    @Transactional
-    public String saveNewReview(@ModelAttribute("review") Review review,
-            Authentication authentication,
+    public String createReview(@ModelAttribute("review") Review review,
+            BindingResult result,
+            Principal principal,
             RedirectAttributes redirectAttributes) {
 
-        String username = authentication.getName();
-        // 1. Cargar Usuario (Usando el nuevo método findByUsername)
-        User currentUser = userService.findByUsername(username)
-                .orElseThrow(() -> new NoSuchElementException("User not found: " + username));
-        review.setUser(currentUser);
+        if (principal == null) {
+            return "redirect:/login";
+        }
 
+        // --- Lógica Crítica de Seguridad y Usuario ⚠️ ---
         try {
-            // 2. Guardar la reseña
-            Review savedReview = reviewService.createReview(review);
-            redirectAttributes.addFlashAttribute("successMessage", "¡Reseña enviada! Está pendiente de aprobación.");
+            // 1. Buscar el objeto User completo por el username del usuario logueado
+            User loggedInUser = userService.findByUsername(principal.getName())
+                    .orElseThrow(() -> new NoSuchElementException("Usuario logueado no encontrado."));
 
-            // 3. Redirigir al detalle del juego
-            String redirectPath = "/juego/" + (savedReview.getGame().getSlug() != null ? savedReview.getGame().getSlug()
-                    : savedReview.getGame().getId());
-            return "redirect:" + redirectPath;
-        } catch (IllegalArgumentException e) {
-            // Manejar error de reseña duplicada
+            // 2. Asignar el User completo a la reseña
+            review.setUser(loggedInUser);
+
+            // 3. Asignar el objeto Game completo (solo tiene el ID del form)
+            // Necesitamos el objeto Game completo para obtener el SLUG para la redirección
+            Game game = gameService.findById(review.getGame().getId())
+                    .orElseThrow(() -> new NoSuchElementException("Juego no encontrado para la reseña."));
+            review.setGame(game);
+
+            // 4. Guardar la reseña (la validación de duplicados está en ReviewService)
+            Review savedReview = reviewService.createReview(review);
+
+            redirectAttributes.addFlashAttribute("successMessage", "¡Reseña creada y enviada para moderación!");
+            // Redirigir a la página de detalle del juego
+            return "redirect:/juego/" + game.getSlug();
+
+        } catch (NoSuchElementException | IllegalArgumentException e) {
+            // Captura errores de juego/usuario no encontrado o reseña duplicada
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            String redirectPath = "/juego/"
-                    + (review.getGame().getSlug() != null ? review.getGame().getSlug() : review.getGame().getId());
-            return "redirect:" + redirectPath;
-        } catch (NoSuchElementException e) {
-            // Manejar error si el juego no se encuentra por el ID
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            // Si el error es sobre un juego no encontrado, redirige a '/' para evitar más
+            // fallos.
+            String slug = (review.getGame() != null && review.getGame().getSlug() != null)
+                    ? review.getGame().getSlug()
+                    : "";
+            return "redirect:/juego/" + slug;
         }
     }
-
 }

@@ -3,6 +3,7 @@ package com.gamescore.back.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -21,10 +22,12 @@ public class Review {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
+    @ToString.Exclude
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
+    @ToString.Exclude
     private Game game;
 
     @Column(nullable = false)
@@ -41,6 +44,7 @@ public class Review {
     private ReviewStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private User reviewedBy;
 
     private String reviewNote;
