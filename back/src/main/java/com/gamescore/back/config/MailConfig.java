@@ -7,20 +7,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class MailjetConfig {
+public class MailConfig {
 
-    @Value("${mailjet.apiKey.public}")
-    private String publicKey;
+    @Value("${mailjet.apikey}")
+    private String apiKey;
 
-    @Value("${mailjet.apiKey.private}")
-    private String privateKey;
+    @Value("${mailjet.secretkey}")
+    private String secretKey;
 
     @Bean
     public MailjetClient mailjetClient() {
         ClientOptions options = ClientOptions.builder()
-                .apiKey(publicKey)
-                .apiSecretKey(privateKey)
+                .apiKey(apiKey)
+                .apiSecretKey(secretKey)
                 .build();
+        
         return new MailjetClient(options);
     }
 }
