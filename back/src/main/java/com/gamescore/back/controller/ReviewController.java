@@ -68,7 +68,7 @@ public class ReviewController {
         try {
             // Aquí se debería añadir lógica de seguridad para verificar que el usuario
             // actual es el autor.
-            Review result = reviewService.updateReview(id, updatedReview);
+            Review result = reviewService.updateReview(updatedReview);
             return ResponseEntity.ok(result);
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();

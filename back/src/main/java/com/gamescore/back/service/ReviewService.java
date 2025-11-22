@@ -7,6 +7,7 @@ import com.gamescore.back.model.enums.ReviewStatus;
 import com.gamescore.back.repository.ReviewRepository;
 import com.gamescore.back.repository.UserRepository;
 import com.gamescore.back.repository.GameRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,20 +17,12 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor // Usamos Lombok para inyección de dependencias a través del constructor
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final UserRepository userRepository; // Para buscar el User
-    private final GameRepository gameRepository; // Para buscar el Game
-
-    // Inyección de dependencias
-    public ReviewService(ReviewRepository reviewRepository,
-            UserRepository userRepository,
-            GameRepository gameRepository) {
-        this.reviewRepository = reviewRepository;
-        this.userRepository = userRepository;
-        this.gameRepository = gameRepository;
-    }
+    private final UserRepository userRepository;
+    private final GameRepository gameRepository;
 
     // --- LECTURA (READ) ---
 
@@ -44,14 +37,12 @@ public class ReviewService {
     // Método existente (NO SE RECOMIENDA usar en el frontend ya que trae todos los
     // estados)
     public List<Review> findReviewsByGameId(Long gameId) {
-        // Asumiendo que GameRepository tiene un findById que retorna Optional<Game>
         Game game = gameRepository.findById(gameId)
                 .orElseThrow(() -> new NoSuchElementException("Game not found with ID: " + gameId));
         return reviewRepository.findByGame(game);
     }
 
-    // 📢 NUEVO MÉTODO: Obtiene solo las reseñas APROBADAS para mostrar en la vista
-    // de detalle.
+    // Obtiene solo las reseñas APROBADAS para mostrar en la vista de detalle.
     public List<Review> findApprovedReviewsByGameId(Long gameId) {
         Game game = gameRepository.findById(gameId)
                 .orElseThrow(() -> new NoSuchElementException("Game not found with ID: " + gameId));
@@ -69,18 +60,18 @@ public class ReviewService {
             throw new IllegalArgumentException("User ID and Game ID are required.");
         }
 
+        // Se asume que el objeto Review que llega tiene los objetos User y Game con el ID
+        // correspondiente ya establecido desde el controlador.
         User user = userRepository.findById(review.getUser().getId())
                 .orElseThrow(() -> new NoSuchElementException("User not found: " + review.getUser().getId()));
         Game game = gameRepository.findById(review.getGame().getId())
                 .orElseThrow(() -> new NoSuchElementException("Game not found: " + review.getGame().getId()));
 
-        // 🚨 NUEVA VALIDACIÓN: Impedir que un usuario cree una segunda reseña para el
-        // mismo juego.
+        // VALIDACIÓN: Impedir que un usuario cree una segunda reseña para el mismo juego.
         if (reviewRepository.findByUserAndGame(user, game).isPresent()) {
             throw new IllegalArgumentException(
                     "You have already reviewed this game. You can edit your existing review instead.");
         }
-        // -------------------------------------------------------------------------------------
 
         review.setUser(user);
         review.setGame(game);
@@ -100,29 +91,33 @@ public class ReviewService {
 
     /**
      * Permite al autor de la reseña modificar el título, contenido y rating.
-     * * @param id El ID de la reseña a modificar.
-     * 
-     * @param updatedReview La entidad con los nuevos datos.
+     * Esta versión recibe la Review ya actualizada por el controlador.
+     *
+     * @param updatedReview La entidad Review completa (con ID) con los nuevos datos.
      * @return La Review actualizada.
      */
     @Transactional
-    public Review updateReview(Long id, Review updatedReview) {
-        Review existingReview = reviewRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Review not found with ID: " + id));
+    public Review updateReview(Review updatedReview) {
+        // 1. Verificar que la reseña a actualizar existe por ID
+        Review existingReview = reviewRepository.findById(updatedReview.getId())
+                .orElseThrow(() -> new NoSuchElementException("Review not found with ID: " + updatedReview.getId()));
 
-        // Actualizar campos permitidos por el usuario
+        // 2. Aplicar las actualizaciones desde el objeto que viene del formulario.
+        // El controlador ya se encargó de verificar la propiedad (autoría).
+        
+        // Campos editables por el usuario:
         existingReview.setTitle(updatedReview.getTitle());
         existingReview.setContent(updatedReview.getContent());
         existingReview.setRating(updatedReview.getRating());
 
-        // Opcional: Si se edita, se puede reestablecer el estado a PENDING para
-        // moderación
-        if (existingReview.getStatus() != ReviewStatus.PENDING) {
-            existingReview.setStatus(ReviewStatus.PENDING);
-            existingReview.setApprovedAt(null);
-            existingReview.setReviewedBy(null);
-            existingReview.setReviewNote(null);
-        }
+        // 3. Re-establecer el estado a PENDING para que pase por moderación de nuevo
+        existingReview.setStatus(ReviewStatus.PENDING);
+        existingReview.setApprovedAt(null); // Limpiamos la fecha de aprobación anterior
+        existingReview.setReviewedBy(null); // Limpiamos el moderador anterior
+        existingReview.setReviewNote(null); // Limpiamos la nota de moderación anterior
+
+        // Se mantienen las referencias originales a User y Game (no se cambian en la edición)
+        // El @UpdateTimestamp se encarga de actualizar el 'updatedAt'
 
         return reviewRepository.save(existingReview);
     }
