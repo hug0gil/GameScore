@@ -20,18 +20,25 @@ public class SecurityConfig {
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http
                                 .authorizeHttpRequests(authorize -> authorize
-                                                .requestMatchers("/perfil/**").authenticated() // 2. Protege la ruta
-                                                .requestMatchers("/", "/css/**", "/js/**", "/images/**").permitAll()
-                                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                                .requestMatchers(
+                                                                "/", "/login", "/error", "/favicon.ico",
+                                                                "/images/**", "/css/**", "/js/**", "/webjars/**")
+                                                .permitAll()
                                                 .requestMatchers("/perfil/**", "/foro/nueva-resena/**").authenticated()
+                                                .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .anyRequest().permitAll())
                                 .oauth2Login(oauth2 -> oauth2
                                                 .loginPage("/login")
                                                 .userInfoEndpoint(userInfo -> userInfo
-                                                                // 3. ¡ESTA ES LA LÍNEA MÁS IMPORTANTE!
+                                                                // Importante
                                                                 // Le dice a Spring que use TU servicio para procesar el
                                                                 // usuario de OAuth2.
-                                                                .userService(customOAuth2UserService)));
+                                                                .userService(customOAuth2UserService)))
+                                // --- Logout (POST seguro) ---
+                                .logout(logout -> logout
+                                                .logoutUrl("/logout") // URL de logout
+                                                .logoutSuccessUrl("/login?logout") // redirige aquí al cerrar sesión
+                                                .permitAll());
                 // ...
                 return http.build();
         }

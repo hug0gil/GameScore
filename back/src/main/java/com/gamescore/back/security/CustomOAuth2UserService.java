@@ -62,17 +62,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             if (user.getAvatarUrl() == null || user.getAvatarUrl().isBlank()) {
                 user.setAvatarUrl(avatarUrl);
             }
-            
+
             // Actualizamos último login
             user.setLastLogin(LocalDateTime.now());
-            
+
             // Guardamos cambios técnicos
             userRepository.save(user);
 
         } else {
             // --- CASO 2: USUARIO NUEVO ---
             log.info("Creando nuevo usuario OAuth: {}", email);
-            
+
             user = new User();
             user.setEmail(email);
             user.setName(name); // Aquí SÍ usamos el nombre de Google/GitHub
@@ -115,33 +115,45 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     </div>
                 </body>
                 </html>
-                """.formatted(name, providerName);
+                """
+                .formatted(name, providerName);
 
         emailService.sendEmail(email, name, "¡Bienvenido a GameScore! 🎮", htmlContent);
     }
 
     // --- MÉTODOS DE EXTRACCIÓN ---
     private String extractEmail(String provider, Map<String, Object> attributes) {
-        return (String) attributes.get("email");
+        String email = (String) attributes.get("email");
+
+        if (email == null && "github".equalsIgnoreCase(provider)) {
+            // GitHub no devuelve email por defecto, usar login como fallback
+            String login = (String) attributes.get("login");
+            email = login + "@github.local"; // Esto evita que Hibernate falle
+        }
+
+        return email;
     }
 
     private String extractName(String provider, Map<String, Object> attributes) {
         String extractedName = (String) attributes.get("name");
         if (extractedName == null || extractedName.isBlank()) {
-            if ("github".equalsIgnoreCase(provider)) return (String) attributes.get("login");
+            if ("github".equalsIgnoreCase(provider))
+                return (String) attributes.get("login");
             if ("discord".equalsIgnoreCase(provider)) {
                 String globalName = (String) attributes.get("global_name");
                 return globalName != null ? globalName : (String) attributes.get("username");
             }
             String email = (String) attributes.get("email");
-            if (email != null) return email.split("@")[0];
+            if (email != null)
+                return email.split("@")[0];
         }
         return extractedName;
     }
 
     private String extractProviderId(String provider, Map<String, Object> attributes) {
         Object id = attributes.get("id");
-        if (id != null && "github".equalsIgnoreCase(provider)) return id.toString();
+        if (id != null && "github".equalsIgnoreCase(provider))
+            return id.toString();
         return (String) attributes.get("sub");
     }
 

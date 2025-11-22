@@ -7,13 +7,17 @@ import com.gamescore.back.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 @Controller
 @RequestMapping("/admin")
@@ -70,4 +74,26 @@ public class DashboardController {
         model.addAttribute("game", game);
         return "admin/game-form";
     }
+
+    @PostMapping("/juegos/editar/{id}")
+    public String updateGame(@PathVariable Long id, @ModelAttribute("game") Game gameForm) {
+        Game game = gameService.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Juego no encontrado"));
+
+        // Actualizamos los campos
+        game.setName(gameForm.getName());
+        game.setSlug(gameForm.getSlug());
+        game.setRawgId(gameForm.getRawgId());
+        game.setReleaseDate(gameForm.getReleaseDate());
+        game.setDescription(gameForm.getDescription());
+        game.setBackgroundUrl(gameForm.getBackgroundUrl());
+        game.setWebsite(gameForm.getWebsite());
+        game.setYoutubeUrl(gameForm.getYoutubeUrl());
+        game.setRating(gameForm.getRating());
+        game.setMetacritic(gameForm.getMetacritic());
+
+        gameService.save(game);
+        return "redirect:/admin/juegos";
+    }
+
 }

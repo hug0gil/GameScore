@@ -1,127 +1,143 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <!-- CORRECCIÓN 1: Sintaxis correcta con ~{} -->
+
 <head th:replace="~{layout :: head('Perfil de ' + ${user.name ?: 'Usuario'})}"></head>
+
 <body>
 
-<!-- CORRECCIÓN 1: Sintaxis correcta con ~{} -->
-<div th:replace="~{layout :: header}"></div>
+    <!-- CORRECCIÓN 1: Sintaxis correcta con ~{} -->
+    <div th:replace="~{layout :: header}"></div>
 
-<main class="main-content-dark">
-    <div class="container py-5">
-        
-        <!-- ALERTAS -->
-        <div th:if="${successMessage}" class="alert alert-success d-flex align-items-center mb-4" role="alert" 
-             style="border: 3px solid #0f5132; box-shadow: 5px 5px 0 #000;">
-            <i class="fas fa-check-circle me-2 fa-lg"></i>
-            <div th:text="${successMessage}">Mensaje de éxito</div>
-        </div>
-        
-        <div th:if="${errorMessage}" class="alert alert-danger d-flex align-items-center mb-4" role="alert"
-             style="border: 3px solid #842029; box-shadow: 5px 5px 0 #000;">
-            <i class="fas fa-exclamation-circle me-2 fa-lg"></i>
-            <div th:text="${errorMessage}">Mensaje de error</div>
-        </div>
+    <main class="main-content-dark">
+        <div class="container py-5">
 
-        <div th:if="${user}">
-            <!-- HEADER PERFIL -->
-            <header class="profile-header d-flex align-items-center mb-5">
-                <div class="avatar-frame">
-                    <img th:src="${user.avatarUrl ?: '/images/default-avatar.png'}" class="profile-avatar">
-                </div>
-                <div class="profile-info text-white">
-                    <h1 class="user-name">
-                        <span th:text="${user.name ?: 'Player 1'}">Nombre</span>
-                        <span class="role-badge" th:if="${user.role}" th:text="${user.role}">USER</span>
-                    </h1>
-                    <p class="user-handle">
-                        <i class="fas fa-at"></i> <span th:text="${user.email ?: 'email'}">email</span>
-                    </p>
-                    <!-- Barra de Nivel Dinámica -->
-                    <div class="xp-bar-container mt-2">
-                        <div class="xp-text" th:text="'LVL ' + ${user.level}">LVL 1</div>
-                        <div class="xp-bar">
-                            <div class="xp-fill" 
-                                 th:style="'width: ' + ${user.xpPercent} + '%'"
-                                 th:title="'Progreso: ' + ${user.xpPercent} + '%'">
-                            </div>
-                        </div>
+            <!-- ALERTAS -->
+            <div th:if="${successMessage}" class="alert alert-success d-flex align-items-center mb-4" role="alert"
+                style="border: 3px solid #0f5132; box-shadow: 5px 5px 0 #000;">
+                <i class="fas fa-check-circle me-2 fa-lg"></i>
+                <div th:text="${successMessage}">Mensaje de éxito</div>
+            </div>
+
+            <div th:if="${errorMessage}" class="alert alert-danger d-flex align-items-center mb-4" role="alert"
+                style="border: 3px solid #842029; box-shadow: 5px 5px 0 #000;">
+                <i class="fas fa-exclamation-circle me-2 fa-lg"></i>
+                <div th:text="${errorMessage}">Mensaje de error</div>
+            </div>
+
+            <div th:if="${user}">
+                <!-- HEADER PERFIL -->
+                <header class="profile-header d-flex align-items-center mb-5">
+                    <div class="avatar-frame">
+                        <img th:src="${user.avatarUrl ?: '/images/default-avatar.png'}" class="profile-avatar">
                     </div>
-                </div>
-                <a th:href="@{/perfil/editar}" class="btn btn-alt ms-auto align-self-start">
-                    <i class="fas fa-user-edit me-2"></i> EDITAR
-                </a>
-            </header>
-
-            <div class="row g-4">
-                <!-- COLUMNA IZQ -->
-                <div class="col-lg-5 d-flex flex-column gap-4">
-                    <div class="profile-infobox retro-card">
-                        <h3><i class="fas fa-save me-2"></i> DATOS DE JUGADOR</h3>
-                        <div class="info-list">
-                            <div class="info-item">
-                                <div class="icon-box"><i class="fas fa-envelope"></i></div>
-                                <div class="info-data">
-                                    <strong>Correo Electrónico</strong>
-                                    <span th:text="${user.email ?: 'N/A'}">email</span>
-                                </div>
-                            </div>
-                            <div class="info-item">
-                                <div class="icon-box"><i class="fas fa-calendar-alt"></i></div>
-                                <div class="info-data">
-                                    <strong>Miembro desde</strong>
-                                    <span th:if="${user.createdAt}" 
-                                          th:text="${#temporals.format(user.createdAt, 'dd/MM/yyyy', new java.util.Locale('es'))}">
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="info-item">
-                                <div class="icon-box"><i class="fas fa-gamepad"></i></div>
-                                <div class="info-data">
-                                    <strong>Tipo de Cuenta</strong>
-                                    <span th:text="${user.provider}">LOCAL</span>
+                    <div class="profile-info text-white">
+                        <h1 class="user-name">
+                            <span th:text="${user.name ?: 'Player 1'}">Nombre</span>
+                            <span class="role-badge" th:if="${user.role}" th:text="${user.role}">USER</span>
+                        </h1>
+                        <p class="user-handle">
+                            <i class="fas fa-at"></i> <span th:text="${user.email ?: 'email'}">email</span>
+                        </p>
+                        <!-- Barra de Nivel Dinámica -->
+                        <div class="xp-bar-container mt-2">
+                            <div class="xp-text" th:text="'LVL ' + ${user.level}">LVL 1</div>
+                            <div class="xp-bar">
+                                <div class="xp-fill" th:style="'width: ' + ${user.xpPercent} + '%'"
+                                    th:title="'Progreso: ' + ${user.xpPercent} + '%'">
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- COLUMNA DER -->
-                <div class="col-lg-7">
-                    <div class="profile-infobox retro-card">
-                        <div class="d-flex justify-content-between align-items-center mb-3 pb-2" style="border-bottom: 3px solid var(--color-titles-borders);">
-                            <h3 class="mb-0 border-0 p-0"><i class="fas fa-chart-line me-2"></i> ACTIVIDAD</h3>
-                            
-                            <!-- FORMULARIO DEL BOTÓN DE RESUMEN -->
-                            <form th:action="@{/perfil/resumen}" method="post">
-                                <!-- CORRECCIÓN 2: Input CSRF manual por seguridad -->
-                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                                
-                                <button type="submit" class="btn btn-sm btn-primary" title="Enviarme resumen por correo">
-                                    <i class="fas fa-paper-plane me-1"></i> Enviar Resumen
-                                </button>
-                            </form>
+
+                    <div class="ms-auto align-self-start">
+                        <form th:action="@{/logout}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-sign-out-alt me-2"></i> LOGOUT
+                            </button>
+                        </form>
+                    </div>
+
+
+
+
+                    <a th:href="@{/perfil/editar}" class="btn btn-alt ms-auto align-self-start">
+                        <i class="fas fa-user-edit me-2"></i> EDITAR
+                    </a>
+                </header>
+
+                <div class="row g-4">
+                    <!-- COLUMNA IZQ -->
+                    <div class="col-lg-5 d-flex flex-column gap-4">
+                        <div class="profile-infobox retro-card">
+                            <h3><i class="fas fa-save me-2"></i> DATOS DE JUGADOR</h3>
+                            <div class="info-list">
+                                <div class="info-item">
+                                    <div class="icon-box"><i class="fas fa-envelope"></i></div>
+                                    <div class="info-data">
+                                        <strong>Correo Electrónico</strong>
+                                        <span th:text="${user.email ?: 'N/A'}">email</span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="icon-box"><i class="fas fa-calendar-alt"></i></div>
+                                    <div class="info-data">
+                                        <strong>Miembro desde</strong>
+                                        <span th:if="${user.createdAt}"
+                                            th:text="${#temporals.format(user.createdAt, 'dd/MM/yyyy', new java.util.Locale('es'))}">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="icon-box"><i class="fas fa-gamepad"></i></div>
+                                    <div class="info-data">
+                                        <strong>Tipo de Cuenta</strong>
+                                        <span th:text="${user.provider}">LOCAL</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        
-                        <div class="empty-state text-center py-4">
-                            <i class="fas fa-ghost fa-3x text-muted mb-3"></i>
-                            <p class="text-muted fw-bold">No hay actividad reciente.</p>
-                            <a th:href="@{/juegos}" class="btn btn-sm btn-dark-solid mt-2">Explorar Juegos</a>
+                    </div>
+
+                    <!-- COLUMNA DER -->
+                    <div class="col-lg-7">
+                        <div class="profile-infobox retro-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3 pb-2"
+                                style="border-bottom: 3px solid var(--color-titles-borders);">
+                                <h3 class="mb-0 border-0 p-0"><i class="fas fa-chart-line me-2"></i> ACTIVIDAD</h3>
+
+                                <!-- FORMULARIO DEL BOTÓN DE RESUMEN -->
+                                <form th:action="@{/perfil/resumen}" method="post">
+                                    <!-- CORRECCIÓN 2: Input CSRF manual por seguridad -->
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                                    <button type="submit" class="btn btn-sm btn-primary"
+                                        title="Enviarme resumen por correo">
+                                        <i class="fas fa-paper-plane me-1"></i> Enviar Resumen
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="empty-state text-center py-4">
+                                <i class="fas fa-ghost fa-3x text-muted mb-3"></i>
+                                <p class="text-muted fw-bold">No hay actividad reciente.</p>
+                                <a th:href="@{/juegos}" class="btn btn-sm btn-dark-solid mt-2">Explorar Juegos</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div th:unless="${user}" class="text-center text-white py-5">
-            <h2>Error al cargar perfil</h2>
+            <div th:unless="${user}" class="text-center text-white py-5">
+                <h2>Error al cargar perfil</h2>
+            </div>
         </div>
-    </div>
-</main>
+    </main>
 
-<!-- CORRECCIÓN 1: Sintaxis correcta con ~{} -->
-<div th:replace="~{layout :: footer}"></div>
-<div th:replace="~{layout :: scripts}"></div>
+    <!-- CORRECCIÓN 1: Sintaxis correcta con ~{} -->
+    <div th:replace="~{layout :: footer}"></div>
+    <div th:replace="~{layout :: scripts}"></div>
 
 </body>
+
 </html>

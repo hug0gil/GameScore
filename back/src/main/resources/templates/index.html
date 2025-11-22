@@ -12,10 +12,11 @@
 </head>
 
 <!-- Usamos la misma clase 'retro-page' que define el layout -->
+
 <body class="retro-page">
 
     <div class="page-container">
-        
+
         <!-- 1. Video de Fondo (Ahora se verá nítido) -->
         <div class="video-wrapper">
             <video th:src="@{/videos/retrowave.mp4}" autoplay muted loop playsinline></video>
@@ -29,21 +30,26 @@
             <div class="card-content">
                 <!-- Texto pequeño estilo pixel -->
                 <p class="welcome-text">BIENVENIDO A</p>
-                
+
                 <!-- Título grande amarillo -->
                 <h1 class="main-title">
                     GAME<br>SCORE
                 </h1>
-                
+
                 <!-- Línea divisoria negra -->
                 <div class="divider"></div>
-                
+
                 <!-- Subtítulo -->
                 <p class="subtitle">Tu foro de juegos favorito.</p>
-                
+
                 <!-- Botón de acción (Amarillo con sombra dura) -->
                 <a th:href="@{/juegos}" class="btn-retro btn-primary-action">
                     <span>Ver Juegos</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+
+                <a th:href="@{/login}" class="btn-retro btn-primary-action">
+                    <span>Log In</span>
                     <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
@@ -51,4 +57,5 @@
     </div>
 
 </body>
+
 </html>

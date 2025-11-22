@@ -73,4 +73,15 @@ public class GameController {
         model.addAttribute("game", game);
         return "game-detail";
     }
+
+    @GetMapping("/sobre-nosotros")
+    public String sobreNosotros() {
+        return "sobre-nosotros"; // nombre del template HTML en templates/
+    }
+
+    @GetMapping("/politica-privacidad")
+    public String politicaPrivacidad() {
+        return "politica-privacidad"; // nombre del template HTML en templates/
+    }
+
 }
