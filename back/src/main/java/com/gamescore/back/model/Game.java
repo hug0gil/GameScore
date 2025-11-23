@@ -43,10 +43,16 @@ public class Game {
 
     private String website;
 
+    // CORREGIDO: Excluir del toString y equals para evitar LazyInitializationException
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "game_genres", joinColumns = @JoinColumn(name = "game_id"), inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres = new HashSet<>();
 
+    // CORREGIDO: Excluir del toString y equals para evitar LazyInitializationException
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "game_platforms", joinColumns = @JoinColumn(name = "game_id"), inverseJoinColumns = @JoinColumn(name = "platform_id"))
     private Set<Platform> platforms = new HashSet<>();

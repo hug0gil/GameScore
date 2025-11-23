@@ -27,8 +27,9 @@
                         <label for="game" class="form-label">Juego *</label>
 
                         <th:block th:if="${currentGame != null}">
+                            <!-- CORREGIDO: Se añadió "/>" al final -->
                             <input type="text" class="form-control bg-dark text-white-50" th:value="${currentGame.name}"
-                                readonly>
+                                readonly />
                             <input type="hidden" th:field="*{game.id}" />
                         </th:block>
 
@@ -69,9 +70,12 @@
 
                 <div class="mb-3">
                     <label for="title" class="form-label">Título *</label>
-                    <input type="text" class="form-control" id="title" th:field="*{title}" maxlength="100" required>
+                    <!-- CORREGIDO: Se añadió "/>" al final -->
+                    <input type="text" class="form-control" id="title" th:field="*{title}" maxlength="100" required />
+                    
+                    <!-- CORREGIDO: Control de nulos para el contador -->
                     <small class="form-text text-white-50">Máximo 100 caracteres. (<span class="char-count"
-                            th:text="${#strings.length(review.title)}">0</span>/100)</small>
+                            th:text="${review.title != null ? #strings.length(review.title) : 0}">0</span>/100)</small>
                     <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
                 </div>
 
@@ -79,8 +83,10 @@
                     <label for="content" class="form-label">Contenido de la Reseña *</label>
                     <textarea class="form-control" id="content" th:field="*{content}" rows="6" minlength="50"
                         maxlength="1000" required></textarea>
+                    
+                    <!-- CORREGIDO: Control de nulos para el contador -->
                     <small class="form-text text-white-50">Mínimo 50, máximo 1000 caracteres. (<span class="char-count"
-                            th:text="${#strings.length(review.content)}">0</span>/1000)</small>
+                            th:text="${review.content != null ? #strings.length(review.content) : 0}">0</span>/1000)</small>
                     <div class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
                 </div>
 
