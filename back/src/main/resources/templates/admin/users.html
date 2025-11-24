@@ -63,6 +63,40 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Paginación -->
+            <nav th:if="${totalPages > 1}" aria-label="Page navigation">
+                <ul class="pagination justify-content-center mt-4">
+
+                    <!-- Botón Anterior -->
+                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                        <a class="page-link"
+                            th:href="@{/admin/usuarios(page=${currentPage-1}, keyword=${keyword}, role=${selectedRole})}"
+                            aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <!-- Números de página -->
+                    <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages-1)}"
+                        th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link"
+                            th:href="@{/admin/usuarios(page=${i}, keyword=${keyword}, role=${selectedRole})}"
+                            th:text="${i+1}"></a>
+                    </li>
+
+                    <!-- Botón Siguiente -->
+                    <li class="page-item" th:classappend="${currentPage == totalPages-1} ? 'disabled'">
+                        <a class="page-link"
+                            th:href="@{/admin/usuarios(page=${currentPage+1}, keyword=${keyword}, role=${selectedRole})}"
+                            aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+
         </div>
     </main>
 
@@ -97,7 +131,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="fs-5">¿Estás seguro de que quieres eliminar al usuario <strong id="usernameToDelete"></strong>?</p>
+                    <p class="fs-5">¿Estás seguro de que quieres eliminar al usuario <strong
+                            id="usernameToDelete"></strong>?</p>
                     <p class="text-danger fw-bold">
                         <i class="bi bi-exclamation-triangle-fill"></i> ¡Esta acción es irreversible!
                     </p>
@@ -117,11 +152,11 @@
 
     <!-- Script para el modal de eliminar -->
     <script>
-        document.getElementById('deleteUserModal').addEventListener('show.bs.modal', function(event) {
+        document.getElementById('deleteUserModal').addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget;
             var userId = button.getAttribute('data-user-id');
             var userName = button.getAttribute('data-user-name');
-            
+
             document.getElementById('usernameToDelete').textContent = userName;
             document.getElementById('deleteForm').action = '/admin/usuarios/eliminar/' + userId;
         });

@@ -104,4 +104,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
        Optional<User> findByResetPasswordToken(String token);
 
+       Page<User> findByNameContainingIgnoreCase(String keyword, Pageable pageable);
+
+       Page<User> findByRole(String role, Pageable pageable);
+
+       Page<User> findByRoleAndNameContainingIgnoreCase(String role, String keyword, Pageable pageable);
+
 }

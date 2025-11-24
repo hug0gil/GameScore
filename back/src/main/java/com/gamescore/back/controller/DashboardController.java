@@ -11,6 +11,7 @@ import com.gamescore.back.service.ReviewService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -37,7 +38,6 @@ public class DashboardController {
     private final GameService gameService;
     private final DashboardService dashboardService;
     private final ReviewService reviewService;
-    // 1. Inyección de UserService (Necesario para que funcione)
     private final UserService userService;
 
     // =======================================================================
@@ -51,41 +51,55 @@ public class DashboardController {
         return "admin/dashboard";
     }
 
-    @GetMapping("/juegos")
-    public String manageGames(@RequestParam(required = false) String keyword, Model model) {
-        model.addAttribute("games", gameService.search(keyword));
+    @GetMapping("juegos")
+    public String listGames(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(required = false) String keyword,
+            Model model) {
+
+        int pageSize = 10; // 10 juegos por página
+        Page<Game> gamesPage;
+
+        if (keyword != null && !keyword.isEmpty()) {
+            gamesPage = gameService.searchPagedByName(keyword, page, pageSize);
+        } else {
+            gamesPage = gameService.findAllPaged(page, pageSize);
+        }
+
+        model.addAttribute("games", gamesPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", gamesPage.getTotalPages());
         model.addAttribute("keyword", keyword);
-        return "admin/games";
+
+        return "admin/games"; // tu vista Thymeleaf
     }
 
     @GetMapping("/usuarios")
     public String manageUsers(
             @RequestParam(required = false) String role,
             @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "0") int page,
             Model model) {
 
-        List<User> users;
+        int pageSize = 3;
+        Page<User> usersPage;
 
-        // Caso: se filtra por rol y keyword
         if ((role != null && !role.isEmpty()) && (keyword != null && !keyword.isEmpty())) {
-            users = userService.findByRoleAndKeyword(role, keyword);
-        }
-        // Caso: solo rol
-        else if (role != null && !role.isEmpty()) {
-            users = userService.findAllFilteredByRole(role);
-        }
-        // Caso: solo keyword
-        else if (keyword != null && !keyword.isEmpty()) {
-            users = userService.findByKeyword(keyword);
-        }
-        // Caso: ningún filtro
-        else {
-            users = userService.findAll();
+            usersPage = userService.searchPagedByRoleAndKeyword(role, keyword, page, pageSize);
+        } else if (role != null && !role.isEmpty()) {
+            usersPage = userService.findAllPagedByRole(role, page, pageSize);
+        } else if (keyword != null && !keyword.isEmpty()) {
+            usersPage = userService.searchPagedByKeyword(keyword, page, pageSize);
+        } else {
+            usersPage = userService.findAllPaged(page, pageSize);
         }
 
-        model.addAttribute("users", users);
-        model.addAttribute("selectedRole", role); // Mantener rol seleccionado
-        model.addAttribute("keyword", keyword); // Mantener keyword en el input
+        model.addAttribute("users", usersPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", usersPage.getTotalPages());
+        model.addAttribute("selectedRole", role);
+        model.addAttribute("keyword", keyword);
+
         return "admin/users";
     }
 
@@ -109,21 +123,25 @@ public class DashboardController {
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) ReviewStatus status,
             @RequestParam(required = false) Integer rating,
+            @RequestParam(defaultValue = "0") int page,
             Model model) {
 
-        List<Review> reviews;
+        int pageSize = 3;
+        Page<Review> reviewsPage;
 
         if (keyword != null && !keyword.isEmpty()) {
-            reviews = reviewService.searchWithFilters(keyword, status, rating);
+            reviewsPage = reviewService.searchPagedWithFilters(keyword, status, rating, page, pageSize);
         } else if (status != null || rating != null) {
-            reviews = reviewService.searchWithFilters(null, status, rating);
+            reviewsPage = reviewService.searchPagedWithFilters(null, status, rating, page, pageSize);
         } else {
-            reviews = reviewService.findAllReviews();
+            reviewsPage = reviewService.findAllPaged(page, pageSize);
         }
 
         long pendingCount = reviewService.countPendingReviews();
 
-        model.addAttribute("reviews", reviews);
+        model.addAttribute("reviews", reviewsPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", reviewsPage.getTotalPages());
         model.addAttribute("keyword", keyword);
         model.addAttribute("paramStatus", status);
         model.addAttribute("paramRating", rating);

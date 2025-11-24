@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,13 +43,15 @@ public class UserService implements UserDetailsService {
 
     /**
      * Permite el login usando Email O Username.
-     * Spring Security llama a este método con lo que el usuario escriba en el login.
+     * Spring Security llama a este método con lo que el usuario escriba en el
+     * login.
      */
     @Override
     public UserDetails loadUserByUsername(String loginInput) throws UsernameNotFoundException {
         // Buscamos por Email O por Nombre (Username)
         User user = findByEmailOrUsername(loginInput)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con email o username: " + loginInput));
+                .orElseThrow(() -> new UsernameNotFoundException(
+                        "Usuario no encontrado con email o username: " + loginInput));
 
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(), // Spring usa esto como identificador principal en la sesión
@@ -57,8 +60,7 @@ public class UserService implements UserDetailsService {
                 true,
                 true,
                 true,
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
-        );
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
     }
 
     // ========================================================================
@@ -73,11 +75,11 @@ public class UserService implements UserDetailsService {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("El correo electrónico ya está registrado.");
         }
-        
+
         // Validamos el Username (campo name) si viene informado
         if (user.getName() != null && !user.getName().isEmpty()) {
             // Asumiendo que tienes existsByName en tu repositorio
-            if (userRepository.findByName(user.getName()).isPresent()) { 
+            if (userRepository.findByName(user.getName()).isPresent()) {
                 throw new IllegalArgumentException("El nombre de usuario (username) ya está en uso.");
             }
         } else {
@@ -134,7 +136,8 @@ public class UserService implements UserDetailsService {
     // ========================================================================
 
     @Transactional
-    public User findOrCreateOAuth2User(String email, String name, String avatarUrl, AuthProvider provider, String providerId) {
+    public User findOrCreateOAuth2User(String email, String name, String avatarUrl, AuthProvider provider,
+            String providerId) {
         Optional<User> existingUser = userRepository.findByProviderAndProviderId(provider, providerId);
         if (existingUser.isPresent()) {
             return updateUserLoginStats(existingUser.get(), name, avatarUrl);
@@ -147,9 +150,9 @@ public class UserService implements UserDetailsService {
             user.setProviderId(providerId);
             return updateUserLoginStats(user, name, avatarUrl);
         }
-        
-        // NOTA: En OAuth2 el nombre puede venir repetido. 
-        // Si tu base de datos tiene restricción UNIQUE en 'name', aquí deberías 
+
+        // NOTA: En OAuth2 el nombre puede venir repetido.
+        // Si tu base de datos tiene restricción UNIQUE en 'name', aquí deberías
         // agregar lógica para añadir un sufijo aleatorio si el nombre ya existe.
 
         User newUser = User.builder()
@@ -167,8 +170,9 @@ public class UserService implements UserDetailsService {
     }
 
     private User updateUserLoginStats(User user, String name, String avatarUrl) {
-        // Opcional: Puedes decidir NO sobrescribir el nombre si el usuario ya lo cambió localmente
-        // user.setName(name); 
+        // Opcional: Puedes decidir NO sobrescribir el nombre si el usuario ya lo cambió
+        // localmente
+        // user.setName(name);
         user.setAvatarUrl(avatarUrl);
         user.setLastLogin(LocalDateTime.now());
         return userRepository.save(user);
@@ -178,13 +182,25 @@ public class UserService implements UserDetailsService {
     // CRUD & ADMIN (Igual que antes)
     // ========================================================================
 
-    public Page<User> findAll(Pageable pageable) { return userRepository.findAll(pageable); }
-    public List<User> findAll() { return userRepository.findAll(); }
-    public Optional<User> findById(Long id) { return userRepository.findById(id); }
-    
-    public User save(User user) { return userRepository.save(user); }
-    
-    public void delete(Long id) { userRepository.deleteById(id); }
+    public Page<User> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
 
     public User changeRole(Long userId, Role newRole) {
         User user = findById(userId).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -199,19 +215,21 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean canPerformAction(User user, String action) {
-        if (!user.getEnabled()) return false;
+        if (!user.getEnabled())
+            return false;
         return switch (action) {
             case "CREATE_REVIEW" -> user.getRole() == Role.USER || user.getRole() == Role.ADMIN;
             case "MODERATE_REVIEW", "MANAGE_USERS" -> user.getRole() == Role.ADMIN;
             default -> false;
         };
     }
-    
+
     // Estadísticas y Búsquedas avanzadas
     public Page<User> searchUsers(String searchTerm, Pageable pageable) {
         return userRepository.searchByEmailOrName(searchTerm, pageable);
     }
-        public List<User> findByRoleAndKeyword(String roleName, String keyword) {
+
+    public List<User> findByRoleAndKeyword(String roleName, String keyword) {
         try {
             Role role = Role.valueOf(roleName.toUpperCase());
             return userRepository.findByRoleAndKeyword(role, keyword);
@@ -220,19 +238,35 @@ public class UserService implements UserDetailsService {
             return Collections.emptyList();
         }
     }
+
     public List<User> findByKeyword(String keyword) {
         return userRepository.findByKeyword(keyword);
     }
-    public long countAll() { return userRepository.count(); }
-    public long countByRole(Role role) { return userRepository.countByRole(role); }
-    public long countActiveUsers() { return userRepository.countByEnabled(true); }
-    public long countByProvider(AuthProvider provider) { return userRepository.countByProvider(provider); }
-    public Page<User> findRecentUsers(Pageable pageable) { return userRepository.findAllByOrderByCreatedAtDesc(pageable); }
+
+    public long countAll() {
+        return userRepository.count();
+    }
+
+    public long countByRole(Role role) {
+        return userRepository.countByRole(role);
+    }
+
+    public long countActiveUsers() {
+        return userRepository.countByEnabled(true);
+    }
+
+    public long countByProvider(AuthProvider provider) {
+        return userRepository.countByProvider(provider);
+    }
+
+    public Page<User> findRecentUsers(Pageable pageable) {
+        return userRepository.findAllByOrderByCreatedAtDesc(pageable);
+    }
 
     // ========================================================================
     // PRIVATE
     // ========================================================================
-    
+
     private void sendConfirmationEmail(String email, String name) {
         try {
             String token = UUID.randomUUID().toString();
@@ -244,7 +278,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-        /**
+    /**
      * Busca usuarios por rol recibiendo un String.
      * Convierte el String al Enum Role antes de buscar.
      */
@@ -260,23 +294,23 @@ public class UserService implements UserDetailsService {
         }
     }
 
-        // 1. SOLICITAR RESET (Genera token y envía email)
+    // 1. SOLICITAR RESET (Genera token y envía email)
     public void requestPasswordReset(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("No encontramos un usuario con ese correo."));
 
         // VALIDACIÓN CRUCIAL: Solo usuarios LOCAL pueden cambiar password aquí
         if (user.getProvider() != AuthProvider.LOCAL) {
-            throw new IllegalArgumentException("Esta cuenta está vinculada con " + user.getProvider() + 
-                                             ". Debes cambiar la contraseña en esa plataforma.");
+            throw new IllegalArgumentException("Esta cuenta está vinculada con " + user.getProvider() +
+                    ". Debes cambiar la contraseña en esa plataforma.");
         }
 
         // Generar token
         String token = UUID.randomUUID().toString();
         user.setResetPasswordToken(token);
         // El token expira en 30 minutos
-        user.setTokenExpirationDate(LocalDateTime.now().plusMinutes(30)); 
-        
+        user.setTokenExpirationDate(LocalDateTime.now().plusMinutes(30));
+
         userRepository.save(user);
 
         // Enviar Email
@@ -284,7 +318,8 @@ public class UserService implements UserDetailsService {
         String htmlContent = "<h1>Recuperación de Contraseña</h1>"
                 + "<p>Hola " + user.getName() + ", has solicitado restablecer tu contraseña.</p>"
                 + "<p>Haz clic en el siguiente botón para continuar (válido por 30 min):</p>"
-                + "<a href=\"" + resetLink + "\" style=\"padding:10px 20px; background-color:#4CAF50; color:white; text-decoration:none;\">Restablecer Contraseña</a>"
+                + "<a href=\"" + resetLink
+                + "\" style=\"padding:10px 20px; background-color:#4CAF50; color:white; text-decoration:none;\">Restablecer Contraseña</a>"
                 + "<p>Si no fuiste tú, ignora este mensaje.</p>";
 
         emailService.sendEmail(user.getEmail(), user.getName(), "Restablecer contraseña - GameScore", htmlContent);
@@ -307,5 +342,25 @@ public class UserService implements UserDetailsService {
         user.setResetPasswordToken(null); // Limpiamos el token para que no se use de nuevo
         user.setTokenExpirationDate(null);
         userRepository.save(user);
+    }
+
+    public Page<User> findAllPaged(int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return userRepository.findAll(pageable);
+    }
+
+    public Page<User> searchPagedByKeyword(String keyword, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return userRepository.findByNameContainingIgnoreCase(keyword, pageable);
+    }
+
+    public Page<User> findAllPagedByRole(String role, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return userRepository.findByRole(role, pageable);
+    }
+
+    public Page<User> searchPagedByRoleAndKeyword(String role, String keyword, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return userRepository.findByRoleAndNameContainingIgnoreCase(role, keyword, pageable);
     }
 }

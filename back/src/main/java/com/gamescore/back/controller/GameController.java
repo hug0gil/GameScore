@@ -3,7 +3,6 @@ package com.gamescore.back.controller;
 import com.gamescore.back.model.Game;
 import com.gamescore.back.model.Review;
 import com.gamescore.back.model.DTOs.GameListDTO;
-import com.gamescore.back.model.enums.ReviewStatus;
 import com.gamescore.back.service.GameService;
 import com.gamescore.back.service.ReviewService;
 
@@ -11,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -31,28 +29,6 @@ public class GameController {
 
     @GetMapping("/")
     public String showIndexPage(Model model) {
-
-        // Traer los primeros 25 juegos ligeros
-        List<Game> allGames = gameService.findAll();
-
-        List<Game> gamesWithTrailer = allGames.stream()
-                .filter(g -> g.getYoutubeUrl() != null && !g.getYoutubeUrl().isEmpty())
-                .toList();
-
-        if (gamesWithTrailer.isEmpty()) {
-            // No hay trailers, mostrar hero sin video o con un video por defecto
-            model.addAttribute("randomTrailerGame",
-                    "https://www.youtube.com/embed/defaultVideoId?autoplay=1&mute=1&loop=1&playlist=defaultVideoId");
-        } else {
-            Random rand = new Random();
-            Game randomGame = gamesWithTrailer.get(rand.nextInt(gamesWithTrailer.size()));
-            String youtubeUrl = randomGame.getYoutubeUrl();
-            String videoId = youtubeUrl.substring(youtubeUrl.indexOf("v=") + 2);
-            String embedUrl = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&mute=1&loop=1&playlist="
-                    + videoId;
-            model.addAttribute("randomTrailerGame", embedUrl);
-        }
-
         return "index";
     }
 
@@ -61,11 +37,12 @@ public class GameController {
             @RequestParam(defaultValue = "0") int page,
             Model model) {
 
-        // Traer solo los datos necesarios
-        Page<GameListDTO> gamesPage = gameService.findAllPagedLight(page, 25);
+        int pageSize = 10; // 10 juegos por página
+        Page<GameListDTO> gamesPage = gameService.findAllPagedLight(page, pageSize);
         List<GameListDTO> featured = gameService.findFeaturedLight();
 
         model.addAttribute("games", gamesPage.getContent());
+        model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", gamesPage.getTotalPages());
         model.addAttribute("featuredGames", featured);
 

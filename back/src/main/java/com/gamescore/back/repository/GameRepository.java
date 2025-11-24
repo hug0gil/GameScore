@@ -38,4 +38,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
     @Query("SELECT g FROM Game g JOIN FETCH g.genres JOIN FETCH g.platforms WHERE g.slug = :slug")
     Optional<Game> findBySlug(@Param("slug") String slug);
+
+    Page<Game> findByNameContainingIgnoreCase(String keyword, Pageable pageable);
 }

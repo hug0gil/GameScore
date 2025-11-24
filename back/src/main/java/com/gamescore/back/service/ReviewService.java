@@ -8,6 +8,10 @@ import com.gamescore.back.repository.ReviewRepository;
 import com.gamescore.back.repository.UserRepository;
 import com.gamescore.back.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -210,4 +214,14 @@ public class ReviewService {
         reviewRepository.save(review);
     }
 
+    public Page<Review> findAllPaged(int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return reviewRepository.findAll(pageable);
+    }
+
+    public Page<Review> searchPagedWithFilters(String keyword, ReviewStatus status, Integer rating, int page,
+            int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return reviewRepository.searchWithFilters(keyword, status, rating, pageable);
+    }
 }

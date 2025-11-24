@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -77,5 +78,17 @@ public class GameService {
 
     public List<Game> findAll() {
         return gameRepository.findAll();
+    }
+
+    // Listado completo paginado
+    public Page<Game> findAllPaged(int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return gameRepository.findAll(pageable);
+    }
+
+    // Búsqueda por nombre con paginación
+    public Page<Game> searchPagedByName(String keyword, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return gameRepository.findByNameContainingIgnoreCase(keyword, pageable);
     }
 }
