@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameScore - Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Tu CSS principal que ya incluye los nuevos estilos -->
     <link rel="stylesheet" th:href="@{/css/main.css}">
     <link rel="icon" th:href="@{/images/GameScoreLogo.png}" type="image/png">
 </head>
@@ -22,7 +21,7 @@
         <!-- Overlay -->
         <div class="video-overlay"></div>
 
-        <!-- Mensaje de logout (Posicionado absoluto arriba por CSS) -->
+        <!-- Mensaje de logout (Posicionado absoluto arriba) -->
         <div th:if="${logoutMsg}" class="alert logout-msg">
             <span th:text="${logoutMsg}"></span>
         </div>
@@ -36,26 +35,44 @@
                 <h1>GAME SCORE</h1>
             </div>
 
-            <!-- Mensaje de Error de Login (Si falla usuario/contraseña) -->
+            <!-- 1. MENSAJE DE ÉXITO AL CAMBIAR CONTRASEÑA -->
+            <!-- Estilos inline para asegurar visibilidad (Fondo verde claro, texto verde oscuro) -->
+            <div th:if="${param.resetSuccess}" 
+                 style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; border: 1px solid #c3e6cb;">
+                <i class="fas fa-check-circle"></i> Contraseña actualizada. ¡Inicia sesión!
+            </div>
+
+            <!-- 2. MENSAJE DE ERROR DE LOGIN -->
             <div th:if="${param.error}" class="alert alert-danger">
                 <i class="fas fa-skull"></i> Usuario o contraseña incorrectos. Game Over.
             </div>
 
             <p class="insert-coin">INSERT COIN OR LOGIN</p>
 
-            <!-- FORMULARIO DE LOGIN LOCAL -->
+            <!-- FORMULARIO -->
             <form th:action="@{/login}" method="post">
-                
+
+                <!-- Usuario -->
                 <div class="input-group">
                     <i class="fas fa-user"></i>
-                    <input type="text" name="username" class="form-control-retro" placeholder="Usuario" required autofocus>
+                    <input type="text" name="username" class="form-control-retro" placeholder="Usuario o Email" required autofocus>
                 </div>
 
-                <div class="input-group">
+                <!-- Contraseña -->
+                <div class="input-group" style="margin-bottom: 5px;">
                     <i class="fas fa-lock"></i>
                     <input type="password" name="password" class="form-control-retro" placeholder="Contraseña" required>
                 </div>
 
+                <!-- 3. ENLACE OLVIDÉ CONTRASEÑA -->
+                <!-- Color cambiado a #555 para que se vea sobre fondo blanco -->
+                <div class="forgot-pass" style="text-align: right; margin-bottom: 15px;">
+                    <a th:href="@{/olvide-password}" style="font-size: 0.85em; color: #555; text-decoration: none;">
+                        ¿Olvidaste tu contraseña?
+                    </a>
+                </div>
+
+                <!-- Botón Login -->
                 <button type="submit" class="btn-login local">
                     <i class="fas fa-gamepad"></i> START GAME
                 </button>
@@ -87,5 +104,4 @@
     </div>
 
 </body>
-
 </html>

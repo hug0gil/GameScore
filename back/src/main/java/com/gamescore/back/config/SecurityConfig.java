@@ -1,113 +1,75 @@
 package com.gamescore.back.config;
 
+import com.gamescore.back.security.CustomOAuth2UserService;
+import com.gamescore.back.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import com.gamescore.back.security.CustomOAuth2UserService;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-        // 1. Inyecta el servicio correcto (del paquete 'security')
-        private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final UserService userService;
 
-        @Bean
-        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-                http
-                                .authorizeHttpRequests(authorize -> authorize
-                                                .requestMatchers(
-                                                                "/", "/login", "/error", "/favicon.ico",
-                                                                "/images/**", "/css/**", "/js/**", "/webjars/**")
-                                                .permitAll()
-                                                .requestMatchers("/perfil/**", "/foro/nueva-resena/**").authenticated()
-                                                .requestMatchers("/admin/**").hasRole("ADMIN")
-                                                .anyRequest().permitAll())
-                                .oauth2Login(oauth2 -> oauth2
-                                                .loginPage("/login")
-                                                .userInfoEndpoint(userInfo -> userInfo
-                                                                // Importante
-                                                                // Le dice a Spring que use TU servicio para procesar el
-                                                                // usuario de OAuth2.
-                                                                .userService(customOAuth2UserService)))
-                                // --- Logout (POST seguro) ---
-                                .logout(logout -> logout
-                                                .logoutUrl("/logout") // URL de logout
-                                                .logoutSuccessUrl("/login?logout") // redirige aquí al cerrar sesión
-                                                .permitAll());
-                // ...
-                return http.build();
-        }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/", "/login", "/registro", "/olvide-password", "/cambiar-password",
+                                "/error", "/css/**", "/js/**", "/images/**")
+                        .permitAll()
+                        .requestMatchers("/perfil/**", "/foro/nueva-resena/**").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .anyRequest().permitAll())
+
+                // ============================================================
+                // CONFIGURACIÓN DEL LOGIN FORMULARIO (Para tu HTML)
+                // ============================================================
+                .formLogin(form -> form
+                        .loginPage("/login") // Muestra tu HTML cuando se requiere login
+                        .loginProcessingUrl("/login") // INTERCEPTA el POST de tu <form th:action="@{/login}">
+                        .defaultSuccessUrl("/", true) // Si el login es correcto, va al inicio
+                        .failureUrl("/login?error") // Si falla, recarga la página y tu HTML muestra el <div
+                                                    // th:if="${param.error}">
+                        .usernameParameter("username") // Coincide con <input name="username"> de tu HTML
+                        .passwordParameter("password") // Coincide con <input name="password"> de tu HTML
+                        .permitAll())
+
+                // ============================================================
+                // OAUTH2 (Google/Discord)
+                // ============================================================
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login")
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService)))
+
+                // ============================================================
+                // LOGOUT
+                // ============================================================
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout") // Tu Controller captura el param "logout" y muestra el
+                                                           // mensaje
+                        .permitAll());
+
+        return http.build();
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userService); // Conecta tu UserService
+        authProvider.setPasswordEncoder(AppConfig.passwordEncoder()); // Conecta BCrypt
+        return authProvider;
+    }
 }
-
-// --- Antiguo SecurityConfig ---
-// package com.gamescore.back.config;
-
-// import lombok.RequiredArgsConstructor;
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.context.annotation.Configuration;
-// import
-// org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-// import
-// org.springframework.security.config.annotation.web.builders.HttpSecurity;
-// import
-// org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-// import org.springframework.security.web.SecurityFilterChain;
-
-// import com.gamescore.back.security.CustomOAuth2UserService;
-
-// @Configuration
-// @EnableWebSecurity
-// @EnableMethodSecurity
-// @RequiredArgsConstructor
-// public class SecurityConfig {
-
-// private final CustomOAuth2UserService customOAuth2UserService;
-
-// @Bean
-// public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-// http
-// // Configuración básica de CORS y CSRF
-// .cors(cors -> cors.configure(http))
-// .csrf(csrf -> csrf.disable())
-
-// // Autorización de endpoints
-// .authorizeHttpRequests(auth -> auth
-// // Endpoints públicos
-// .requestMatchers(
-// "/api/public/**",
-// "/api/auth/**",
-// "/oauth2/**",
-// "/login/**",
-// "/login.html",
-// "/images/**",
-// "/css/**",
-// "/js/**")
-// .permitAll()
-
-// // Solo ADMIN
-// .requestMatchers("/api/admin/**").hasRole("ADMIN")
-
-// // USER o ADMIN
-// .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
-
-// // Todo lo demás requiere autenticación
-// .anyRequest().authenticated())
-
-// // Login con formulario (opcional)
-// .formLogin(form -> form
-// .loginPage("/login") // Puedes cambiarlo por tu propia vista de login
-// .permitAll())
-
-// // Login con OAuth2
-// .oauth2Login(oauth2 -> oauth2
-// .userInfoEndpoint(userInfo -> userInfo
-// .userService(customOAuth2UserService)));
-
-// return http.build();
-// }
-// }

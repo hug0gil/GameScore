@@ -17,88 +17,91 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    // ========================================================================
-    // BÚSQUEDAS DE IDENTIDAD (Login y Registro)
-    // ========================================================================
+       // ========================================================================
+       // BÚSQUEDAS DE IDENTIDAD (Login y Registro)
+       // ========================================================================
 
-    Optional<User> findByEmail(String email);
+       Optional<User> findByEmail(String email);
 
-    boolean existsByEmail(String email);
-    
-    // Necesario para el Login híbrido y validación de username único
-    Optional<User> findByName(String name);
+       boolean existsByEmail(String email);
 
-    Optional<User> findByProviderAndProviderId(AuthProvider provider, String providerId);
+       // Necesario para el Login híbrido y validación de username único
+       Optional<User> findByName(String name);
 
-    // ========================================================================
-    // BÚSQUEDAS POR ROL (Corregido a tipo Enum)
-    // ========================================================================
+       Optional<User> findByProviderAndProviderId(AuthProvider provider, String providerId);
 
-    /**
-     * Busca por rol exacto. 
-     * NOTA: Recibe 'Role', no 'String'. El servicio hace la conversión.
-     */
-    List<User> findByRole(Role role);
+       // ========================================================================
+       // BÚSQUEDAS POR ROL (Corregido a tipo Enum)
+       // ========================================================================
 
-    Page<User> findByRole(Role role, Pageable pageable);
+       /**
+        * Busca por rol exacto.
+        * NOTA: Recibe 'Role', no 'String'. El servicio hace la conversión.
+        */
+       List<User> findByRole(Role role);
 
-    // ========================================================================
-    // BÚSQUEDAS FILTRADAS (Buscador Admin)
-    // ========================================================================
+       Page<User> findByRole(Role role, Pageable pageable);
 
-    /**
-     * Busca usuarios por nombre o email (case insensitive).
-     */
-    @Query("SELECT u FROM User u WHERE " +
-           "LOWER(u.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(u.email) LIKE LOWER(CONCAT('%', :keyword, '%'))")
-    List<User> findByKeyword(@Param("keyword") String keyword);
+       // ========================================================================
+       // BÚSQUEDAS FILTRADAS (Buscador Admin)
+       // ========================================================================
 
-    @Query("SELECT u FROM User u WHERE LOWER(u.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
-            "OR LOWER(u.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
-    Page<User> searchByEmailOrName(@Param("searchTerm") String searchTerm, Pageable pageable);
+       /**
+        * Busca usuarios por nombre o email (case insensitive).
+        */
+       @Query("SELECT u FROM User u WHERE " +
+                     "LOWER(u.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+                     "LOWER(u.email) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+       List<User> findByKeyword(@Param("keyword") String keyword);
 
-    /**
-     * Busca por ROL específico + Palabra clave.
-     * CORREGIDO: El parámetro 'role' es de tipo Enum Role.
-     */
-    @Query("SELECT u FROM User u WHERE " +
-           "u.role = :role AND (" +
-           "LOWER(u.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(u.email) LIKE LOWER(CONCAT('%', :keyword, '%')))")
-    List<User> findByRoleAndKeyword(@Param("role") Role role, @Param("keyword") String keyword);
+       @Query("SELECT u FROM User u WHERE LOWER(u.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+                     "OR LOWER(u.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+       Page<User> searchByEmailOrName(@Param("searchTerm") String searchTerm, Pageable pageable);
 
-    // ========================================================================
-    // ESTADO Y PROVEEDORES
-    // ========================================================================
+       /**
+        * Busca por ROL específico + Palabra clave.
+        * CORREGIDO: El parámetro 'role' es de tipo Enum Role.
+        */
+       @Query("SELECT u FROM User u WHERE " +
+                     "u.role = :role AND (" +
+                     "LOWER(u.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+                     "LOWER(u.email) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+       List<User> findByRoleAndKeyword(@Param("role") Role role, @Param("keyword") String keyword);
 
-    List<User> findByEnabled(boolean enabled);
-    
-    long countByEnabled(boolean enabled);
+       // ========================================================================
+       // ESTADO Y PROVEEDORES
+       // ========================================================================
 
-    List<User> findByProvider(AuthProvider provider);
-    
-    long countByProvider(AuthProvider provider);
-    
-    long countByRole(Role role);
+       List<User> findByEnabled(boolean enabled);
 
-    // ========================================================================
-    // FECHAS Y ESTADÍSTICAS (Dashboard)
-    // ========================================================================
+       long countByEnabled(boolean enabled);
 
-    Page<User> findAllByOrderByCreatedAtDesc(Pageable pageable);
+       List<User> findByProvider(AuthProvider provider);
 
-    long countByCreatedAtAfter(LocalDateTime date);
+       long countByProvider(AuthProvider provider);
 
-    long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
+       long countByRole(Role role);
 
-    // Asumiendo que 'updatedAt' existe en tu entidad User
-    long countByEnabledFalseAndUpdatedAtAfter(LocalDateTime date);
+       // ========================================================================
+       // FECHAS Y ESTADÍSTICAS (Dashboard)
+       // ========================================================================
 
-    @Query("SELECT u FROM User u WHERE u.createdAt BETWEEN :startDate AND :endDate")
-    List<User> findByCreatedAtBetween(@Param("startDate") LocalDateTime startDate, 
-                                      @Param("endDate") LocalDateTime endDate);
+       Page<User> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
-    @Query("SELECT u FROM User u WHERE u.lastLogin >= :since")
-    List<User> findActiveUsersSince(@Param("since") LocalDateTime since);
+       long countByCreatedAtAfter(LocalDateTime date);
+
+       long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
+
+       // Asumiendo que 'updatedAt' existe en tu entidad User
+       long countByEnabledFalseAndUpdatedAtAfter(LocalDateTime date);
+
+       @Query("SELECT u FROM User u WHERE u.createdAt BETWEEN :startDate AND :endDate")
+       List<User> findByCreatedAtBetween(@Param("startDate") LocalDateTime startDate,
+                     @Param("endDate") LocalDateTime endDate);
+
+       @Query("SELECT u FROM User u WHERE u.lastLogin >= :since")
+       List<User> findActiveUsersSince(@Param("since") LocalDateTime since);
+
+       Optional<User> findByResetPasswordToken(String token);
+
 }

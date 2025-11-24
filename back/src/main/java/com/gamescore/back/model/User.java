@@ -36,7 +36,7 @@ public class User {
     private String name;
 
     // Agregamos length para el hash del password (BCrypt suele ser 60 chars)
-    @Column(length = 255) 
+    @Column(length = 255)
     private String password;
 
     @Column(length = 500)
@@ -44,7 +44,7 @@ public class User {
 
     // SOLUCIÓN AL ERROR: Especificar length = 20
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20) 
+    @Column(nullable = false, length = 20)
     private AuthProvider provider;
 
     @Column(length = 100)
@@ -72,27 +72,37 @@ public class User {
     @Builder.Default
     private Integer loginCount = 0;
 
-    // ... (El resto de métodos getLevel, getXpPercent y relaciones se mantienen igual)
-    
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
+    @Column(name = "token_expiration_date")
+    private LocalDateTime tokenExpirationDate;
+
+    // El resto de métodos getLevel, getXpPercent y relaciones se mantienen igual
+
     public int getLevel() {
-        if (this.createdAt == null) return 1;
+        if (this.createdAt == null)
+            return 1;
         long daysActive = ChronoUnit.DAYS.between(this.createdAt, LocalDateTime.now());
         return (int) (daysActive / 30) + 1;
     }
 
     public int getXpPercent() {
-        if (this.createdAt == null) return 0;
+        if (this.createdAt == null)
+            return 0;
         long daysActive = ChronoUnit.DAYS.between(this.createdAt, LocalDateTime.now());
         long daysIntoLevel = daysActive % 30;
         return (int) ((daysIntoLevel / 30.0) * 100);
     }
-    
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_favorites", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "game_id"))
     @Builder.Default
     private Set<Game> favorites = new HashSet<>();
 
-    public void addFavorite(Game game) { this.favorites.add(game); }
+    public void addFavorite(Game game) {
+        this.favorites.add(game);
+    }
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @Builder.Default

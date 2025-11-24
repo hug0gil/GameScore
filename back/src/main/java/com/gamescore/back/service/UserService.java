@@ -259,4 +259,53 @@ public class UserService implements UserDetailsService {
             return Collections.emptyList();
         }
     }
+
+        // 1. SOLICITAR RESET (Genera token y envía email)
+    public void requestPasswordReset(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("No encontramos un usuario con ese correo."));
+
+        // VALIDACIÓN CRUCIAL: Solo usuarios LOCAL pueden cambiar password aquí
+        if (user.getProvider() != AuthProvider.LOCAL) {
+            throw new IllegalArgumentException("Esta cuenta está vinculada con " + user.getProvider() + 
+                                             ". Debes cambiar la contraseña en esa plataforma.");
+        }
+
+        // Generar token
+        String token = UUID.randomUUID().toString();
+        user.setResetPasswordToken(token);
+        // El token expira en 30 minutos
+        user.setTokenExpirationDate(LocalDateTime.now().plusMinutes(30)); 
+        
+        userRepository.save(user);
+
+        // Enviar Email
+        String resetLink = baseUrl + "/cambiar-password?token=" + token;
+        String htmlContent = "<h1>Recuperación de Contraseña</h1>"
+                + "<p>Hola " + user.getName() + ", has solicitado restablecer tu contraseña.</p>"
+                + "<p>Haz clic en el siguiente botón para continuar (válido por 30 min):</p>"
+                + "<a href=\"" + resetLink + "\" style=\"padding:10px 20px; background-color:#4CAF50; color:white; text-decoration:none;\">Restablecer Contraseña</a>"
+                + "<p>Si no fuiste tú, ignora este mensaje.</p>";
+
+        emailService.sendEmail(user.getEmail(), user.getName(), "Restablecer contraseña - GameScore", htmlContent);
+    }
+
+    // 2. VALIDAR TOKEN (Para mostrar el formulario)
+    public User getByResetToken(String token) {
+        User user = userRepository.findByResetPasswordToken(token)
+                .orElseThrow(() -> new IllegalArgumentException("Token inválido."));
+
+        if (user.getTokenExpirationDate().isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("El enlace ha expirado. Solicita uno nuevo.");
+        }
+        return user;
+    }
+
+    // 3. ACTUALIZAR CONTRASEÑA
+    public void updatePassword(User user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setResetPasswordToken(null); // Limpiamos el token para que no se use de nuevo
+        user.setTokenExpirationDate(null);
+        userRepository.save(user);
+    }
 }
