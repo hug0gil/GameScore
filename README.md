@@ -45,10 +45,39 @@ El proyecto se divide en tres módulos funcionales principales:
             - Edición de Roles: Permite modificar el rol del usuario (por ejemplo, ascender o descender a ADMIN).
             - Eliminación Segura: Funcionalidad para eliminar usuarios con modal de confirmación (Bootstrap Modal).
 
-## **APIs utilizadas y justificación de su elección**
-## **Instrucciones de instalación y configuración**
-## **Credenciales de prueba para cada rol**
-## **Capturas de pantalla de todas las vistas principales**
+## **3.APIs utilizadas y justificación de su elección**
+1. RAWG Video Games Database API (Base de Datos de Contenido)
+Esta es la API principal para la ingesta de datos de videojuegos. Se utiliza para nutrir el catálogo de GameScore con información detallada, metadatos, calificaciones (rating, Metacritic) y recursos gráficos de alta calidad (backgroundUrl).
+
+Justificación:
+- Riqueza y Cobertura: RAWG ofrece uno de los catálogos de videojuegos más extensos y actualizados del mercado, lo cual es fundamental para mantener la relevancia del foro.
+- Eficiencia: Permite que la plataforma obtenga datos cruciales (descripciones, géneros, calificaciones externas) sin requerir un mantenimiento manual intensivo por parte del equipo de administración.
+- Experiencia Visual: Proporciona las URLs de imágenes de fondo y banners necesarias para una experiencia de usuario inmersiva y profesional.
+
+2. Google, GitHub, y Discord (APIs de Autenticación OAuth 2.0)
+
+Estas integraciones de OAuth 2.0 gestionan el acceso de los usuarios a la plataforma (inicio de sesión y registro social).
+
+Justificación:
+- Mejora de la UX: Permite un proceso de registro e inicio de sesión rápido (Single Sign-On), eliminando la fricción de tener que crear y recordar nuevas credenciales.
+- Seguridad Delegada: Transfiere la responsabilidad de la gestión de contraseñas y la autenticación a proveedores de identidad líderes en la industria, aumentando la confianza del usuario en la seguridad de la plataforma.
+- Relevancia de la Audiencia: GitHub y Discord son plataformas que resuenan fuertemente con la comunidad gamer y de desarrolladores, alineándose con el público objetivo de GameScore.
+
+3. Servicio de Correo Electrónico (Comunicación)
+Justificación:
+- Una plataforma social y de seguimiento necesita una vía fiable para la comunicación asíncrona y la gestión de la actividad del usuario.
+- Necesidad: Enviar notificaciones críticas, como el resumen de actividad solicitado por el usuario o futuros mensajes de restablecimiento de contraseña (aunque el SSO lo mitiga).
+- Motivo del Servicio SMTP/Spring Mailer: Permite a la aplicación (el backend de Spring Boot) actuar como remitente. La funcionalidad de "Enviar Resumen" (visto en la página /perfil) es un ejemplo directo de esto, permitiendo a los usuarios llevar un registro externo de sus actividades y juegos favoritos. Un servicio de email externo es necesario porque la aplicación web no puede enviar correos directamente sin un servidor de correo configurado.
+
+
+## **4. Instrucciones de instalación y configuración**
+Una vez tiene Compartido el repositorio, lo vamos a clonar desde github desktop , pinchar en "add" , a continuación darle a " clone repository", clonamos el repositorio que en nuestro caso es GameStory, y a continuación vamos a ejecutar el BackApplication.java .
+a continuación nos iremos a nuestro navegador y pondremos https:localhost/8080/juegos .
+
+## **5. Credenciales de prueba para cada rol**
+
+
+## **6. Capturas de pantalla de todas las vistas principales**
 ![alt text](inicio.PNG)
 ![alt text](juegos.PNG)
 ![alt text](login.PNG)
