@@ -513,3 +513,27 @@ SELECT
     COUNT(*) AS Cantidad
 FROM reviews
 GROUP BY status;
+
+-- ============================================================================ 
+-- USUARIOS CON CREDENCIALES PARA CADA ROL 
+-- ============================================================================ 
+-- conttraseña para user = user123 y contraseña para admin = admin123
+-- ADMIN LOCAL
+INSERT INTO users (email, name, avatar_url, provider, provider_id, role, password) VALUES
+('admin@gamescore.com', 'Administrador', 
+ 'https://ui-avatars.com/api/?name=Admin&background=ff0000&color=fff', 
+ 'LOCAL', 'local-admin-001', 'ADMIN', 
+ '$2a$10$7QvZP1k2eT4FvG4z8RjMduN1W9Fqz3VfRm5eFzRzE0KqH0h3T2PpK') 
+ON DUPLICATE KEY UPDATE name=VALUES(name), role=VALUES(role), password=VALUES(password);
+
+-- USUARIOS LOCALES
+INSERT INTO users (email, name, avatar_url, provider, provider_id, role, password) VALUES
+('user1@test.com', 'Usuario Uno', 
+ 'https://ui-avatars.com/api/?name=Usuario+Uno&background=3b82f6&color=fff', 
+ 'LOCAL', 'local-user-001', 'USER', 
+ '$2a$10$J1kRkL6N8fO7bQ1dX3A5TeV0aR9yLz8vK5hT2mPzF3LqW1dY8OaFq'),
+('user2@test.com', 'Usuario Dos', 
+ 'https://ui-avatars.com/api/?name=Usuario+Dos&background=10b981&color=fff', 
+ 'LOCAL', 'local-user-002', 'USER', 
+ '$2a$10$wR6nP2sK1lT4dQ7eF5G8HeJ2bM1aR9yZ6N0vX2mQ3cLqV1pY5OaFq') 
+ON DUPLICATE KEY UPDATE name=VALUES(name), role=VALUES(role), password=VALUES(password);
