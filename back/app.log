@@ -48079,3 +48079,1148 @@ Caused by: java.lang.Error: Unresolved compilation problems:
 2025-11-24 18:21:37.087 [Thread-11] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2025-11-24 18:21:37.088 [Thread-11] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
 2025-11-24 18:21:37.146 [Thread-11] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+2025-11-24 21:22:14.188 [restartedMain] INFO  com.gamescore.back.BackApplication - Starting BackApplication using Java 25.0.1 with PID 8708 (C:\Users\davil\Documents\GameScore\back\target\classes started by davil in C:\Users\davil\Documents\GameScore\back)
+2025-11-24 21:22:14.191 [restartedMain] DEBUG com.gamescore.back.BackApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-24 21:22:14.192 [restartedMain] INFO  com.gamescore.back.BackApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-24 21:22:14.258 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-11-24 21:22:14.258 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-11-24 21:22:15.578 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-24 21:22:15.692 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 98 ms. Found 5 JPA repository interfaces.
+2025-11-24 21:22:16.613 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-24 21:22:16.637 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-24 21:22:16.638 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-24 21:22:16.701 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-24 21:22:16.701 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2442 ms
+2025-11-24 21:22:17.025 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-24 21:22:17.134 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.33.Final
+2025-11-24 21:22:17.194 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-24 21:22:17.589 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-24 21:22:17.635 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-24 21:22:20.099 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3b4a724
+2025-11-24 21:22:20.103 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-24 21:22:20.558 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-24 21:22:20.581 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 9.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-24 21:22:21.757 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-24 21:22:22.598 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column provider enum ('DISCORD','GITHUB','GOOGLE','LOCAL') not null
+2025-11-24 21:22:23.001 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column role enum ('ADMIN','GUEST','USER') not null
+2025-11-24 21:22:28.645 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:22:29.100 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-24 21:22:30.912 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-11-24 21:22:31.150 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-11-24 21:22:31.151 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-11-24 21:22:31.322 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-11-24 21:22:31.754 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://root:tkLpBtTxRBVsqioSkUDlqnbgmFKxVtiE@crossover.proxy.rlwy.net:27029/railway'
+2025-11-24 21:22:31.860 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-24 21:22:31.899 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-11-24 21:22:31.915 [restartedMain] INFO  com.gamescore.back.BackApplication - Started BackApplication in 18.29 seconds (process running for 19.244)
+2025-11-24 21:22:45.715 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-24 21:22:45.715 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-24 21:22:45.717 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-11-24 21:22:45.740 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /
+2025-11-24 21:22:45.755 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /
+2025-11-24 21:22:46.675 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        g1_0.id,
+        g1_0.background_url,
+        g1_0.created_at,
+        g1_0.description,
+        g1_0.metacritic,
+        g1_0.name,
+        g1_0.rating,
+        g1_0.rawg_id,
+        g1_0.release_date,
+        g1_0.slug,
+        g1_0.updated_at,
+        g1_0.website,
+        g1_0.youtube_url 
+    from
+        game g1_0
+2025-11-24 21:22:48.029 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:22:48.138 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/main.css
+2025-11-24 21:22:48.138 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-24 21:22:48.141 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/main.css
+2025-11-24 21:22:48.141 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-24 21:22:48.162 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:22:48.523 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/GameScoreLogo.png
+2025-11-24 21:22:48.524 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/GameScoreLogo.png
+2025-11-24 21:22:48.534 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:22:49.950 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-11-24 21:22:49.952 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-11-24 21:22:50.023 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:22:50.028 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:22:50.053 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/main.css
+2025-11-24 21:22:50.053 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/Joystick.png
+2025-11-24 21:22:50.054 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/main.css
+2025-11-24 21:22:50.054 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/Joystick.png
+2025-11-24 21:22:50.060 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:22:50.062 [http-nio-8080-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:22:50.070 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-24 21:22:50.072 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-24 21:22:50.107 [http-nio-8080-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:22:52.145 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-24 21:22:52.146 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-24 21:22:54.647 [http-nio-8080-exec-9] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:22:55.744 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /registro
+2025-11-24 21:22:55.745 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /registro
+2025-11-24 21:22:55.787 [http-nio-8080-exec-10] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:22:55.820 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/main.css
+2025-11-24 21:22:55.821 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/main.css
+2025-11-24 21:22:55.824 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/Joystick.png
+2025-11-24 21:22:55.825 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/Joystick.png
+2025-11-24 21:22:55.825 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:22:55.833 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:22:55.833 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-24 21:22:55.834 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-24 21:22:55.869 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:23:45.507 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-11-24 21:23:45.512 [Thread-5] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-24 21:23:45.523 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-24 21:23:45.529 [Thread-5] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:23:45.532 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-11-24 21:23:45.592 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-11-24 21:23:45.697 [restartedMain] INFO  com.gamescore.back.BackApplication - Starting BackApplication using Java 25.0.1 with PID 8708 (C:\Users\davil\Documents\GameScore\back\target\classes started by davil in C:\Users\davil\Documents\GameScore\back)
+2025-11-24 21:23:45.697 [restartedMain] DEBUG com.gamescore.back.BackApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-24 21:23:45.698 [restartedMain] INFO  com.gamescore.back.BackApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-24 21:23:46.070 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-24 21:23:46.104 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 32 ms. Found 5 JPA repository interfaces.
+2025-11-24 21:23:46.244 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-24 21:23:46.245 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-24 21:23:46.246 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-24 21:23:46.272 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-24 21:23:46.272 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 569 ms
+2025-11-24 21:23:46.315 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-24 21:23:46.318 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-24 21:23:46.327 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-24 21:23:46.328 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2025-11-24 21:23:48.442 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@12717e30
+2025-11-24 21:23:48.443 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2025-11-24 21:23:48.642 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-24 21:23:48.643 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 9.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-24 21:23:48.775 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-24 21:23:49.192 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column provider enum ('DISCORD','GITHUB','GOOGLE','LOCAL') not null
+2025-11-24 21:23:49.595 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column role enum ('ADMIN','GUEST','USER') not null
+2025-11-24 21:23:55.214 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:23:55.550 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-11-24 21:23:55.612 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-11-24 21:23:55.613 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-11-24 21:23:55.637 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-11-24 21:23:55.690 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://root:tkLpBtTxRBVsqioSkUDlqnbgmFKxVtiE@crossover.proxy.rlwy.net:27029/railway'
+2025-11-24 21:23:55.722 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-24 21:23:55.736 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-11-24 21:23:55.742 [restartedMain] INFO  com.gamescore.back.BackApplication - Started BackApplication in 10.083 seconds (process running for 103.071)
+2025-11-24 21:23:55.745 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2025-11-24 21:24:30.858 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-24 21:24:30.869 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-24 21:24:30.872 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:24:30.872 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2025-11-24 21:24:30.876 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2025-11-24 21:31:45.693 [restartedMain] INFO  com.gamescore.back.BackApplication - Starting BackApplication using Java 25.0.1 with PID 18272 (C:\Users\davil\Documents\GameScore\back\target\classes started by davil in C:\Users\davil\Documents\GameScore\back)
+2025-11-24 21:31:45.696 [restartedMain] DEBUG com.gamescore.back.BackApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-24 21:31:45.697 [restartedMain] INFO  com.gamescore.back.BackApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-24 21:31:45.758 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-11-24 21:31:45.758 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-11-24 21:31:46.857 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-24 21:31:46.953 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 82 ms. Found 5 JPA repository interfaces.
+2025-11-24 21:31:47.895 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-24 21:31:47.916 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-24 21:31:47.917 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-24 21:31:47.974 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-24 21:31:47.975 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2216 ms
+2025-11-24 21:31:48.251 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-24 21:31:48.317 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.33.Final
+2025-11-24 21:31:48.368 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-24 21:31:48.769 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-24 21:31:48.808 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-24 21:31:51.492 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3e0c185a
+2025-11-24 21:31:51.495 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-24 21:31:51.943 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-24 21:31:51.964 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 9.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-24 21:31:52.988 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-24 21:31:53.833 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column provider enum ('DISCORD','GITHUB','GOOGLE','LOCAL') not null
+2025-11-24 21:31:54.248 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column role enum ('ADMIN','GUEST','USER') not null
+2025-11-24 21:32:01.736 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:32:02.158 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-24 21:32:04.015 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-11-24 21:32:04.243 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-11-24 21:32:04.244 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-11-24 21:32:04.390 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-11-24 21:32:05.052 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://root:tkLpBtTxRBVsqioSkUDlqnbgmFKxVtiE@crossover.proxy.rlwy.net:27029/railway'
+2025-11-24 21:32:05.156 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-24 21:32:05.196 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-11-24 21:32:05.212 [restartedMain] INFO  com.gamescore.back.BackApplication - Started BackApplication in 20.084 seconds (process running for 20.856)
+2025-11-24 21:32:21.214 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-24 21:32:21.215 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-24 21:32:21.217 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-11-24 21:32:21.242 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /
+2025-11-24 21:32:21.258 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /
+2025-11-24 21:32:23.647 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        g1_0.id,
+        g1_0.background_url,
+        g1_0.created_at,
+        g1_0.description,
+        g1_0.metacritic,
+        g1_0.name,
+        g1_0.rating,
+        g1_0.rawg_id,
+        g1_0.release_date,
+        g1_0.slug,
+        g1_0.updated_at,
+        g1_0.website,
+        g1_0.youtube_url 
+    from
+        game g1_0
+2025-11-24 21:32:25.027 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:32:25.079 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/main.css
+2025-11-24 21:32:25.079 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-24 21:32:25.082 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-24 21:32:25.081 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/main.css
+2025-11-24 21:32:25.101 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:32:27.466 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /juegos
+2025-11-24 21:32:27.467 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /juegos
+2025-11-24 21:32:27.531 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        g1_0.id,
+        g1_0.name,
+        g1_0.slug,
+        g1_0.rating,
+        g1_0.background_url 
+    from
+        game g1_0 
+    limit
+        ?
+2025-11-24 21:32:27.934 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        count(g1_0.id) 
+    from
+        game g1_0
+2025-11-24 21:32:28.150 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        g1_0.id,
+        g1_0.name,
+        g1_0.slug,
+        g1_0.rating,
+        g1_0.background_url,
+        g1_0.youtube_url 
+    from
+        game g1_0 
+    order by
+        4 desc 
+    limit
+        ?
+2025-11-24 21:32:28.355 [http-nio-8080-exec-5] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-5][games] Deprecated unwrapped fragment expression "layout :: head('Juegos')" found in template games, line 4, col 7. Please use the complete syntax of fragment expressions instead ("~{layout :: head('Juegos')}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-24 21:32:28.393 [http-nio-8080-exec-5] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-5][games] Deprecated unwrapped fragment expression "layout :: header" found in template games, line 9, col 10. Please use the complete syntax of fragment expressions instead ("~{layout :: header}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-24 21:32:28.432 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:32:28.454 [http-nio-8080-exec-5] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-5][games] Deprecated unwrapped fragment expression "layout :: footer" found in template games, line 57, col 10. Please use the complete syntax of fragment expressions instead ("~{layout :: footer}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-24 21:32:28.459 [http-nio-8080-exec-5] WARN  o.t.s.p.AbstractStandardFragmentInsertionTagProcessor - [THYMELEAF][http-nio-8080-exec-5][games] Deprecated unwrapped fragment expression "layout :: scripts" found in template games, line 59, col 10. Please use the complete syntax of fragment expressions instead ("~{layout :: scripts}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-11-24 21:32:28.465 [http-nio-8080-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:32:28.466 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/GameScoreLogo.png
+2025-11-24 21:32:28.466 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/custom-styles.css
+2025-11-24 21:32:28.468 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/custom-styles.css
+2025-11-24 21:32:28.469 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/GameScoreLogo.png
+2025-11-24 21:32:28.475 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:32:28.478 [http-nio-8080-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:32:30.559 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /perfil
+2025-11-24 21:32:30.560 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:32:30.582 [http-nio-8080-exec-8] DEBUG o.s.s.w.s.HttpSessionRequestCache - Saved request http://localhost:8080/perfil?continue to session
+2025-11-24 21:32:30.584 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Trying to match using And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@74549b22, matchingMediaTypes=[application/xhtml+xml, image/*, text/html, text/plain], useEquals=false, ignoredMediaTypes=[*/*]]]
+2025-11-24 21:32:30.585 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Match found! Executing org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint@1523a9ba
+2025-11-24 21:32:30.586 [http-nio-8080-exec-8] DEBUG o.s.s.web.DefaultRedirectStrategy - Redirecting to http://localhost:8080/login
+2025-11-24 21:32:30.595 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-11-24 21:32:30.596 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-11-24 21:32:30.613 [http-nio-8080-exec-9] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:32:30.635 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/main.css
+2025-11-24 21:32:30.636 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/main.css
+2025-11-24 21:32:30.639 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/Joystick.png
+2025-11-24 21:32:30.642 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/Joystick.png
+2025-11-24 21:32:30.643 [http-nio-8080-exec-10] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:32:30.644 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-24 21:32:30.647 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-24 21:32:30.653 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:32:32.628 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /oauth2/authorization/google
+2025-11-24 21:32:32.657 [http-nio-8080-exec-2] DEBUG o.s.s.web.DefaultRedirectStrategy - Redirecting to https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=932991391551-im7o767pmoq7cot9s27gqa3ddrirre88.apps.googleusercontent.com&scope=profile%20email&state=0uDI1T1325s1USFtfCK-BKkuY90rfjngpEn05n-Hu-I%3D&redirect_uri=http://localhost:8080/login/oauth2/code/google
+2025-11-24 21:32:34.316 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:32:37.646 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login/oauth2/code/google?state=0uDI1T1325s1USFtfCK-BKkuY90rfjngpEn05n-Hu-I%3D&code=4%2F0Ab32j93D2a6USjxmV8Yft7Ce1NlAxoI7q1U1-sfgOrcGHyFYTj_85GKr-8PNO4sxdLAaGw&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
+2025-11-24 21:32:42.062 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.avatar_url,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.enabled,
+        u1_0.last_login,
+        u1_0.login_count,
+        u1_0.name,
+        u1_0.password,
+        u1_0.provider,
+        u1_0.provider_id,
+        u1_0.reset_password_token,
+        u1_0.role,
+        u1_0.token_expiration_date,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-11-24 21:32:42.783 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.user_id,
+        f1_1.id,
+        f1_1.background_url,
+        f1_1.created_at,
+        f1_1.description,
+        f1_1.metacritic,
+        f1_1.name,
+        f1_1.rating,
+        f1_1.rawg_id,
+        f1_1.release_date,
+        f1_1.slug,
+        f1_1.updated_at,
+        f1_1.website,
+        f1_1.youtube_url 
+    from
+        user_favorites f1_0 
+    join
+        game f1_1 
+            on f1_1.id=f1_0.game_id 
+    where
+        f1_0.user_id=?
+2025-11-24 21:32:42.987 [http-nio-8080-exec-6] INFO  c.g.b.s.CustomOAuth2UserService - Usuario existente: davilitoorellana@gmail.com. No se sobrescribirá el nombre.
+2025-11-24 21:32:43.209 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.avatar_url,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.enabled,
+        f1_0.user_id,
+        f1_1.id,
+        f1_1.background_url,
+        f1_1.created_at,
+        f1_1.description,
+        f1_1.metacritic,
+        f1_1.name,
+        f1_1.rating,
+        f1_1.rawg_id,
+        f1_1.release_date,
+        f1_1.slug,
+        f1_1.updated_at,
+        f1_1.website,
+        f1_1.youtube_url,
+        u1_0.last_login,
+        u1_0.login_count,
+        u1_0.name,
+        u1_0.password,
+        u1_0.provider,
+        u1_0.provider_id,
+        u1_0.reset_password_token,
+        u1_0.role,
+        u1_0.token_expiration_date,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    left join
+        user_favorites f1_0 
+            on u1_0.id=f1_0.user_id 
+    left join
+        game f1_1 
+            on f1_1.id=f1_0.game_id 
+    where
+        u1_0.id=?
+2025-11-24 21:32:43.455 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    update
+        users 
+    set
+        last_login=?,
+        updated_at=? 
+    where
+        id=?
+2025-11-24 21:32:44.065 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.avatar_url,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.enabled,
+        u1_0.last_login,
+        u1_0.login_count,
+        u1_0.name,
+        u1_0.password,
+        u1_0.provider,
+        u1_0.provider_id,
+        u1_0.reset_password_token,
+        u1_0.role,
+        u1_0.token_expiration_date,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-11-24 21:32:44.265 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.user_id,
+        f1_1.id,
+        f1_1.background_url,
+        f1_1.created_at,
+        f1_1.description,
+        f1_1.metacritic,
+        f1_1.name,
+        f1_1.rating,
+        f1_1.rawg_id,
+        f1_1.release_date,
+        f1_1.slug,
+        f1_1.updated_at,
+        f1_1.website,
+        f1_1.youtube_url 
+    from
+        user_favorites f1_0 
+    join
+        game f1_1 
+            on f1_1.id=f1_0.game_id 
+    where
+        f1_0.user_id=?
+2025-11-24 21:32:44.664 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.avatar_url,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.enabled,
+        f1_0.user_id,
+        f1_1.id,
+        f1_1.background_url,
+        f1_1.created_at,
+        f1_1.description,
+        f1_1.metacritic,
+        f1_1.name,
+        f1_1.rating,
+        f1_1.rawg_id,
+        f1_1.release_date,
+        f1_1.slug,
+        f1_1.updated_at,
+        f1_1.website,
+        f1_1.youtube_url,
+        u1_0.last_login,
+        u1_0.login_count,
+        u1_0.name,
+        u1_0.password,
+        u1_0.provider,
+        u1_0.provider_id,
+        u1_0.reset_password_token,
+        u1_0.role,
+        u1_0.token_expiration_date,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    left join
+        user_favorites f1_0 
+            on u1_0.id=f1_0.user_id 
+    left join
+        game f1_1 
+            on f1_1.id=f1_0.game_id 
+    where
+        u1_0.id=?
+2025-11-24 21:32:44.987 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    update
+        users 
+    set
+        last_login=?,
+        login_count=?,
+        updated_at=? 
+    where
+        id=?
+2025-11-24 21:32:45.920 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.s.ChangeSessionIdAuthenticationStrategy - Changed session id from E43264C3697AC879B0A8E8B2B438B9FA
+2025-11-24 21:32:45.922 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.CsrfAuthenticationStrategy - Replaced CSRF Token
+2025-11-24 21:32:45.923 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Stored SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@5085d0e7, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=E43264C3697AC879B0A8E8B2B438B9FA], Granted Authorities=[ROLE_ADMIN]]] to HttpSession [org.apache.catalina.session.StandardSessionFacade@1bdd06e9]
+2025-11-24 21:32:45.923 [http-nio-8080-exec-6] DEBUG o.s.s.o.c.w.OAuth2LoginAuthenticationFilter - Set SecurityContextHolder to OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@5085d0e7, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=E43264C3697AC879B0A8E8B2B438B9FA], Granted Authorities=[ROLE_ADMIN]]
+2025-11-24 21:32:45.924 [http-nio-8080-exec-6] DEBUG o.s.s.web.DefaultRedirectStrategy - Redirecting to http://localhost:8080/perfil?continue
+2025-11-24 21:32:45.930 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /perfil?continue
+2025-11-24 21:32:45.931 [http-nio-8080-exec-7] DEBUG o.s.s.w.s.HttpSessionRequestCache - Loaded matching saved request http://localhost:8080/perfil?continue
+2025-11-24 21:32:45.933 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@5085d0e7, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=E43264C3697AC879B0A8E8B2B438B9FA], Granted Authorities=[ROLE_ADMIN]]]
+2025-11-24 21:32:45.934 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /perfil?continue
+2025-11-24 21:32:45.938 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.avatar_url,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.enabled,
+        u1_0.last_login,
+        u1_0.login_count,
+        u1_0.name,
+        u1_0.password,
+        u1_0.provider,
+        u1_0.provider_id,
+        u1_0.reset_password_token,
+        u1_0.role,
+        u1_0.token_expiration_date,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-11-24 21:32:46.146 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.user_id,
+        f1_1.id,
+        f1_1.background_url,
+        f1_1.created_at,
+        f1_1.description,
+        f1_1.metacritic,
+        f1_1.name,
+        f1_1.rating,
+        f1_1.rawg_id,
+        f1_1.release_date,
+        f1_1.slug,
+        f1_1.updated_at,
+        f1_1.website,
+        f1_1.youtube_url 
+    from
+        user_favorites f1_0 
+    join
+        game f1_1 
+            on f1_1.id=f1_0.game_id 
+    where
+        f1_0.user_id=?
+2025-11-24 21:32:46.481 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/custom-styles.css
+2025-11-24 21:32:46.483 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/custom-styles.css
+2025-11-24 21:32:46.487 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@5085d0e7, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=E43264C3697AC879B0A8E8B2B438B9FA], Granted Authorities=[ROLE_ADMIN]]]
+2025-11-24 21:32:46.490 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/GameScoreLogo.png
+2025-11-24 21:32:46.492 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/GameScoreLogo.png
+2025-11-24 21:32:46.502 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=com.gamescore.back.security.CustomOAuth2User@5085d0e7, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=E43264C3697AC879B0A8E8B2B438B9FA], Granted Authorities=[ROLE_ADMIN]]]
+2025-11-24 21:36:40.842 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-11-24 21:36:40.846 [Thread-5] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-24 21:36:40.857 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-24 21:36:40.863 [Thread-5] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:36:40.867 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-11-24 21:36:40.928 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-11-24 21:36:41.047 [restartedMain] INFO  com.gamescore.back.BackApplication - Starting BackApplication using Java 25.0.1 with PID 18272 (C:\Users\davil\Documents\GameScore\back\target\classes started by davil in C:\Users\davil\Documents\GameScore\back)
+2025-11-24 21:36:41.048 [restartedMain] DEBUG com.gamescore.back.BackApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-24 21:36:41.049 [restartedMain] INFO  com.gamescore.back.BackApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-24 21:36:41.483 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-24 21:36:41.520 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 34 ms. Found 5 JPA repository interfaces.
+2025-11-24 21:36:41.733 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-24 21:36:41.734 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-24 21:36:41.735 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-24 21:36:41.774 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-24 21:36:41.775 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 721 ms
+2025-11-24 21:36:41.798 [restartedMain] WARN  o.a.c.c.C.[Tomcat].[localhost].[/] - Cannot deserialize session attribute [SPRING_SECURITY_CONTEXT] for session [AA5350634BF05E11A8F5C9492FA62447]
+2025-11-24 21:36:41.843 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-24 21:36:41.847 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-24 21:36:41.861 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-24 21:36:41.862 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2025-11-24 21:36:43.872 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6c4b2598
+2025-11-24 21:36:43.873 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2025-11-24 21:36:44.073 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-24 21:36:44.074 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 9.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-24 21:36:44.194 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-24 21:36:44.612 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column provider enum ('DISCORD','GITHUB','GOOGLE','LOCAL') not null
+2025-11-24 21:36:45.034 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column role enum ('ADMIN','GUEST','USER') not null
+2025-11-24 21:36:50.667 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:36:50.963 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-11-24 21:36:51.034 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-11-24 21:36:51.035 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-11-24 21:36:51.069 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-11-24 21:36:51.128 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://root:tkLpBtTxRBVsqioSkUDlqnbgmFKxVtiE@crossover.proxy.rlwy.net:27029/railway'
+2025-11-24 21:36:51.159 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-24 21:36:51.171 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-11-24 21:36:51.173 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-24 21:36:51.174 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-24 21:36:51.174 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-11-24 21:36:51.176 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-11-24 21:36:51.176 [restartedMain] INFO  com.gamescore.back.BackApplication - Started BackApplication in 10.167 seconds (process running for 306.821)
+2025-11-24 21:36:51.177 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-11-24 21:36:51.179 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2025-11-24 21:36:51.199 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:36:51.202 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-24 21:36:51.203 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-24 21:36:51.211 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:36:51.240 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/Joystick.png
+2025-11-24 21:36:51.240 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/main.css
+2025-11-24 21:36:51.241 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/main.css
+2025-11-24 21:36:51.241 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/Joystick.png
+2025-11-24 21:36:51.246 [http-nio-8080-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:36:51.249 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:36:51.251 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-24 21:36:51.251 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-24 21:36:53.281 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /olvide-password
+2025-11-24 21:36:53.281 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /olvide-password
+2025-11-24 21:36:53.289 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:36:53.295 [http-nio-8080-exec-10] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:36:53.322 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/main.css
+2025-11-24 21:36:53.324 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/main.css
+2025-11-24 21:36:53.327 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/Joystick.png
+2025-11-24 21:36:53.328 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/Joystick.png
+2025-11-24 21:36:53.328 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:36:53.333 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-24 21:36:53.334 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:36:53.334 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-24 21:36:53.350 [http-nio-8080-exec-9] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:36:55.204 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-24 21:36:55.205 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-24 21:36:57.683 [http-nio-8080-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:37:06.753 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /olvide-password
+2025-11-24 21:37:06.756 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured POST /olvide-password
+2025-11-24 21:37:07.159 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.avatar_url,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.enabled,
+        u1_0.last_login,
+        u1_0.login_count,
+        u1_0.name,
+        u1_0.password,
+        u1_0.provider,
+        u1_0.provider_id,
+        u1_0.reset_password_token,
+        u1_0.role,
+        u1_0.token_expiration_date,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-11-24 21:37:07.361 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.user_id,
+        f1_1.id,
+        f1_1.background_url,
+        f1_1.created_at,
+        f1_1.description,
+        f1_1.metacritic,
+        f1_1.name,
+        f1_1.rating,
+        f1_1.rawg_id,
+        f1_1.release_date,
+        f1_1.slug,
+        f1_1.updated_at,
+        f1_1.website,
+        f1_1.youtube_url 
+    from
+        user_favorites f1_0 
+    join
+        game f1_1 
+            on f1_1.id=f1_0.game_id 
+    where
+        f1_0.user_id=?
+2025-11-24 21:37:07.857 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    update
+        users 
+    set
+        reset_password_token=?,
+        token_expiration_date=?,
+        updated_at=? 
+    where
+        id=?
+2025-11-24 21:37:08.456 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:37:08.491 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/main.css
+2025-11-24 21:37:08.492 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/main.css
+2025-11-24 21:37:08.496 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:37:08.496 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/Joystick.png
+2025-11-24 21:37:08.496 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/Joystick.png
+2025-11-24 21:37:08.501 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-24 21:37:08.501 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-24 21:37:08.503 [http-nio-8080-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:37:08.533 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:38:50.547 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-11-24 21:38:50.548 [Thread-7] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-24 21:38:50.557 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-24 21:38:50.561 [Thread-7] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:38:50.562 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2025-11-24 21:38:50.624 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2025-11-24 21:38:50.723 [restartedMain] INFO  com.gamescore.back.BackApplication - Starting BackApplication using Java 25.0.1 with PID 18272 (C:\Users\davil\Documents\GameScore\back\target\classes started by davil in C:\Users\davil\Documents\GameScore\back)
+2025-11-24 21:38:50.723 [restartedMain] DEBUG com.gamescore.back.BackApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-24 21:38:50.724 [restartedMain] INFO  com.gamescore.back.BackApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-24 21:38:51.038 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-24 21:38:51.083 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 42 ms. Found 5 JPA repository interfaces.
+2025-11-24 21:38:51.263 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-24 21:38:51.265 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-24 21:38:51.265 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-24 21:38:51.298 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-24 21:38:51.298 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 572 ms
+2025-11-24 21:38:51.360 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-24 21:38:51.364 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-24 21:38:51.375 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-24 21:38:51.377 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2025-11-24 21:38:53.505 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1018978
+2025-11-24 21:38:53.506 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2025-11-24 21:38:53.713 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-24 21:38:53.714 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 9.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-24 21:38:53.821 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-24 21:38:54.257 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column provider enum ('DISCORD','GITHUB','GOOGLE','LOCAL') not null
+2025-11-24 21:38:54.691 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column role enum ('ADMIN','GUEST','USER') not null
+2025-11-24 21:39:00.647 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:39:00.879 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-11-24 21:39:00.959 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-11-24 21:39:00.960 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-11-24 21:39:00.980 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-11-24 21:39:01.016 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://root:tkLpBtTxRBVsqioSkUDlqnbgmFKxVtiE@crossover.proxy.rlwy.net:27029/railway'
+2025-11-24 21:39:01.038 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-24 21:39:01.048 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-11-24 21:39:01.052 [restartedMain] INFO  com.gamescore.back.BackApplication - Started BackApplication in 10.358 seconds (process running for 436.697)
+2025-11-24 21:39:01.053 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2025-11-24 21:39:02.462 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 7 class path changes (0 additions, 0 deletions, 7 modifications)
+2025-11-24 21:39:02.463 [Thread-11] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-24 21:39:02.474 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-24 21:39:02.477 [Thread-11] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:39:02.477 [Thread-11] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2025-11-24 21:39:03.529 [Thread-11] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+2025-11-24 21:39:03.611 [restartedMain] INFO  com.gamescore.back.BackApplication - Starting BackApplication using Java 25.0.1 with PID 18272 (C:\Users\davil\Documents\GameScore\back\target\classes started by davil in C:\Users\davil\Documents\GameScore\back)
+2025-11-24 21:39:03.612 [restartedMain] DEBUG com.gamescore.back.BackApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-24 21:39:03.612 [restartedMain] INFO  com.gamescore.back.BackApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-24 21:39:03.845 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-24 21:39:03.878 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 31 ms. Found 5 JPA repository interfaces.
+2025-11-24 21:39:03.993 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-24 21:39:03.994 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-24 21:39:03.995 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-24 21:39:04.015 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-24 21:39:04.016 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 402 ms
+2025-11-24 21:39:04.047 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-24 21:39:04.050 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-24 21:39:04.058 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-24 21:39:04.059 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
+2025-11-24 21:39:06.043 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-4 - Added connection com.mysql.cj.jdbc.ConnectionImpl@cbfe05d
+2025-11-24 21:39:06.044 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
+2025-11-24 21:39:06.236 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-24 21:39:06.237 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-4)']
+	Database driver: undefined/unknown
+	Database version: 9.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-24 21:39:06.325 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-24 21:39:06.749 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column provider enum ('DISCORD','GITHUB','GOOGLE','LOCAL') not null
+2025-11-24 21:39:07.157 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column role enum ('ADMIN','GUEST','USER') not null
+2025-11-24 21:39:12.615 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:39:12.805 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-11-24 21:39:12.869 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-11-24 21:39:12.870 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-11-24 21:39:12.888 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-11-24 21:39:12.941 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://root:tkLpBtTxRBVsqioSkUDlqnbgmFKxVtiE@crossover.proxy.rlwy.net:27029/railway'
+2025-11-24 21:39:12.962 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-24 21:39:12.973 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-11-24 21:39:12.976 [restartedMain] INFO  com.gamescore.back.BackApplication - Started BackApplication in 9.388 seconds (process running for 448.62)
+2025-11-24 21:39:12.977 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2025-11-24 21:39:14.387 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-11-24 21:39:14.388 [Thread-15] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-24 21:39:14.396 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-24 21:39:14.400 [Thread-15] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:39:14.400 [Thread-15] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
+2025-11-24 21:39:14.735 [Thread-15] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.
+2025-11-24 21:39:14.818 [restartedMain] INFO  com.gamescore.back.BackApplication - Starting BackApplication using Java 25.0.1 with PID 18272 (C:\Users\davil\Documents\GameScore\back\target\classes started by davil in C:\Users\davil\Documents\GameScore\back)
+2025-11-24 21:39:14.819 [restartedMain] DEBUG com.gamescore.back.BackApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-24 21:39:14.819 [restartedMain] INFO  com.gamescore.back.BackApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-24 21:39:15.052 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-24 21:39:15.089 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 36 ms. Found 5 JPA repository interfaces.
+2025-11-24 21:39:15.265 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-24 21:39:15.267 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-24 21:39:15.268 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-24 21:39:15.300 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-24 21:39:15.300 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 479 ms
+2025-11-24 21:39:15.356 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-24 21:39:15.360 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-24 21:39:15.369 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-24 21:39:15.370 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Starting...
+2025-11-24 21:39:17.346 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-5 - Added connection com.mysql.cj.jdbc.ConnectionImpl@79f8a83a
+2025-11-24 21:39:17.346 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Start completed.
+2025-11-24 21:39:17.540 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-24 21:39:17.541 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-5)']
+	Database driver: undefined/unknown
+	Database version: 9.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-24 21:39:17.656 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-24 21:39:18.053 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column provider enum ('DISCORD','GITHUB','GOOGLE','LOCAL') not null
+2025-11-24 21:39:18.467 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column role enum ('ADMIN','GUEST','USER') not null
+2025-11-24 21:39:23.953 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:39:24.306 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-11-24 21:39:24.379 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-11-24 21:39:24.379 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-11-24 21:39:24.413 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-11-24 21:39:24.448 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://root:tkLpBtTxRBVsqioSkUDlqnbgmFKxVtiE@crossover.proxy.rlwy.net:27029/railway'
+2025-11-24 21:39:24.465 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-24 21:39:24.474 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-11-24 21:39:24.478 [restartedMain] INFO  com.gamescore.back.BackApplication - Started BackApplication in 9.683 seconds (process running for 460.123)
+2025-11-24 21:39:24.479 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2025-11-24 21:39:30.820 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-24 21:39:30.820 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-24 21:39:30.821 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-11-24 21:39:30.823 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /olvide-password
+2025-11-24 21:39:30.825 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured POST /olvide-password
+2025-11-24 21:39:31.213 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.avatar_url,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.enabled,
+        u1_0.last_login,
+        u1_0.login_count,
+        u1_0.name,
+        u1_0.password,
+        u1_0.provider,
+        u1_0.provider_id,
+        u1_0.reset_password_token,
+        u1_0.role,
+        u1_0.token_expiration_date,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-11-24 21:39:31.415 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.user_id,
+        f1_1.id,
+        f1_1.background_url,
+        f1_1.created_at,
+        f1_1.description,
+        f1_1.metacritic,
+        f1_1.name,
+        f1_1.rating,
+        f1_1.rawg_id,
+        f1_1.release_date,
+        f1_1.slug,
+        f1_1.updated_at,
+        f1_1.website,
+        f1_1.youtube_url 
+    from
+        user_favorites f1_0 
+    join
+        game f1_1 
+            on f1_1.id=f1_0.game_id 
+    where
+        f1_0.user_id=?
+2025-11-24 21:39:31.897 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    update
+        users 
+    set
+        reset_password_token=?,
+        token_expiration_date=?,
+        updated_at=? 
+    where
+        id=?
+2025-11-24 21:39:32.531 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:39:32.650 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/Joystick.png
+2025-11-24 21:39:32.650 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-24 21:39:32.650 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/main.css
+2025-11-24 21:39:32.651 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/main.css
+2025-11-24 21:39:32.651 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/Joystick.png
+2025-11-24 21:39:32.652 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-24 21:39:32.656 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:39:32.657 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:39:32.955 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/GameScoreLogo.png
+2025-11-24 21:39:32.956 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/GameScoreLogo.png
+2025-11-24 21:39:32.963 [http-nio-8080-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:39:36.200 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing POST /olvide-password
+2025-11-24 21:39:36.200 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured POST /olvide-password
+2025-11-24 21:39:36.585 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.avatar_url,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.enabled,
+        u1_0.last_login,
+        u1_0.login_count,
+        u1_0.name,
+        u1_0.password,
+        u1_0.provider,
+        u1_0.provider_id,
+        u1_0.reset_password_token,
+        u1_0.role,
+        u1_0.token_expiration_date,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-11-24 21:39:36.781 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.user_id,
+        f1_1.id,
+        f1_1.background_url,
+        f1_1.created_at,
+        f1_1.description,
+        f1_1.metacritic,
+        f1_1.name,
+        f1_1.rating,
+        f1_1.rawg_id,
+        f1_1.release_date,
+        f1_1.slug,
+        f1_1.updated_at,
+        f1_1.website,
+        f1_1.youtube_url 
+    from
+        user_favorites f1_0 
+    join
+        game f1_1 
+            on f1_1.id=f1_0.game_id 
+    where
+        f1_0.user_id=?
+2025-11-24 21:39:37.212 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    update
+        users 
+    set
+        reset_password_token=?,
+        token_expiration_date=?,
+        updated_at=? 
+    where
+        id=?
+2025-11-24 21:39:37.798 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:39:37.807 [http-nio-8080-exec-9] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:39:37.841 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/main.css
+2025-11-24 21:39:37.842 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/main.css
+2025-11-24 21:39:37.843 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/Joystick.png
+2025-11-24 21:39:37.844 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/Joystick.png
+2025-11-24 21:39:37.845 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-24 21:39:37.845 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-24 21:39:37.847 [http-nio-8080-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:39:37.851 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:39:37.869 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:40:06.556 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-24 21:40:06.556 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-24 21:40:06.565 [http-nio-8080-exec-10] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:40:29.044 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-11-24 21:40:29.047 [Thread-19] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-24 21:40:29.054 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-24 21:40:29.057 [Thread-19] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:40:29.057 [Thread-19] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
+2025-11-24 21:40:29.060 [Thread-19] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
+2025-11-24 21:40:29.149 [restartedMain] INFO  com.gamescore.back.BackApplication - Starting BackApplication using Java 25.0.1 with PID 18272 (C:\Users\davil\Documents\GameScore\back\target\classes started by davil in C:\Users\davil\Documents\GameScore\back)
+2025-11-24 21:40:29.150 [restartedMain] DEBUG com.gamescore.back.BackApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-24 21:40:29.150 [restartedMain] INFO  com.gamescore.back.BackApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-24 21:40:29.397 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-24 21:40:29.423 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 24 ms. Found 5 JPA repository interfaces.
+2025-11-24 21:40:29.518 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-24 21:40:29.519 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-24 21:40:29.519 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-24 21:40:29.538 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-24 21:40:29.539 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 386 ms
+2025-11-24 21:40:29.571 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-24 21:40:29.574 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-24 21:40:29.582 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-24 21:40:29.583 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Starting...
+2025-11-24 21:40:32.166 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-6 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7f0a9bd7
+2025-11-24 21:40:32.166 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Start completed.
+2025-11-24 21:40:32.420 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-24 21:40:32.421 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-6)']
+	Database driver: undefined/unknown
+	Database version: 9.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-24 21:40:32.551 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-24 21:40:33.087 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column provider enum ('DISCORD','GITHUB','GOOGLE','LOCAL') not null
+2025-11-24 21:40:33.618 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column role enum ('ADMIN','GUEST','USER') not null
+2025-11-24 21:40:40.989 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:40:41.228 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-11-24 21:40:41.289 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-11-24 21:40:41.290 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-11-24 21:40:41.315 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-11-24 21:40:41.375 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://root:tkLpBtTxRBVsqioSkUDlqnbgmFKxVtiE@crossover.proxy.rlwy.net:27029/railway'
+2025-11-24 21:40:41.399 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-24 21:40:41.411 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-11-24 21:40:41.416 [restartedMain] INFO  com.gamescore.back.BackApplication - Started BackApplication in 12.293 seconds (process running for 537.061)
+2025-11-24 21:40:41.417 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2025-11-24 21:40:41.590 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-24 21:40:41.590 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-24 21:40:41.591 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-11-24 21:40:41.592 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /olvide-password
+2025-11-24 21:40:41.593 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured POST /olvide-password
+2025-11-24 21:40:41.846 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.avatar_url,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.enabled,
+        u1_0.last_login,
+        u1_0.login_count,
+        u1_0.name,
+        u1_0.password,
+        u1_0.provider,
+        u1_0.provider_id,
+        u1_0.reset_password_token,
+        u1_0.role,
+        u1_0.token_expiration_date,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-11-24 21:40:42.110 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.user_id,
+        f1_1.id,
+        f1_1.background_url,
+        f1_1.created_at,
+        f1_1.description,
+        f1_1.metacritic,
+        f1_1.name,
+        f1_1.rating,
+        f1_1.rawg_id,
+        f1_1.release_date,
+        f1_1.slug,
+        f1_1.updated_at,
+        f1_1.website,
+        f1_1.youtube_url 
+    from
+        user_favorites f1_0 
+    join
+        game f1_1 
+            on f1_1.id=f1_0.game_id 
+    where
+        f1_0.user_id=?
+2025-11-24 21:40:42.618 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    update
+        users 
+    set
+        reset_password_token=?,
+        token_expiration_date=?,
+        updated_at=? 
+    where
+        id=?
+2025-11-24 21:40:43.414 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:40:43.588 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /css/main.css
+2025-11-24 21:40:43.589 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/Joystick.png
+2025-11-24 21:40:43.589 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /css/main.css
+2025-11-24 21:40:43.590 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/Joystick.png
+2025-11-24 21:40:43.592 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:40:43.593 [http-nio-8080-exec-9] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:40:43.599 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /videos/retrowave.mp4
+2025-11-24 21:40:43.601 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /videos/retrowave.mp4
+2025-11-24 21:40:43.742 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /images/GameScoreLogo.png
+2025-11-24 21:40:43.744 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /images/GameScoreLogo.png
+2025-11-24 21:40:43.751 [http-nio-8080-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:41:16.803 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-11-24 21:41:17.566 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-11-24 21:41:17.567 [Thread-23] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-24 21:41:17.577 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-24 21:41:17.580 [Thread-23] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:41:17.580 [Thread-23] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown initiated...
+2025-11-24 21:41:17.585 [Thread-23] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown completed.
+2025-11-24 21:41:17.683 [restartedMain] INFO  com.gamescore.back.BackApplication - Starting BackApplication using Java 25.0.1 with PID 18272 (C:\Users\davil\Documents\GameScore\back\target\classes started by davil in C:\Users\davil\Documents\GameScore\back)
+2025-11-24 21:41:17.684 [restartedMain] DEBUG com.gamescore.back.BackApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-24 21:41:17.684 [restartedMain] INFO  com.gamescore.back.BackApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-24 21:41:17.986 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-24 21:41:18.017 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 29 ms. Found 5 JPA repository interfaces.
+2025-11-24 21:41:18.135 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-24 21:41:18.136 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-24 21:41:18.136 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-24 21:41:18.155 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-24 21:41:18.155 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 469 ms
+2025-11-24 21:41:18.189 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-24 21:41:18.191 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-24 21:41:18.202 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-24 21:41:18.203 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Starting...
+2025-11-24 21:41:20.180 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-7 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5ff6de98
+2025-11-24 21:41:20.180 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Start completed.
+2025-11-24 21:41:20.380 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-24 21:41:20.381 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-7)']
+	Database driver: undefined/unknown
+	Database version: 9.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-24 21:41:20.480 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-24 21:41:20.896 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column provider enum ('DISCORD','GITHUB','GOOGLE','LOCAL') not null
+2025-11-24 21:41:21.310 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table users 
+       modify column role enum ('ADMIN','GUEST','USER') not null
+2025-11-24 21:41:26.885 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:41:27.080 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-11-24 21:41:27.126 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-11-24 21:41:27.126 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-11-24 21:41:27.151 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-11-24 21:41:27.209 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://root:tkLpBtTxRBVsqioSkUDlqnbgmFKxVtiE@crossover.proxy.rlwy.net:27029/railway'
+2025-11-24 21:41:27.230 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-24 21:41:27.244 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-11-24 21:41:27.248 [restartedMain] INFO  com.gamescore.back.BackApplication - Started BackApplication in 9.596 seconds (process running for 582.893)
+2025-11-24 21:41:27.250 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2025-11-24 21:41:38.847 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-11-24 21:41:38.848 [Thread-27] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-24 21:41:38.856 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-24 21:41:38.857 [Thread-27] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-24 21:41:38.858 [Thread-27] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown initiated...
+2025-11-24 21:41:38.931 [Thread-27] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown completed.
