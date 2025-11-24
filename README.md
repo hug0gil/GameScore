@@ -1,2 +1,1 @@
 # GameScore
-Que pasa colegui
