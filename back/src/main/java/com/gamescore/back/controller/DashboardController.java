@@ -89,15 +89,14 @@ public class DashboardController {
         return "admin/users";
     }
 
-    @PostMapping("usuarios/eliminar")
-    public String eliminarUsuario(@RequestParam("id") Long id) {
+    @PostMapping("usuarios/eliminar/{id}")
+    public String deleteUser(@PathVariable Long id) {
         try {
             userService.delete(id); // Llama a tu servicio para borrar
         } catch (Exception e) {
             // Manejo de errores opcional
             e.printStackTrace();
         }
-        // Redirige de nuevo a la lista de usuarios para ver los cambios
         return "redirect:/admin/usuarios";
     }
 

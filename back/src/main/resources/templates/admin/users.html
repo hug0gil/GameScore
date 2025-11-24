@@ -21,8 +21,8 @@
             <form th:action="@{/admin/usuarios}" method="get" class="mb-4">
                 <div class="input-group auth-box p-0">
                     <span class="input-group-text"><i class="bi bi-search"></i></span>
-                    <input type="text" name="keyword" class="form-control"
-                        placeholder="Buscar por nombre o email" th:value="${keyword}">
+                    <input type="text" name="keyword" class="form-control" placeholder="Buscar por nombre o email"
+                        th:value="${keyword}">
                 </div>
             </form>
 
@@ -48,12 +48,11 @@
                                     usuario
                                 </span>
                             </td>
-                            <td th:text="${#temporals.format(user.createdAt, 'dd/MM/yyyy HH:mm')}">xx/xx/xxxx
-                            </td>
+                            <td th:text="${#temporals.format(user.createdAt, 'dd/MM/yyyy HH:mm')}">xx/xx/xxxx</td>
                             <td class="text-center">
                                 <button type="button" class="btn action-icon text-danger p-0 border-0 bg-transparent"
                                     data-bs-toggle="modal" data-bs-target="#deleteUserModal"
-                                    th:attr="data-user-id=${user.id}, data-user-name=${user.name}">
+                                    th:data-user-id="${user.id}" th:data-user-name="${user.name}">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
@@ -89,7 +88,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal Eliminar -->
     <div class="modal fade" id="deleteUserModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -98,16 +97,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="fs-5">¿Estás seguro de que quieres eliminar al usuario <strong
-                            id="usernameToDelete"></strong>?</p>
-                    <p class="text-danger fw-bold"><i class="bi bi-exclamation-triangle-fill"></i> ¡Esta acción es
-                        irreversible!</p>
+                    <p class="fs-5">¿Estás seguro de que quieres eliminar al usuario <strong id="usernameToDelete"></strong>?</p>
+                    <p class="text-danger fw-bold">
+                        <i class="bi bi-exclamation-triangle-fill"></i> ¡Esta acción es irreversible!
+                    </p>
                 </div>
                 <div class="modal-footer">
-                    <form th:action="@{/admin/usuarios/eliminar}" method="post">
-                        <input type="hidden" name="id" id="userIdToDelete">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-danger mt-3">Sí, eliminar usuario</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form id="deleteForm" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Sí, eliminar usuario</button>
                     </form>
                 </div>
             </div>
@@ -116,6 +114,18 @@
 
     <div th:replace="layout :: footer"></div>
     <div th:replace="layout :: scripts"></div>
+
+    <!-- Script para el modal de eliminar -->
+    <script>
+        document.getElementById('deleteUserModal').addEventListener('show.bs.modal', function(event) {
+            var button = event.relatedTarget;
+            var userId = button.getAttribute('data-user-id');
+            var userName = button.getAttribute('data-user-name');
+            
+            document.getElementById('usernameToDelete').textContent = userName;
+            document.getElementById('deleteForm').action = '/admin/usuarios/eliminar/' + userId;
+        });
+    </script>
 
 </body>
 
