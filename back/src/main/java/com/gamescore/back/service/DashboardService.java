@@ -1,7 +1,7 @@
 package com.gamescore.back.service;
 
-import com.gamescore.back.dto.ChartDataDto;
-import com.gamescore.back.dto.DashboardStatsDto;
+import com.gamescore.back.model.DTOs.ChartDataDto;
+import com.gamescore.back.model.DTOs.DashboardStatsDto;
 import com.gamescore.back.repository.GameRepository;
 import com.gamescore.back.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

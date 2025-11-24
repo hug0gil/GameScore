@@ -1,4 +1,4 @@
-package com.gamescore.back.dto;
+package com.gamescore.back.model.DTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -6,16 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameScore - Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tu CSS principal que ya incluye los nuevos estilos -->
     <link rel="stylesheet" th:href="@{/css/main.css}">
     <link rel="icon" th:href="@{/images/GameScoreLogo.png}" type="image/png">
 </head>
 
-<!-- Clase login-page obligatoria -->
-
 <body class="login-page">
 
     <div class="login-container">
-        <!-- Video -->
+        <!-- Video de fondo -->
         <div class="video-wrapper">
             <video th:src="@{/videos/retrowave.mp4}" autoplay muted loop playsinline></video>
         </div>
@@ -23,11 +22,10 @@
         <!-- Overlay -->
         <div class="video-overlay"></div>
 
-        <!-- Mensaje de logout -->
+        <!-- Mensaje de logout (Posicionado absoluto arriba por CSS) -->
         <div th:if="${logoutMsg}" class="alert logout-msg">
             <span th:text="${logoutMsg}"></span>
         </div>
-
 
         <!-- Tarjeta Central -->
         <div class="login-card">
@@ -38,12 +36,43 @@
                 <h1>GAME SCORE</h1>
             </div>
 
-            <p class="insert-coin">INSERT COIN TO START</p>
+            <!-- Mensaje de Error de Login (Si falla usuario/contraseña) -->
+            <div th:if="${param.error}" class="alert alert-danger">
+                <i class="fas fa-skull"></i> Usuario o contraseña incorrectos. Game Over.
+            </div>
 
-            <div class="divider"></div>
+            <p class="insert-coin">INSERT COIN OR LOGIN</p>
 
+            <!-- FORMULARIO DE LOGIN LOCAL -->
+            <form th:action="@{/login}" method="post">
+                
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="username" class="form-control-retro" placeholder="Usuario" required autofocus>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" class="form-control-retro" placeholder="Contraseña" required>
+                </div>
+
+                <button type="submit" class="btn-login local">
+                    <i class="fas fa-gamepad"></i> START GAME
+                </button>
+            </form>
+
+            <!-- ENLACE AL REGISTRO -->
+            <div class="register-link">
+                <p>¿No tienes cuenta? <a th:href="@{/registro}">Regístrate aquí</a></p>
+            </div>
+
+            <!-- SEPARADOR -->
+            <div class="divider-text">
+                <span>o conecta con</span>
+            </div>
+
+            <!-- LOGIN SOCIAL -->
             <div class="actions">
-                <!-- Botones con clases de marca -->
                 <a class="btn-login google" href="/oauth2/authorization/google">
                     <i class="fab fa-google"></i> <span>Google</span>
                 </a>

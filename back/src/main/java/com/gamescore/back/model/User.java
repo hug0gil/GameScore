@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "users") // Buena práctica especificar nombre de tabla
+@Table(name = "users")
 @Data
 @DynamicUpdate
 @NoArgsConstructor
@@ -32,29 +32,32 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100) // Explicito length
     private String name;
 
-    // CAMBIO CLAVE: Campo Password añadido para usuarios locales
-    // No es nullable=false porque los usuarios OAuth no tienen password
+    // Agregamos length para el hash del password (BCrypt suele ser 60 chars)
+    @Column(length = 255) 
     private String password;
 
+    @Column(length = 500)
     private String avatarUrl;
 
+    // SOLUCIÓN AL ERROR: Especificar length = 20
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20) 
     private AuthProvider provider;
 
+    @Column(length = 100)
     private String providerId;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     @Builder.Default
     private Role role = Role.USER;
 
     @Column(nullable = false)
     @Builder.Default
-    private Boolean enabled = true; // Ojo: En registro manual se debe setear a false explícitamente
+    private Boolean enabled = true;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -65,54 +68,32 @@ public class User {
 
     private LocalDateTime lastLogin;
 
-    /**
-     * Calcula el Nivel basado en la antigüedad.
-     * Nivel 1 = Recién llegado.
-     * Sube 1 nivel cada 30 días.
-     */
-    public int getLevel() {
-        if (this.createdAt == null)
-            return 1;
-
-        long daysActive = ChronoUnit.DAYS.between(this.createdAt, LocalDateTime.now());
-        // Dividimos los días entre 30 y sumamos 1 (para empezar en Nivel 1)
-        return (int) (daysActive / 30) + 1;
-    }
-
-    /**
-     * Calcula el porcentaje de la barra de experiencia (0% a 100%).
-     * Representa cuánto falta para cumplir el siguiente ciclo de 30 días.
-     */
-    public int getXpPercent() {
-        if (this.createdAt == null)
-            return 0;
-
-        long daysActive = ChronoUnit.DAYS.between(this.createdAt, LocalDateTime.now());
-
-        // El operador módulo (%) nos da los días sobrantes del ciclo actual
-        long daysIntoLevel = daysActive % 30;
-
-        // Convertimos a porcentaje (sobre 30 días)
-        return (int) ((daysIntoLevel / 30.0) * 100);
-    }
-
-    // 1. Contador de Logins
     @Column(nullable = false)
     @Builder.Default
     private Integer loginCount = 0;
 
-    // 2. Relación con Juegos Favoritos (Asumiendo que tienes una entidad Game)
+    // ... (El resto de métodos getLevel, getXpPercent y relaciones se mantienen igual)
+    
+    public int getLevel() {
+        if (this.createdAt == null) return 1;
+        long daysActive = ChronoUnit.DAYS.between(this.createdAt, LocalDateTime.now());
+        return (int) (daysActive / 30) + 1;
+    }
+
+    public int getXpPercent() {
+        if (this.createdAt == null) return 0;
+        long daysActive = ChronoUnit.DAYS.between(this.createdAt, LocalDateTime.now());
+        long daysIntoLevel = daysActive % 30;
+        return (int) ((daysIntoLevel / 30.0) * 100);
+    }
+    
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_favorites", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "game_id"))
     @Builder.Default
     private Set<Game> favorites = new HashSet<>();
 
-    // Helper para añadir favoritos fácilmente
-    public void addFavorite(Game game) {
-        this.favorites.add(game);
-    }
+    public void addFavorite(Game game) { this.favorites.add(game); }
 
-    // 3. Relación con Reviews escritas por el usuario
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @Builder.Default
     private List<Review> reviews = new ArrayList<>();

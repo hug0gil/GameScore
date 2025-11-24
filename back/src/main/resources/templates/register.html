@@ -1,62 +1,97 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout :: head('Registro')"></head>
-<body>
 
-<div th:replace="layout :: header"></div>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GameScore - Nuevo Jugador</title>
+    
+    <!-- CORREGIDO: Etiquetas link cerradas con /> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="icon" th:href="@{/images/GameScoreLogo.png}" type="image/png" />
+</head>
 
-<main class="main-content-dark">
-    <div class="container py-5">
-        
-        <!-- Título Principal -->
-        <h1 class="text-center text-white mb-4">Registrarte en GameScore</h1>
+<body class="login-page">
 
-        <div class="auth-box">
-            <form th:action="@{/registro}" th:object="${userRegistrationDto}" method="post">
-
-                <!-- Mensajes globales -->
-                <div th:if="${param.success}" class="alert alert-success">
-                    ¡Registro completado! Ya puedes iniciar sesión.
-                </div>
-                <div th:if="${param.error}" class="alert alert-danger" th:text="${param.error[0]}">Hubo un error en el registro.</div>
-
-                <!-- Campo: username -->
-                <div class="input-group mb-3">
-                    <span class="input-group-text"><i class="bi bi-person"></i></span>
-                    <input type="text" class="form-control" placeholder="nombre de usuario" th:field="*{username}" required>
-                </div>
-                <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="validation-error mb-2"></div>
-
-                <!-- Campo: email -->
-                <div class="input-group mb-3">
-                    <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
-                    <input type="email" class="form-control" placeholder="email" th:field="*{email}" required>
-                </div>
-                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="validation-error mb-2"></div>
-
-                <!-- Campo: password -->
-                <div class="input-group mb-4">
-                    <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                    <input type="password" class="form-control" placeholder="contraseña" th:field="*{password}" required>
-                </div>
-                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="validation-error mb-2"></div>
-
-                <!-- Botón de registro -->
-                <button type="submit" class="btn btn-alt w-100 btn-lg mb-4">Registrarte</button>
-
-                <!-- Enlace para login -->
-                <p class="text-center text-white-50 auth-link">
-                    ¿Ya tienes una cuenta? <a th:href="@{/login}">Iniciar Sesión aquí</a>
-                </p>
-
-            </form>
+    <div class="login-container">
+        <!-- Video de fondo -->
+        <div class="video-wrapper">
+            <video th:src="@{/videos/retrowave.mp4}" autoplay muted loop playsinline></video>
         </div>
 
-    </div>
-</main>
+        <!-- Overlay -->
+        <div class="video-overlay"></div>
 
-<div th:replace="layout :: footer"></div>
-<div th:replace="layout :: scripts"></div>
+        <!-- Tarjeta Central -->
+        <div class="login-card">
+            <div class="card-header">
+                <a th:href="@{/}">
+                    <img th:src="@{/images/Joystick.png}" alt="Joystick" />
+                </a>
+                <h1>NEW PLAYER</h1>
+            </div>
+
+            <!-- Mensaje de Error General -->
+            <div th:if="${errorMessage}" class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle"></i> <span th:text="${errorMessage}">Error</span>
+            </div>
+
+            <p class="insert-coin">ENTER YOUR DETAILS</p>
+
+            <!-- FORMULARIO DE REGISTRO -->
+            <form th:action="@{/registro}" th:object="${user}" method="post">
+                
+                <!-- Campo: Nombre (Display Name) -->
+                <div class="input-group">
+                    <i class="fas fa-id-card"></i>
+                    <!-- CORREGIDO: Input cerrado con /> -->
+                    <input type="text" th:field="*{name}" class="form-control-retro" placeholder="Tu Nombre (Ej. Alex)" required autofocus />
+                </div>
+                <div class="text-danger mb-3" style="color: #ff6b6b; font-size: 0.8rem; text-align: left;" 
+                     th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+
+                <!-- Campo: Email (Login ID) -->
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <!-- CORREGIDO: Input cerrado con /> -->
+                    <input type="email" th:field="*{email}" class="form-control-retro" placeholder="Correo Electrónico" required />
+                </div>
+                <div class="text-danger mb-3" style="color: #ff6b6b; font-size: 0.8rem; text-align: left;" 
+                     th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
+
+                <!-- Campo: Password -->
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <!-- CORREGIDO: Input cerrado con /> -->
+                    <input type="password" th:field="*{password}" class="form-control-retro" placeholder="Contraseña" required />
+                </div>
+                <div class="text-danger mb-3" style="color: #ff6b6b; font-size: 0.8rem; text-align: left;" 
+                     th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+
+
+                <!-- Botón Submit -->
+                <button type="submit" class="btn-login local">
+                    <i class="fas fa-rocket"></i> REGISTER
+                </button>
+            </form>
+
+            <!-- Separador -->
+            <div class="divider"></div>
+
+            <!-- Volver al Login -->
+            <div class="register-link">
+                <p>¿Ya tienes cuenta?</p>
+                <a th:href="@{/login}">
+                    <i class="fas fa-undo"></i> VOLVER AL LOGIN
+                </a>
+            </div>
+
+        </div>
+    </div>
 
 </body>
+
 </html>

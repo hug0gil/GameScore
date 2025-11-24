@@ -6,15 +6,19 @@ import com.gamescore.back.model.enums.Role;
 import com.gamescore.back.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,126 +27,131 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-
-    // Inyecciones específicas para la funcionalidad de registro (Del Código 1)
-    @Autowired
-    private EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @Value("${app.base.url}")
     private String baseUrl;
 
     // ========================================================================
-    // CRUD BÁSICO
+    // SPRING SECURITY (Login Híbrido: Email o Username)
     // ========================================================================
 
     /**
-     * Obtiene todos los usuarios con paginación
+     * Permite el login usando Email O Username.
+     * Spring Security llama a este método con lo que el usuario escriba en el login.
      */
-    public Page<User> findAll(Pageable pageable) {
-        log.debug("Obteniendo todos los usuarios - Página: {}", pageable.getPageNumber());
-        return userRepository.findAll(pageable);
+    @Override
+    public UserDetails loadUserByUsername(String loginInput) throws UsernameNotFoundException {
+        // Buscamos por Email O por Nombre (Username)
+        User user = findByEmailOrUsername(loginInput)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con email o username: " + loginInput));
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(), // Spring usa esto como identificador principal en la sesión
+                user.getPassword() != null ? user.getPassword() : "",
+                user.getEnabled(),
+                true,
+                true,
+                true,
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
+        );
+    }
+
+    // ========================================================================
+    // REGISTRO LOCAL
+    // ========================================================================
+
+    @Transactional
+    public User registerUser(User user) {
+        log.info("Registrando nuevo usuario local: {}", user.getEmail());
+
+        // 1. Validación estricta: Ni el email ni el username pueden estar repetidos
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("El correo electrónico ya está registrado.");
+        }
+        
+        // Validamos el Username (campo name) si viene informado
+        if (user.getName() != null && !user.getName().isEmpty()) {
+            // Asumiendo que tienes existsByName en tu repositorio
+            if (userRepository.findByName(user.getName()).isPresent()) { 
+                throw new IllegalArgumentException("El nombre de usuario (username) ya está en uso.");
+            }
+        } else {
+            // Si no puso nombre, generamos uno por defecto desde el email
+            user.setName(user.getEmail().split("@")[0]);
+        }
+
+        // 2. Configuración
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.USER);
+        user.setProvider(AuthProvider.LOCAL);
+        user.setEnabled(true);
+
+        User savedUser = userRepository.save(user);
+
+        // 3. Email
+        sendConfirmationEmail(savedUser.getEmail(), savedUser.getName());
+
+        return savedUser;
+    }
+
+    // ========================================================================
+    // MÉTODOS DE BÚSQUEDA (Recuperados y Mejorados)
+    // ========================================================================
+
+    /**
+     * Método auxiliar clave para el Login Híbrido.
+     * Intenta encontrar usuario por Email, si no, busca por Username (Name).
+     */
+    public Optional<User> findByEmailOrUsername(String value) {
+        // 1. Intento directo por email
+        Optional<User> byEmail = userRepository.findByEmail(value);
+        if (byEmail.isPresent()) {
+            return byEmail;
+        }
+        // 2. Si falla, intento por username (campo name)
+        return userRepository.findByName(value);
     }
 
     /**
-     * Busca usuario por ID
-     */
-    public Optional<User> findById(Long id) {
-        log.debug("Buscando usuario con ID: {}", id);
-        return userRepository.findById(id);
-    }
-
-    /**
-     * Busca un usuario por su email. Lanza una excepción si no se encuentra.
-     * Esencial para obtener los datos del usuario logueado.
-     */
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con el email: " + email));
-    }
-
-    /**
-     * Busca un usuario por su nombre de usuario (email).
-     * Método wrapper útil para integración con Spring Security o validaciones.
-     * (Funcionalidad extraída del Código 2)
+     * Recuperado explícitamente por si necesitas buscar SOLO por username
      */
     public Optional<User> findByUsername(String username) {
-        log.debug("Buscando usuario por username/email: {}", username);
-        return userRepository.findByEmail(username);
+        return userRepository.findByName(username);
     }
 
-    /**
-     * Crea o actualiza un usuario
-     */
-    public User save(User user) {
-        log.info("Guardando usuario: {}", user.getEmail());
-        return userRepository.save(user);
-    }
-
-    /**
-     * Elimina un usuario
-     */
-    public void delete(Long id) {
-        log.warn("Eliminando usuario con ID: {}", id);
-        userRepository.deleteById(id);
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + email));
     }
 
     // ========================================================================
-    // LÓGICA DE NEGOCIO
+    // OAUTH2 (Sin cambios mayores, pero usando name correctamente)
     // ========================================================================
 
-    /**
-     * Busca o crea usuario desde OAuth2
-     */
     @Transactional
-    public User findOrCreateOAuth2User(
-            String email,
-            String name,
-            String avatarUrl,
-            AuthProvider provider,
-            String providerId) {
-        log.info("Buscando o creando usuario OAuth2: {}", email);
-
-        Optional<User> existingUserByProvider = userRepository.findByProviderAndProviderId(provider, providerId);
-
-        if (existingUserByProvider.isPresent()) {
-            User user = existingUserByProvider.get();
-            log.debug("Usuario existente encontrado por proveedor: {}. Actualizando...", email);
-
-            user.setName(name);
-            user.setAvatarUrl(avatarUrl);
-            user.setLastLogin(LocalDateTime.now());
-
-            if (user.getRole() == null) {
-                log.warn("Usuario {} encontrado con rol nulo. Asignando rol USER por defecto.", user.getEmail());
-                user.setRole(Role.USER);
-            }
-
-            return userRepository.save(user);
+    public User findOrCreateOAuth2User(String email, String name, String avatarUrl, AuthProvider provider, String providerId) {
+        Optional<User> existingUser = userRepository.findByProviderAndProviderId(provider, providerId);
+        if (existingUser.isPresent()) {
+            return updateUserLoginStats(existingUser.get(), name, avatarUrl);
         }
 
         Optional<User> userByEmail = userRepository.findByEmail(email);
         if (userByEmail.isPresent()) {
             User user = userByEmail.get();
-            log.warn("Usuario encontrado por email con otro proveedor. Actualizando proveedor a {}", provider);
-
             user.setProvider(provider);
             user.setProviderId(providerId);
-            user.setName(name);
-            user.setAvatarUrl(avatarUrl);
-            user.setLastLogin(LocalDateTime.now());
-
-            if (user.getRole() == null) {
-                log.warn("Usuario {} encontrado con rol nulo. Asignando rol USER por defecto.", user.getEmail());
-                user.setRole(Role.USER);
-            }
-
-            return userRepository.save(user);
+            return updateUserLoginStats(user, name, avatarUrl);
         }
+        
+        // NOTA: En OAuth2 el nombre puede venir repetido. 
+        // Si tu base de datos tiene restricción UNIQUE en 'name', aquí deberías 
+        // agregar lógica para añadir un sufijo aleatorio si el nombre ya existe.
 
-        log.info("Nuevo usuario no encontrado por proveedor ni email. Creando: {}", email);
         User newUser = User.builder()
                 .email(email)
                 .name(name)
@@ -157,168 +166,97 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
-    /**
-     * Actualiza el último login del usuario
-     */
-    public void updateLastLogin(User user) {
+    private User updateUserLoginStats(User user, String name, String avatarUrl) {
+        // Opcional: Puedes decidir NO sobrescribir el nombre si el usuario ya lo cambió localmente
+        // user.setName(name); 
+        user.setAvatarUrl(avatarUrl);
         user.setLastLogin(LocalDateTime.now());
-        userRepository.save(user);
-        log.debug("Último login actualizado para: {}", user.getEmail());
+        return userRepository.save(user);
     }
 
-    /**
-     * Cambia el rol de un usuario
-     */
+    // ========================================================================
+    // CRUD & ADMIN (Igual que antes)
+    // ========================================================================
+
+    public Page<User> findAll(Pageable pageable) { return userRepository.findAll(pageable); }
+    public List<User> findAll() { return userRepository.findAll(); }
+    public Optional<User> findById(Long id) { return userRepository.findById(id); }
+    
+    public User save(User user) { return userRepository.save(user); }
+    
+    public void delete(Long id) { userRepository.deleteById(id); }
+
     public User changeRole(Long userId, Role newRole) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        Role oldRole = user.getRole();
+        User user = findById(userId).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         user.setRole(newRole);
-
-        log.warn("Rol cambiado para {}: {} → {}", user.getEmail(), oldRole, newRole);
         return userRepository.save(user);
     }
 
-    /**
-     * Activa o desactiva un usuario
-     */
     public User toggleEnabled(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
+        User user = findById(userId).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         user.setEnabled(!user.getEnabled());
-
-        log.warn("Usuario {} {}",
-                user.getEmail(),
-                user.getEnabled() ? "activado" : "desactivado");
-
         return userRepository.save(user);
-    }
-
-    /**
-     * Registra un usuario y envía correo de confirmación.
-     * (Funcionalidad extraída del Código 1)
-     */
-    public void registerUser(String email, String name) {
-        // 1. Lógica para guardar usuario en DB...
-
-        // 2. Generar token
-        String token = UUID.randomUUID().toString();
-        // TODO: Guardar token en DB asociado al usuario (TokenRepository)
-
-        // 3. Construir link y HTML
-        String confirmLink = baseUrl + "/api/auth/confirm?token=" + token;
-
-        String html = "<h1>¡Hola " + name + "!</h1>"
-                + "<p>Bienvenido. Confirma tu cuenta aquí:</p>"
-                + "<a href='" + confirmLink + "'>Confirmar Cuenta</a>";
-
-        // 4. Enviar
-        try {
-            emailService.sendEmail(email, name, "Bienvenido - Confirma tu cuenta", html);
-        } catch (Exception e) {
-            log.error("Error enviando email de confirmación a {}: {}", email, e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Busca un usuario por email o username.
-     */
-    public Optional<User> findByEmailOrUsername(String value) {
-        log.debug("Buscando usuario por email o username: {}", value);
-
-        // Intentar por email
-        Optional<User> userByEmail = userRepository.findByEmail(value);
-        if (userByEmail.isPresent()) {
-            return userByEmail;
-        }
-
-        // Intentar por username
-        Optional<User> userByUsername = userRepository.findByName(value);
-        return userByUsername;
-    }
-
-    // ========================================================================
-    // BÚSQUEDAS ESPECIALES
-    // ========================================================================
-
-    public List<User> findActiveUsers() {
-        log.debug("Obteniendo usuarios activos");
-        return userRepository.findByEnabled(true);
-    }
-
-    public Page<User> searchUsers(String searchTerm, Pageable pageable) {
-        log.debug("Buscando usuarios con término: {}", searchTerm);
-        return userRepository.searchByEmailOrName(searchTerm, pageable);
-    }
-
-    // ========================================================================
-    // ESTADÍSTICAS
-    // ========================================================================
-
-    public long countAll() {
-        return userRepository.count();
-    }
-
-    public long countByRole(Role role) {
-        return userRepository.countByRole(role);
-    }
-
-    public long countActiveUsers() {
-        return userRepository.countByEnabled(true);
-    }
-
-    public long countByProvider(AuthProvider provider) {
-        return userRepository.countByProvider(provider);
-    }
-
-    public Page<User> findRecentUsers(Pageable pageable) {
-        log.debug("Obteniendo usuarios recientes");
-        return userRepository.findAllByOrderByCreatedAtDesc(pageable);
-    }
-
-    // ========================================================================
-    // VALIDACIONES
-    // ========================================================================
-
-    public boolean emailExists(String email) {
-        return userRepository.existsByEmail(email);
     }
 
     public boolean canPerformAction(User user, String action) {
-        if (!user.getEnabled()) {
-            log.warn("Usuario deshabilitado intentó: {}", action);
-            return false;
-        }
-
+        if (!user.getEnabled()) return false;
         return switch (action) {
             case "CREATE_REVIEW" -> user.getRole() == Role.USER || user.getRole() == Role.ADMIN;
-            case "MODERATE_REVIEW" -> user.getRole() == Role.ADMIN;
-            case "MANAGE_USERS" -> user.getRole() == Role.ADMIN;
+            case "MODERATE_REVIEW", "MANAGE_USERS" -> user.getRole() == Role.ADMIN;
             default -> false;
         };
     }
-
-    // En UserService.java
-
-    public List<User> findAll() {
-        return userRepository.findAll();
+    
+    // Estadísticas y Búsquedas avanzadas
+    public Page<User> searchUsers(String searchTerm, Pageable pageable) {
+        return userRepository.searchByEmailOrName(searchTerm, pageable);
     }
-
-    // Si usas el filtro por rol
-    public List<User> findAllFilteredByRole(String role) {
-        // Ejemplo si guardas el rol como String o Enum
-        return userRepository.findByRole(role);
+        public List<User> findByRoleAndKeyword(String roleName, String keyword) {
+        try {
+            Role role = Role.valueOf(roleName.toUpperCase());
+            return userRepository.findByRoleAndKeyword(role, keyword);
+        } catch (IllegalArgumentException e) {
+            log.warn("Rol inválido en búsqueda: {}", roleName);
+            return Collections.emptyList();
+        }
     }
-
-    public List<User> findByRoleAndKeyword(String role, String keyword) {
-        return userRepository.findByRoleAndKeyword(role, keyword);
-    }
-
     public List<User> findByKeyword(String keyword) {
         return userRepository.findByKeyword(keyword);
     }
+    public long countAll() { return userRepository.count(); }
+    public long countByRole(Role role) { return userRepository.countByRole(role); }
+    public long countActiveUsers() { return userRepository.countByEnabled(true); }
+    public long countByProvider(AuthProvider provider) { return userRepository.countByProvider(provider); }
+    public Page<User> findRecentUsers(Pageable pageable) { return userRepository.findAllByOrderByCreatedAtDesc(pageable); }
 
+    // ========================================================================
+    // PRIVATE
+    // ========================================================================
+    
+    private void sendConfirmationEmail(String email, String name) {
+        try {
+            String token = UUID.randomUUID().toString();
+            String confirmLink = baseUrl + "/api/auth/confirm?token=" + token;
+            String html = "<h1>¡Hola " + name + "!</h1><p>Bienvenido.</p>";
+            emailService.sendEmail(email, name, "Bienvenido a GameScore", html);
+        } catch (Exception e) {
+            log.error("Error enviando email: {}", e.getMessage());
+        }
+    }
+
+        /**
+     * Busca usuarios por rol recibiendo un String.
+     * Convierte el String al Enum Role antes de buscar.
+     */
+    public List<User> findAllFilteredByRole(String roleName) {
+        try {
+            // Convertimos el String (ej: "admin" o "ADMIN") al Enum (Role.ADMIN)
+            Role role = Role.valueOf(roleName.toUpperCase());
+            return userRepository.findByRole(role);
+        } catch (IllegalArgumentException e) {
+            // Si envían un rol que no existe (ej: "SUPERUSER"), devolvemos lista vacía
+            log.warn("Se intentó buscar por un rol inválido: {}", roleName);
+            return Collections.emptyList();
+        }
+    }
 }

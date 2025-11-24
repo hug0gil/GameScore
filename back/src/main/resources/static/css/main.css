@@ -313,3 +313,126 @@ body.retro-page, body.login-page {
     border-radius: 4px;
     animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
+
+/* ============================================================
+   8. LOGIN LOCAL & FORMULARIOS (NUEVOS ESTILOS)
+   ============================================================ */
+
+/* Contenedor del input con icono */
+.input-group {
+    position: relative;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+/* Icono dentro del input */
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-titles-borders);
+    opacity: 0.6;
+    font-size: 1.1rem;
+    z-index: 2;
+}
+
+/* Inputs con estilo retro (bordes gruesos) */
+.form-control-retro {
+    width: 100%;
+    padding: 15px 15px 15px 45px; /* Espacio extra a la izquierda para el icono */
+    background-color: #f9f9f9; /* Fondo casi blanco para contraste */
+    
+    /* Borde y estética coherente con el resto de la web */
+    border: 3px solid var(--color-titles-borders);
+    border-radius: 0; /* Bordes rectos para estilo arcade, o 4px si prefieres */
+    
+    color: var(--color-titles-borders);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: bold;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* Foco en input */
+.form-control-retro:focus {
+    background-color: #fff;
+    border-color: var(--color-primary); /* Amarillo al enfocar */
+    box-shadow: 3px 3px 0px var(--color-shadow); /* Sombra naranja al enfocar */
+}
+
+/* Botón "START GAME" (Login local) */
+.btn-login.local {
+    /* Usa un degradado llamativo o el color de éxito */
+    background: linear-gradient(135deg, #ff0055, #ff5500); 
+    color: white;
+    border: 3px solid var(--color-titles-borders); /* Mismo borde grueso */
+    margin-bottom: 15px;
+}
+
+.btn-login.local:hover {
+    background: linear-gradient(135deg, #ff2277, #ff7722); 
+    /* Mantiene el efecto de "hundirse" definido en .btn-login:hover */
+}
+
+/* Link de registro */
+.register-link {
+    text-align: center;
+    margin: 15px 0;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.register-link a {
+    color: var(--color-error); /* Rojo o Azul */
+    text-decoration: none;
+    font-weight: 900;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.register-link a:hover {
+    color: var(--color-shadow);
+    text-decoration: underline;
+    text-decoration-thickness: 3px; /* Subrayado grueso */
+}
+
+/* Separador "o conecta con" */
+.divider-text {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #888;
+    margin: 20px 0;
+    font-size: 0.8rem;
+    font-family: var(--font-pixel); /* Pixel font para este detalle queda bien */
+    text-transform: uppercase;
+}
+
+.divider-text::before, .divider-text::after {
+    content: '';
+    flex: 1;
+    border-bottom: 3px solid var(--color-secondary); /* Línea gruesa gris */
+}
+
+.divider-text span {
+    padding: 0 10px;
+    color: var(--color-titles-borders);
+}
+
+/* Alerta de error en login (roja estilo pixel) */
+.alert-danger {
+    background-color: var(--color-error);
+    color: #fff;
+    border: 3px solid var(--color-titles-borders);
+    padding: 10px;
+    margin-bottom: 20px;
+    font-family: var(--font-pixel);
+    font-size: 0.7rem;
+    text-align: center;
+    box-shadow: 4px 4px 0px var(--color-titles-borders);
+    animation: blink 0.5s 2; /* Parpadea 2 veces al aparecer */
+}
