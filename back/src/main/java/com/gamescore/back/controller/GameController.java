@@ -1,12 +1,17 @@
 package com.gamescore.back.controller;
 
 import com.gamescore.back.model.Game;
+import com.gamescore.back.model.Review;
 import com.gamescore.back.model.DTOs.GameListDTO;
+import com.gamescore.back.model.enums.ReviewStatus;
 import com.gamescore.back.service.GameService;
+import com.gamescore.back.service.ReviewService;
+
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -22,6 +27,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class GameController {
 
     private final GameService gameService;
+    private final ReviewService reviewService;
 
     @GetMapping("/")
     public String showIndexPage(Model model) {
@@ -70,7 +76,13 @@ public class GameController {
     public String showGameDetailPage(@PathVariable("slug") String slug, Model model) {
         Game game = gameService.findBySlug(slug)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Juego no encontrado"));
+
+        // Obtener las reseñas aprobadas para este juego específico
+        List<Review> approvedReviews = reviewService.findApprovedReviewsByGameId(game.getId());
+
         model.addAttribute("game", game);
+        model.addAttribute("reviews", approvedReviews);
+
         return "game-detail";
     }
 

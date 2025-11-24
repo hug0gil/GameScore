@@ -10,7 +10,7 @@
     <main class="main-content-dark">
         <div class="container py-5">
 
-            <h1 class="text-white mb-4" th:text="${review.id == null ? 'Añadir Nueva Reseña' : 'Editar Reseña'}">
+            <h1 class="text-white mb-4" th:text="${review.id == null ? 'Añadir nueva reseña' : 'Editar Reseña'}">
                 Formulario de Reseña
             </h1>
 
@@ -24,7 +24,7 @@
 
                 <div class="row">
                     <div class="col-md-8 mb-3">
-                        <label for="game" class="form-label">Juego *</label>
+                        <label for="game" class="form-label">Juego</label>
 
                         <th:block th:if="${currentGame != null}">
                             <!-- CORREGIDO: Se añadió "/>" al final -->
@@ -48,16 +48,21 @@
                         <div class="d-flex align-items-center">
 
                             <div class="rating-input me-3">
-                                <input type="radio" id="star5" name="rating" value="5" th:field="*{rating}" required />
-                                <label for="star5" title="5 estrellas"></label>
-                                <input type="radio" id="star4" name="rating" value="4" th:field="*{rating}" required />
-                                <label for="star4" title="4 estrellas"></label>
-                                <input type="radio" id="star3" name="rating" value="3" th:field="*{rating}" required />
-                                <label for="star3" title="3 estrellas"></label>
-                                <input type="radio" id="star2" name="rating" value="2" th:field="*{rating}" required />
-                                <label for="star2" title="2 estrellas"></label>
                                 <input type="radio" id="star1" name="rating" value="1" th:field="*{rating}" required />
                                 <label for="star1" title="1 estrella"></label>
+
+                                <input type="radio" id="star2" name="rating" value="2" th:field="*{rating}" required />
+                                <label for="star2" title="2 estrellas"></label>
+
+                                <input type="radio" id="star3" name="rating" value="3" th:field="*{rating}" required />
+                                <label for="star3" title="3 estrellas"></label>
+
+                                <input type="radio" id="star4" name="rating" value="4" th:field="*{rating}" required />
+                                <label for="star4" title="4 estrellas"></label>
+
+                                <input type="radio" id="star5" name="rating" value="5" th:field="*{rating}" required />
+                                <label for="star5" title="5 estrellas"></label>
+
                             </div>
 
                             <div class="rating-value">
@@ -72,7 +77,7 @@
                     <label for="title" class="form-label">Título *</label>
                     <!-- CORREGIDO: Se añadió "/>" al final -->
                     <input type="text" class="form-control" id="title" th:field="*{title}" maxlength="100" required />
-                    
+
                     <!-- CORREGIDO: Control de nulos para el contador -->
                     <small class="form-text text-white-50">Máximo 100 caracteres. (<span class="char-count"
                             th:text="${review.title != null ? #strings.length(review.title) : 0}">0</span>/100)</small>
@@ -80,12 +85,12 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="content" class="form-label">Contenido de la Reseña *</label>
-                    <textarea class="form-control" id="content" th:field="*{content}" rows="6" minlength="50"
-                        maxlength="1000" required></textarea>
-                    
+                    <label for="content" class="form-label">Contenido</label>
+                    <textarea class="form-control" id="content" th:field="*{content}" rows="6" minlength="0"
+                        maxlength="1000"></textarea>
+
                     <!-- CORREGIDO: Control de nulos para el contador -->
-                    <small class="form-text text-white-50">Mínimo 50, máximo 1000 caracteres. (<span class="char-count"
+                    <small class="form-text text-white-50">Máximo 1000 caracteres. (<span class="char-count"
                             th:text="${review.content != null ? #strings.length(review.content) : 0}">0</span>/1000)</small>
                     <div class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
                 </div>

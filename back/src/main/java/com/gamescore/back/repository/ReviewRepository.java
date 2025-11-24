@@ -5,6 +5,8 @@ import com.gamescore.back.model.User;
 import com.gamescore.back.model.Game;
 import com.gamescore.back.model.enums.ReviewStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -60,4 +62,28 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
      * @return Optional<Review> (vacío si no existe).
      */
     Optional<Review> findByUserAndGame(User user, Game game);
+
+    @Query("""
+                SELECT r
+                FROM Review r
+                JOIN FETCH r.user
+                JOIN FETCH r.game
+                WHERE (:keyword IS NULL
+                       OR LOWER(r.game.name) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                       OR LOWER(r.user.name) LIKE LOWER(CONCAT('%', :keyword, '%')))
+            """)
+    List<Review> searchWithGameAndUser(@Param("keyword") String keyword);
+
+    @Query("""
+                SELECT r
+                FROM Review r
+                JOIN FETCH r.user
+                JOIN FETCH r.game
+            """)
+    List<Review> findAllWithGameAndUser();
+
+    long countByStatus(ReviewStatus status);
+
+    List<Review> findByGameIdAndStatus(Long gameId, ReviewStatus status);
+
 }

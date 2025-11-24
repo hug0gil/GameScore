@@ -202,17 +202,17 @@ public class UserService {
      */
     public void registerUser(String email, String name) {
         // 1. Lógica para guardar usuario en DB...
-        
+
         // 2. Generar token
         String token = UUID.randomUUID().toString();
         // TODO: Guardar token en DB asociado al usuario (TokenRepository)
 
         // 3. Construir link y HTML
         String confirmLink = baseUrl + "/api/auth/confirm?token=" + token;
-        
+
         String html = "<h1>¡Hola " + name + "!</h1>"
-                    + "<p>Bienvenido. Confirma tu cuenta aquí:</p>"
-                    + "<a href='" + confirmLink + "'>Confirmar Cuenta</a>";
+                + "<p>Bienvenido. Confirma tu cuenta aquí:</p>"
+                + "<a href='" + confirmLink + "'>Confirmar Cuenta</a>";
 
         // 4. Enviar
         try {
@@ -223,14 +223,26 @@ public class UserService {
         }
     }
 
+    /**
+     * Busca un usuario por email o username.
+     */
+    public Optional<User> findByEmailOrUsername(String value) {
+        log.debug("Buscando usuario por email o username: {}", value);
+
+        // Intentar por email
+        Optional<User> userByEmail = userRepository.findByEmail(value);
+        if (userByEmail.isPresent()) {
+            return userByEmail;
+        }
+
+        // Intentar por username
+        Optional<User> userByUsername = userRepository.findByName(value);
+        return userByUsername;
+    }
+
     // ========================================================================
     // BÚSQUEDAS ESPECIALES
     // ========================================================================
-
-    public List<User> findByRole(Role role) {
-        log.debug("Buscando usuarios con rol: {}", role);
-        return userRepository.findByRole(role);
-    }
 
     public List<User> findActiveUsers() {
         log.debug("Obteniendo usuarios activos");
@@ -289,8 +301,24 @@ public class UserService {
         };
     }
 
-    public Object findAllFilteredByRole(String role) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAllFilteredByRole'");
+    // En UserService.java
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
+
+    // Si usas el filtro por rol
+    public List<User> findAllFilteredByRole(String role) {
+        // Ejemplo si guardas el rol como String o Enum
+        return userRepository.findByRole(role);
+    }
+
+    public List<User> findByRoleAndKeyword(String role, String keyword) {
+        return userRepository.findByRoleAndKeyword(role, keyword);
+    }
+
+    public List<User> findByKeyword(String keyword) {
+        return userRepository.findByKeyword(keyword);
+    }
+
 }

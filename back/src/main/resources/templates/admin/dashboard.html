@@ -1,115 +1,111 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="layout :: head('Panel de Administración')"></head>
+
 <body>
 
-<div th:replace="layout :: header"></div>
+    <div th:replace="layout :: header"></div>
 
-<main class="main-content-dark">
-    <div class="container py-5">
+    <main class="main-content-dark">
+        <div class="container py-5">
 
-        <h1 class="text-white mb-5">Panel de Administración</h1>
+            <h1 class="text-white mb-5">Panel de administración</h1>
 
-        <!-- CAMBIO: Se ajusta la grilla a 4 columnas en pantallas grandes (de row-cols-lg-5 a row-cols-lg-4) -->
-        <div class="row row-cols-2 row-cols-md-4 g-4 mb-5">
-            <div class="col">
-                <div class="stat-card">
-                    <span class="stat-card-title">Users Totales</span>
-                    <span class="stat-card-number" th:text="${stats.totalUsers}">34566</span>
+            <div class="row g-4 mb-5">
+                <div class="col-12 col-md-3">
+                    <div class="stat-card">
+                        <span class="stat-card-title">Users Totales</span>
+                        <span class="stat-card-number" th:text="${stats.totalUsers}">34566</span>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="stat-card">
+                        <span class="stat-card-title">Users Nuevos</span>
+                        <span class="stat-card-number" th:text="${stats.newUsers}">102</span>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="stat-card">
+                        <span class="stat-card-title">Juegos Publicados</span>
+                        <span class="stat-card-number" th:text="${stats.publishedGames}">6</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- ELIMINADO: Se quita la tarjeta de "Tiempo de Uso" -->
 
-            <div class="col">
-                <div class="stat-card">
-                    <span class="stat-card-title">Users Nuevos</span>
-                    <span class="stat-card-number" th:text="${stats.newUsers}">102</span>
+            <!-- El resto del archivo no necesita cambios -->
+            <div class="row g-5">
+                <div class="col-lg-5">
+                    <h2 class="text-white mb-4">Gestiones Rápidas</h2>
+                    <div class="d-grid gap-3 management-buttons">
+                        <a th:href="@{/admin/juegos}" class="btn btn-primary">Gestionar Juegos</a>
+                        <a th:href="@{/admin/usuarios}" class="btn btn-secondary">Gestionar Usuarios</a>
+                        <a th:href="@{/admin/resenas}" class="btn btn-secondary">Gestionar Reseñas</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <h2 class="text-white mb-4">Gráfico de Estadísticas</h2>
+                    <div class="chart-container">
+                        <canvas id="statsChart"></canvas>
+                    </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="stat-card">
-                    <span class="stat-card-title">Users Baja</span>
-                    <span class="stat-card-number" th:text="${stats.churnedUsers}">3</span>
-                </div>
-            </div>
-            <div class="col">
-                <div class="stat-card">
-                    <span class="stat-card-title">Juegos Publicados</span>
-                    <span class="stat-card-number" th:text="${stats.publishedGames}">6</span>
-                </div>
-            </div>
+
         </div>
+    </main>
 
-        <!-- El resto del archivo no necesita cambios -->
-        <div class="row g-5">
-             <div class="col-lg-5">
-                <h2 class="text-white mb-4">Gestiones Rápidas</h2>
-                <div class="d-grid gap-3 management-buttons">
-                    <a th:href="@{/admin/juegos}" class="btn btn-primary">Gestionar Juegos</a>
-                    <a th:href="@{/admin/usuarios}" class="btn btn-secondary">Gestionar Usuarios</a>
-                    <a th:href="@{/admin/resenas}" class="btn btn-secondary">Gestionar Reseñas</a>
-                </div>
-            </div>
+    <div th:replace="layout :: footer"></div>
+    <div th:replace="layout :: scripts"></div>
 
-            <div class="col-lg-7">
-                <h2 class="text-white mb-4">Gráfico de Estadísticas</h2>
-                <div class="chart-container">
-                    <canvas id="statsChart"></canvas>
-                </div>
-            </div>
-        </div>
+    <script th:inline="javascript">
+        // El script del gráfico no necesita cambios
+        const chartLabels = /*[[${chartData.labels}]]*/['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'];
+        const chartDataPoints = /*[[${chartData.dataPoints}]]*/[120, 190, 310, 500, 420, 550];
 
-    </div>
-</main>
-
-<div th:replace="layout :: footer"></div>
-<div th:replace="layout :: scripts"></div>
-
-<script th:inline="javascript">
-    // El script del gráfico no necesita cambios
-    const chartLabels = /*[[${chartData.labels}]]*/ ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'];
-    const chartDataPoints = /*[[${chartData.dataPoints}]]*/ [120, 190, 310, 500, 420, 550];
-
-    const ctx = document.getElementById('statsChart').getContext('2d');
-    const statsChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: chartLabels,
-            datasets: [{
-                label: 'Nuevos Usuarios',
-                data: chartDataPoints,
-                backgroundColor: 'rgba(255, 184, 0, 0.2)',
-                borderColor: '#FFB800',
-                pointBackgroundColor: '#FFB800',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: '#FFB800',
-                fill: true,
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    grid: { color: '#555' },
-                    ticks: { color: '#ccc' }
-                },
-                x: {
-                    grid: { color: 'transparent' },
-                    ticks: { color: '#ccc' }
-                }
+        const ctx = document.getElementById('statsChart').getContext('2d');
+        const statsChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'Nuevos Usuarios',
+                    data: chartDataPoints,
+                    backgroundColor: 'rgba(255, 184, 0, 0.2)',
+                    borderColor: '#FFB800',
+                    pointBackgroundColor: '#FFB800',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#FFB800',
+                    fill: true,
+                    tension: 0.1
+                }]
             },
-            plugins: {
-                legend: {
-                    display: false
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        grid: { color: '#555' },
+                        ticks: { color: '#ccc' }
+                    },
+                    x: {
+                        grid: { color: 'transparent' },
+                        ticks: { color: '#ccc' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
                 }
             }
-        }
-    });
-</script>
+        });
+    </script>
 
 </body>
+
 </html>

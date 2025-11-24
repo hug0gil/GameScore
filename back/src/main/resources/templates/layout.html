@@ -33,7 +33,15 @@
                 </a>
 
                 <div class="ms-auto d-flex align-items-center">
-                    <a th:href="@{/perfil}" class="user-icon">
+
+                    <a th:href="@{/juegos}" class="btn btn-alt ms-auto align-self-start"
+                        style="margin-right: 15px; transition: 0.25s ease-in-out;"
+                        onmouseover="this.style.backgroundColor='#ffcc66'; this.style.color='#222'; this.style.transform='translateY(-2px)';"
+                        onmouseout="this.style.backgroundColor=''; this.style.color=''; this.style.transform='';">
+                        <i class="fas fa-user-edit me-2"></i> Juegos
+                    </a>
+
+                    <a th:href="@{/perfil}" class="user-icon ms-3">
                         <i class="bi bi-person-fill"></i>
                     </a>
                 </div>

@@ -35,21 +35,12 @@ public class ReviewService {
     }
 
     // Método que el DashboardController usa para cargar reseñas
-    public List<Review> search(String keyword) { // ⬅️ CAMBIO: Método 'search' añadido
-        // NOTA: Para el administrador, queremos ver TODAS las reseñas (PENDING, APPROVED, REJECTED).
-        // Por eso, usamos findAll() y no filtramos por estado aquí.
-        
+    public List<Review> search(String keyword) {
         if (keyword != null && !keyword.trim().isEmpty()) {
-            // Aquí se implementaría la lógica de búsqueda real por título, contenido, etc.
-            // Si tu repositorio tiene un método como findByTitleContainingIgnoreCase(keyword), úsalo aquí.
-            // Por ahora, para que funcione, simplemente devolvemos todo si hay una palabra clave
-            // (puedes cambiar esta lógica si quieres que el keyword filtre).
-            return reviewRepository.findAll();
+            return reviewRepository.searchWithGameAndUser(keyword);
         }
-
-        // Si no hay palabra clave, devuelve todas las reseñas (necesario para el panel de admin)
-        return reviewRepository.findAll();
-    } // ⬅️ FIN CAMBIO
+        return reviewRepository.findAllWithGameAndUser();
+    }
 
     // Método existente (NO SE RECOMIENDA usar en el frontend ya que trae todos los
     // estados)
@@ -61,11 +52,11 @@ public class ReviewService {
 
     // Obtiene solo las reseñas APROBADAS para mostrar en la vista de detalle.
     public List<Review> findApprovedReviewsByGameId(Long gameId) {
-        Game game = gameRepository.findById(gameId)
-                .orElseThrow(() -> new NoSuchElementException("Game not found with ID: " + gameId));
+        return reviewRepository.findByGameIdAndStatus(gameId, ReviewStatus.APPROVED);
+    }
 
-        // Usa el método del repositorio para filtrar por Game y por estado 'APPROVED'
-        return reviewRepository.findByGameAndStatus(game, ReviewStatus.APPROVED);
+    public long countPendingReviews() {
+        return reviewRepository.countByStatus(ReviewStatus.PENDING);
     }
 
     // --- CREACIÓN (CREATE) ---
@@ -77,14 +68,16 @@ public class ReviewService {
             throw new IllegalArgumentException("User ID and Game ID are required.");
         }
 
-        // Se asume que el objeto Review que llega tiene los objetos User y Game con el ID
+        // Se asume que el objeto Review que llega tiene los objetos User y Game con el
+        // ID
         // correspondiente ya establecido desde el controlador.
         User user = userRepository.findById(review.getUser().getId())
                 .orElseThrow(() -> new NoSuchElementException("User not found: " + review.getUser().getId()));
         Game game = gameRepository.findById(review.getGame().getId())
                 .orElseThrow(() -> new NoSuchElementException("Game not found: " + review.getGame().getId()));
 
-        // VALIDACIÓN: Impedir que un usuario cree una segunda reseña para el mismo juego.
+        // VALIDACIÓN: Impedir que un usuario cree una segunda reseña para el mismo
+        // juego.
         if (reviewRepository.findByUserAndGame(user, game).isPresent()) {
             throw new IllegalArgumentException(
                     "You have already reviewed this game. You can edit your existing review instead.");
@@ -110,7 +103,8 @@ public class ReviewService {
      * Permite al autor de la reseña modificar el título, contenido y rating.
      * Esta versión recibe la Review ya actualizada por el controlador.
      *
-     * @param updatedReview La entidad Review completa (con ID) con los nuevos datos.
+     * @param updatedReview La entidad Review completa (con ID) con los nuevos
+     *                      datos.
      * @return La Review actualizada.
      */
     @Transactional
@@ -121,7 +115,7 @@ public class ReviewService {
 
         // 2. Aplicar las actualizaciones desde el objeto que viene del formulario.
         // El controlador ya se encargó de verificar la propiedad (autoría).
-        
+
         // Campos editables por el usuario:
         existingReview.setTitle(updatedReview.getTitle());
         existingReview.setContent(updatedReview.getContent());
@@ -133,7 +127,8 @@ public class ReviewService {
         existingReview.setReviewedBy(null); // Limpiamos el moderador anterior
         existingReview.setReviewNote(null); // Limpiamos la nota de moderación anterior
 
-        // Se mantienen las referencias originales a User y Game (no se cambian en la edición)
+        // Se mantienen las referencias originales a User y Game (no se cambian en la
+        // edición)
         // El @UpdateTimestamp se encarga de actualizar el 'updatedAt'
 
         return reviewRepository.save(existingReview);
@@ -176,4 +171,43 @@ public class ReviewService {
         }
         reviewRepository.deleteById(id);
     }
+
+    public List<Review> searchWithFilters(String keyword, ReviewStatus status, Integer rating) {
+
+        return reviewRepository.findAll().stream()
+                .filter(r -> keyword == null ||
+                        keyword.isBlank() ||
+                        r.getTitle().toLowerCase().contains(keyword.toLowerCase()) ||
+                        r.getUser().getName().toLowerCase().contains(keyword.toLowerCase()) ||
+                        r.getGame().getName().toLowerCase().contains(keyword.toLowerCase()))
+                .filter(r -> status == null || r.getStatus() == status)
+                .filter(r -> rating == null || r.getRating() >= rating)
+                .toList();
+    }
+
+    public void updateReviewStatus(Long id, ReviewStatus status, String reviewNote, String adminEmail) {
+
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reseña no encontrada"));
+
+        User admin = userRepository.findByEmail(adminEmail)
+                .orElse(null);
+
+        review.setStatus(status);
+        review.setReviewNote(reviewNote);
+        review.setReviewedBy(admin);
+
+        if (status == ReviewStatus.APPROVED) {
+            review.setApprovedAt(LocalDateTime.now());
+        } else {
+            review.setApprovedAt(null); // Si se rechaza o queda pendiente
+        }
+
+        reviewRepository.save(review);
+    }
+
+    public void save(Review review) {
+        reviewRepository.save(review);
+    }
+
 }

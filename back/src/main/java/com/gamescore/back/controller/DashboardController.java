@@ -1,19 +1,18 @@
 package com.gamescore.back.controller;
 
 import com.gamescore.back.model.Game;
-import com.gamescore.back.model.User; // ⬅️ IMPORTANTE: Necesario para obtener el ID del moderador
-import com.gamescore.back.model.Review; // ⬅️ Nuevo: Para el formulario de moderación
-import com.gamescore.back.model.enums.ReviewStatus; // ⬅️ Nuevo: Para el estado de moderación
+import com.gamescore.back.model.User;
+import com.gamescore.back.model.Review;
+import com.gamescore.back.model.enums.ReviewStatus;
 import com.gamescore.back.service.DashboardService;
 import com.gamescore.back.service.GameService;
-import com.gamescore.back.service.UserService;
+import com.gamescore.back.service.UserService; // Asegúrate de que este servicio tenga los métodos findAll() o findByRole()
 import com.gamescore.back.service.ReviewService;
 
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication; // Nuevo: Para acceder a los detalles del usuario
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.security.Principal; // Nuevo: Para el usuario autenticado
-import java.util.NoSuchElementException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -35,9 +35,10 @@ import java.util.NoSuchElementException;
 public class DashboardController {
 
     private final GameService gameService;
-    private final UserService userService;
     private final DashboardService dashboardService;
-    private final ReviewService reviewService; // Inyección de ReviewService
+    private final ReviewService reviewService;
+    // 1. Inyección de UserService (Necesario para que funcione)
+    private final UserService userService;
 
     // =======================================================================
     // VISTAS DEL DASHBOARD (GENERAL Y JUEGOS)
@@ -58,9 +59,46 @@ public class DashboardController {
     }
 
     @GetMapping("/usuarios")
-    public String manageUsers(@RequestParam(required = false) String role, Model model) {
-        // model.addAttribute("users", userService.findAllFilteredByRole(role));
+    public String manageUsers(
+            @RequestParam(required = false) String role,
+            @RequestParam(required = false) String keyword,
+            Model model) {
+
+        List<User> users;
+
+        // Caso: se filtra por rol y keyword
+        if ((role != null && !role.isEmpty()) && (keyword != null && !keyword.isEmpty())) {
+            users = userService.findByRoleAndKeyword(role, keyword);
+        }
+        // Caso: solo rol
+        else if (role != null && !role.isEmpty()) {
+            users = userService.findAllFilteredByRole(role);
+        }
+        // Caso: solo keyword
+        else if (keyword != null && !keyword.isEmpty()) {
+            users = userService.findByKeyword(keyword);
+        }
+        // Caso: ningún filtro
+        else {
+            users = userService.findAll();
+        }
+
+        model.addAttribute("users", users);
+        model.addAttribute("selectedRole", role); // Mantener rol seleccionado
+        model.addAttribute("keyword", keyword); // Mantener keyword en el input
         return "admin/users";
+    }
+
+    @PostMapping("usuarios/eliminar")
+    public String eliminarUsuario(@RequestParam("id") Long id) {
+        try {
+            userService.delete(id); // Llama a tu servicio para borrar
+        } catch (Exception e) {
+            // Manejo de errores opcional
+            e.printStackTrace();
+        }
+        // Redirige de nuevo a la lista de usuarios para ver los cambios
+        return "redirect:/admin/usuarios";
     }
 
     // =======================================================================
@@ -68,57 +106,58 @@ public class DashboardController {
     // =======================================================================
 
     @GetMapping("/resenas")
-    public String manageReviews(@RequestParam(required = false) String keyword, Model model) {
-        // Usa el método search corregido en ReviewService que trae todas las reseñas (PENDING/APPROVED/REJECTED)
-        model.addAttribute("reviews", reviewService.search(keyword)); 
-        model.addAttribute("keyword", keyword); 
+    public String manageReviews(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) ReviewStatus status,
+            @RequestParam(required = false) Integer rating,
+            Model model) {
+
+        List<Review> reviews;
+
+        if (keyword != null && !keyword.isEmpty()) {
+            reviews = reviewService.searchWithFilters(keyword, status, rating);
+        } else if (status != null || rating != null) {
+            reviews = reviewService.searchWithFilters(null, status, rating);
+        } else {
+            reviews = reviewService.findAllReviews();
+        }
+
+        long pendingCount = reviewService.countPendingReviews();
+
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("paramStatus", status);
+        model.addAttribute("paramRating", rating);
+        model.addAttribute("pendingCount", pendingCount);
+        model.addAttribute("statuses", ReviewStatus.values());
+
         return "admin/reviews";
     }
 
-    /**
-     * Muestra el formulario para moderar una reseña específica.
-     * Asume la existencia de la plantilla 'admin/review-moderate-form.html'.
-     */
-    @GetMapping("/resenas/moderar/{id}")
-    public String showModerateReviewForm(@PathVariable Long id, Model model) {
-        Review review = reviewService.findReviewById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reseña no encontrada: " + id));
-
-        model.addAttribute("review", review);
-        return "admin/review-moderate-form";
-    }
-
-    /**
-     * Procesa la moderación de la reseña (APROBAR/RECHAZAR).
-     */
     @PostMapping("/resenas/moderar/{id}")
     public String moderateReview(
-            @PathVariable Long id, 
-            @RequestParam ReviewStatus status, 
+            @PathVariable Long id,
+            @RequestParam ReviewStatus status,
             @RequestParam(required = false) String reviewNote,
-            Principal principal, // Obtiene el objeto Principal del Admin autenticado
             RedirectAttributes redirectAttributes) {
 
-        try {
-            // 1. Obtener el ID del moderador
-            User moderator = getModeratorUser(principal); 
-            Long moderatorId = moderator.getId(); // Usamos el ID del User completo
-
-            // 2. Ejecutar el servicio de moderación
-            reviewService.moderateReview(id, status, moderatorId, reviewNote);
-            
-            redirectAttributes.addFlashAttribute("successMessage", 
-                    "Reseña ID " + id + " ha sido marcada como " + status.name() + ".");
-
-        } catch (NoSuchElementException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error: Reseña o moderador no encontrado.");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error al moderar la reseña: " + e.getMessage());
+        Optional<Review> optionalReview = reviewService.findReviewById(id);
+        if (optionalReview.isPresent()) {
+            Review review = optionalReview.get();
+            review.setStatus(status);
+            review.setReviewNote(reviewNote);
+            if (status == ReviewStatus.APPROVED) {
+                review.setApprovedAt(LocalDateTime.now());
+            }
+            reviewService.save(review);
+            redirectAttributes.addFlashAttribute("successMessage", "Reseña moderada correctamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Reseña no encontrada.");
         }
 
         return "redirect:/admin/resenas";
     }
-    
+
     // =======================================================================
     // GESTIÓN DE JUEGOS (CREATE/UPDATE)
     // =======================================================================
@@ -143,7 +182,6 @@ public class DashboardController {
         Game game = gameService.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Juego no encontrado"));
 
-        // Actualizamos los campos
         game.setName(gameForm.getName());
         game.setSlug(gameForm.getSlug());
         game.setRawgId(gameForm.getRawgId());
@@ -157,28 +195,5 @@ public class DashboardController {
 
         gameService.save(game);
         return "redirect:/admin/juegos";
-    }
-
-    // =======================================================================
-    // MÉTODOS AUXILIARES
-    // =======================================================================
-
-    /**
-     * Obtiene el objeto User completo del moderador autenticado.
-     * ⚠️ NOTA IMPORTANTE: Debes asegurarte de que este método coincide con la lógica
-     * de autenticación de tu UserService/seguridad.
-     */
-    private User getModeratorUser(Principal principal) {
-        if (principal == null || principal.getName() == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No hay administrador autenticado.");
-        }
-        
-        // Asumiendo que principal.getName() devuelve el email o username único
-        String emailOrUsername = principal.getName();
-        
-        // ⚠️ REEMPLAZAR ESTA LÍNEA por tu lógica para buscar el User por email/username
-        // Esto asume que tienes un método en UserService que busca por ese campo.
-        return userService.findByEmailOrUsername(emailOrUsername) 
-               .orElseThrow(() -> new NoSuchElementException("Usuario administrador no encontrado en BD."));
     }
 }

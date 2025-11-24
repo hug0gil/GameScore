@@ -177,7 +177,7 @@
 
 
 
-                <div th:if="${#lists.isEmpty(reviews)}" class="alert alert-info bg-dark-lighter text-white-50"
+                <div th:if="${#lists.isEmpty(reviews)}" class="alert alert-info bg-dark-lighter text-orange"
                     role="alert">
 
                     Aún no hay reseñas aprobadas para este juego. ¡Sé el primero en escribir una!
@@ -207,7 +207,7 @@
 
                                 </span>
 
-                                <span class="ms-1" th:text="${review.rating} + ' / 5'">4 / 5</span>
+                                <span class="ms-1 text-white" th:text="${review.rating} + ' / 5'">4 / 5</span>
 
                             </div>
 
@@ -217,7 +217,7 @@
 
                         <p class="small text-white-50 mb-3">
 
-                            Por <strong th:text="${review.user.username}">Nombre de Usuario</strong>
+                            Por <strong th:text="${review.user.name}">Nombre de Usuario</strong>
 
                             el <span th:text="${#temporals.format(review.createdAt, 'dd/MM/yyyy')}">Fecha</span>
 

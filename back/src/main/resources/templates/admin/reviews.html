@@ -1,132 +1,121 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="layout :: head('Gestión de Reseñas')"></head>
+
 <body>
 
-<div th:replace="layout :: header"></div>
+    <div th:replace="layout :: header"></div>
 
-<main class="main-content-dark">
-    <div class="container py-5">
+    <main class="main-content-dark">
+        <div class="container py-5">
 
-        <div class="d-flex justify-content-between align-items-center admin-header pb-3 mb-4">
-            <h1 class="text-white mb-0">Gestión de Reseñas</h1>
-            <!-- Botón de Filtrar, mantenido -->
-            <button class="btn btn-alt" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas">
-                <i class="bi bi-funnel-fill"></i> Filtrar
-            </button>
-        </div>
-
-        <!-- Mensajes Flash de Éxito/Error -->
-        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
-            <span th:text="${successMessage}"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
-            <span th:text="${errorMessage}"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-
-        <form th:action="@{/admin/resenas}" method="get" class="mb-4">
-            <div class="input-group auth-box p-0">
-                <span class="input-group-text"><i class="bi bi-search"></i></span>
-                <input type="text" name="keyword" class="form-control" placeholder="buscar por título, usuario..." th:value="${keyword}">
+            <div class="d-flex justify-content-between align-items-center admin-header pb-3 mb-4">
+                <h1 class="text-white mb-0">Gestión de reseñas</h1>
             </div>
-        </form>
 
-        <div class="table-responsive">
-            <table class="table table-admin">
-                <thead>
-                    <tr>
-                        <th>Título del Juego</th>
-                        <th>Usuario</th>
-                        <th class="text-center">Puntuación</th>
-                        <th>Estado</th> <!-- ⬅️ CAMBIO: Nueva columna de Estado -->
-                        <th>Fecha de Creación</th>
-                        <th class="text-center">Acciones</th> <!-- ⬅️ CAMBIO: Acciones de Moderación -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="review : ${reviews}">
-                        <td>
-                            <a th:href="@{/juego/{slug}(slug=${review.game.slug})}" class="text-white fw-bold link-hover" th:text="${review.game.name}">Super Mario Bros</a>
-                        </td>
-                        <td th:text="'@' + ${review.user.username}">@HDJDNF</td>
-                        <td class="text-center">
-                            <div class="table-rating-stars">
-                                <span th:each="i : ${#numbers.sequence(1, 5)}">
-                                    <i class="bi bi-star-fill star" th:classappend="${i <= review.rating ? 'filled' : ''}"></i>
-                                </span>
-                            </div>
-                        </td>
-                        <!-- Columna de Estado con estilo condicional -->
-                        <td>
-                            <span th:text="${review.status.displayValue}"
-                                  th:classappend="${review.status.name() == 'PENDING' ? 'badge bg-warning text-dark' : 
-                                                  (review.status.name() == 'APPROVED' ? 'badge bg-success' : 
-                                                  'badge bg-danger')}">PENDING</span>
-                        </td>
-                        <td th:text="${#dates.format(review.createdAt, 'dd/MM/yyyy HH:mm')}">xx/xx/xxxx</td>
-                        <td class="text-center">
-                            <a th:href="@{/admin/resenas/moderar/{id}(id=${review.id})}" 
-                               class="btn action-icon text-info p-0 border-0 bg-transparent"
-                               title="Moderar Reseña">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr th:if="${#lists.isEmpty(reviews)}">
-                        <td colspan="6" class="text-center p-4">No se encontraron reseñas.</td>
-                    </tr>
-                </tbody>
-            </table>
+            <!-- Mensajes Flash de Éxito/Error -->
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:text="${errorMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- Buscador -->
+            <form th:action="@{/admin/resenas}" method="get" class="mb-4">
+                <div class="input-group auth-box p-0">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input type="text" name="keyword" class="form-control" placeholder="Buscar por título o usuario..."
+                        th:value="${keyword}">
+                </div>
+            </form>
+
+            <!-- Tabla de reseñas -->
+            <div class="table-responsive">
+                <table class="table table-admin">
+                    <thead>
+                        <tr class="text-center">
+                            <th>Titulo del Juego</th>
+                            <th>Usuario</th>
+                            <th class="text-center">Puntuacion</th>
+                            <th>Estado</th>
+                            <th>Fecha de Creacion</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="review : ${reviews}">
+                            <td>
+                                <a th:href="@{/juego/{slug}(slug=${review.game.slug})}"
+                                    class="text-black fw-bold link-hover" th:text="${review.game.name}"></a>
+                            </td>
+                            <td th:text="'@' + ${review.user.name}"></td>
+                            <td class="text-center">
+                                <div class="table-rating-stars">
+                                    <span th:each="i : ${#numbers.sequence(1, 5)}">
+                                        <i class="bi bi-star-fill star"
+                                            th:classappend="${i <= review.rating ? 'filled' : ''}"></i>
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span th:text="${review.status}" th:classappend="${review.status.name() == 'PENDING' ? 'badge bg-warning text-dark' :
+                                                       (review.status.name() == 'APPROVED' ? 'badge bg-success' :
+                                                       'badge bg-danger')}"></span>
+                            </td>
+                            <td class="text-center"
+                                th:text="${#temporals.format(review.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+                            <td class="text-center">
+                                <!-- Botón Offcanvas -->
+                                <button class="btn action-icon text-info p-0 border-0 bg-transparent" type="button"
+                                    data-bs-toggle="offcanvas"
+                                    th:attr="data-bs-target='#offcanvasModerate__' + ${review.id}"
+                                    title="Moderar Reseña">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(reviews)}">
+                            <td colspan="6" class="text-center p-4">No se encontraron reseñas.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Offcanvas para cada review -->
+    <div th:each="review : ${reviews}">
+        <div class="offcanvas offcanvas-end" tabindex="-1" th:id="'offcanvasModerate__' + ${review.id}">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title">Moderar Reseña</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+            </div>
+            <div class="offcanvas-body">
+                <form th:action="@{/admin/resenas/moderar/{id}(id=${review.id})}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <select class="form-select" name="status">
+                            <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"
+                                th:selected="${s == review.status}">
+                            </option>
+                        </select>
+                    </div> 
+                    <button type="submit" class="btn btn-primary w-100">Guardar cambios</button>
+                </form>
+            </div>
         </div>
     </div>
-</main>
 
-<!-- Offcanvas (Sin cambios en su funcionalidad original, solo se actualizan las columnas del formulario) -->
-<div class="offcanvas offcanvas-end filter-offcanvas" tabindex="-1" id="filterOffcanvas">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title">Filtrar Reseñas</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-    </div>
-    <div class="offcanvas-body">
-        <form th:action="@{/admin/resenas}" method="get">
-            <input type="hidden" name="keyword" th:value="${keyword}"> <!-- Mantenemos el keyword en el filtro -->
-            
-            <div class="mb-3">
-                <label for="filterStatus" class="form-label">Estado de Moderación</label>
-                <select class="form-select" id="filterStatus" name="status">
-                    <option value="">Todos los estados</option>
-                    <!-- Asumo que el ReviewStatus tiene PENDING, APPROVED, REJECTED -->
-                    <option value="PENDING" th:selected="${param.status == 'PENDING'}">Pendiente</option>
-                    <option value="APPROVED" th:selected="${param.status == 'APPROVED'}">Aprobada</option>
-                    <option value="REJECTED" th:selected="${param.status == 'REJECTED'}">Rechazada</option>
-                </select>
-            </div>
-            
-            <div class="mb-3">
-                <label for="filterRating" class="form-label">Puntuación (mínima)</label>
-                <select class="form-select" id="filterRating" name="rating">
-                    <option value="">Cualquiera</option>
-                    <option value="1" th:selected="${param.rating == '1'}">★☆☆☆☆</option>
-                    <option value="2" th:selected="${param.rating == '2'}">★★☆☆☆</option>
-                    <option value="3" th:selected="${param.rating == '3'}">★★★☆☆</option>
-                    <option value="4" th:selected="${param.rating == '4'}">★★★★☆</option>
-                    <option value="5" th:selected="${param.rating == '5'}">★★★★★</option>
-                </select>
-            </div>
-            
-            <button type="submit" class="btn btn-primary w-100">Aplicar Filtros</button>
-            <a th:href="@{/admin/resenas}" class="btn btn-secondary w-100 mt-2">Limpiar Filtros</a>
-        </form>
-    </div>
-</div>
-
-<!-- Pie de página y scripts -->
-<div th:replace="layout :: footer"></div>
-<div th:replace="layout :: scripts"></div>
-
-<!-- Eliminado el JavaScript para el modal "Ocultar" ya que ahora usamos un enlace directo de moderación -->
+    <!-- Pie de página y scripts -->
+    <div th:replace="layout :: footer"></div>
+    <div th:replace="layout :: scripts"></div>
 
 </body>
+
 </html>
