@@ -49,4 +49,8 @@ El proyecto se divide en tres módulos funcionales principales:
 ## **Instrucciones de instalación y configuración**
 ## **Credenciales de prueba para cada rol**
 ## **Capturas de pantalla de todas las vistas principales**
-
+![alt text](inicio.PNG)
+![alt text](juegos.PNG)
+![alt text](login.PNG)
+![alt text](verdetalles.PNG)
+![alt text](loginhecho.PNG)
