@@ -9,8 +9,6 @@ import com.gamescore.back.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.Random;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

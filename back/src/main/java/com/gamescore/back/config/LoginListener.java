@@ -1,6 +1,5 @@
 package com.gamescore.back.config;
 
-import com.gamescore.back.model.User;
 import com.gamescore.back.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;

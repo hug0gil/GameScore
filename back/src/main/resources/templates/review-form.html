@@ -14,57 +14,52 @@
                 Formulario de Reseña
             </h1>
 
+            <!-- Alertas -->
             <div th:if="${successMessage}" class="alert alert-success" role="alert" th:text="${successMessage}"></div>
             <div th:if="${errorMessage}" class="alert alert-danger" role="alert" th:text="${errorMessage}"></div>
 
+            <!-- FORMULARIO -->
             <form th:action="${review.id == null} ? @{/reviews/nueva} : @{/reviews/editar/{id}(id=${review.id})}"
                 th:object="${review}" method="post" class="text-white">
 
-                <input type="hidden" th:if="${review.id != null}" th:field="*{id}" />
+                <!-- ID de la reseña (Solo si editamos) -->
+                <input type="hidden" th:if="${review.id != null}" name="id" th:value="${review.id}" />
 
                 <div class="row">
+                    <!-- CAMPO JUEGO -->
                     <div class="col-md-8 mb-3">
-                        <label for="game" class="form-label">Juego</label>
+                        <label class="form-label">Juego</label>
 
-                        <th:block th:if="${currentGame != null}">
-                            <!-- CORREGIDO: Se añadió "/>" al final -->
-                            <input type="text" class="form-control bg-dark text-white-50" th:value="${currentGame.name}"
-                                readonly />
-                            <input type="hidden" th:field="*{game.id}" />
-                        </th:block>
+                        <!-- CASO 1: Venimos desde la página de un juego (currentGame existe) -->
+                        <div th:if="${currentGame != null}">
+                            <input type="text" class="form-control bg-dark text-white-50" 
+                                   th:value="${currentGame.name}" readonly />
+                            
+                            <!-- CORRECCIÓN CLAVE: Usamos name y value directos -->
+                            <input type="hidden" name="game.id" th:value="${currentGame.id}" />
+                        </div>
 
-                        <th:block th:unless="${currentGame != null}">
-                            <select class="form-select" id="game" th:field="*{game.id}" required>
+                        <!-- CASO 2: No hay juego seleccionado (Select) -->
+                        <div th:unless="${currentGame != null}">
+                            <select class="form-select" name="game.id" required>
                                 <option value="">Selecciona un juego</option>
                                 <option th:each="g : ${games}" th:value="${g.id}" th:text="${g.name}"></option>
                             </select>
-                        </th:block>
-
-                        <div class="text-danger" th:if="${#fields.hasErrors('game')}" th:errors="*{game}"></div>
+                        </div>
                     </div>
 
+                    <!-- CAMPO CALIFICACIÓN -->
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Calificación (1-5) *</label>
                         <div class="d-flex align-items-center">
-
                             <div class="rating-input me-3">
-                                <input type="radio" id="star1" name="rating" value="1" th:field="*{rating}" required />
-                                <label for="star1" title="1 estrella"></label>
-
-                                <input type="radio" id="star2" name="rating" value="2" th:field="*{rating}" required />
-                                <label for="star2" title="2 estrellas"></label>
-
-                                <input type="radio" id="star3" name="rating" value="3" th:field="*{rating}" required />
-                                <label for="star3" title="3 estrellas"></label>
-
-                                <input type="radio" id="star4" name="rating" value="4" th:field="*{rating}" required />
-                                <label for="star4" title="4 estrellas"></label>
-
-                                <input type="radio" id="star5" name="rating" value="5" th:field="*{rating}" required />
-                                <label for="star5" title="5 estrellas"></label>
-
+                                <!-- Estrellas -->
+                                <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                                    <input type="radio" th:id="'star'+${i}" name="rating" th:value="${i}" 
+                                           th:field="*{rating}" required />
+                                    <label th:for="'star'+${i}" th:title="${i} + ' estrellas'"></label>
+                                </th:block>
                             </div>
-
                             <div class="rating-value">
                                 <span th:text="${review.rating != null} ? ${review.rating} : '0'">0</span> / 5
                             </div>
@@ -73,31 +68,32 @@
                     </div>
                 </div>
 
+                <!-- CAMPO TÍTULO -->
                 <div class="mb-3">
                     <label for="title" class="form-label">Título *</label>
-                    <!-- CORREGIDO: Se añadió "/>" al final -->
                     <input type="text" class="form-control" id="title" th:field="*{title}" maxlength="100" required />
-
-                    <!-- CORREGIDO: Control de nulos para el contador -->
+                    
                     <small class="form-text text-white-50">Máximo 100 caracteres. (<span class="char-count"
                             th:text="${review.title != null ? #strings.length(review.title) : 0}">0</span>/100)</small>
                     <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
                 </div>
 
+                <!-- CAMPO CONTENIDO -->
                 <div class="mb-4">
                     <label for="content" class="form-label">Contenido</label>
                     <textarea class="form-control" id="content" th:field="*{content}" rows="6" minlength="0"
                         maxlength="1000"></textarea>
 
-                    <!-- CORREGIDO: Control de nulos para el contador -->
                     <small class="form-text text-white-50">Máximo 1000 caracteres. (<span class="char-count"
                             th:text="${review.content != null ? #strings.length(review.content) : 0}">0</span>/1000)</small>
                     <div class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
                 </div>
 
+                <!-- BOTONES -->
                 <button type="submit" class="btn btn-warning btn-lg me-2">
                     <i class="bi bi-send-fill"></i> Enviar Reseña
                 </button>
+                
                 <a th:href="@{/juego/{slug}(slug=${currentGame != null ? currentGame.slug : ''})}"
                     class="btn btn-secondary btn-lg">Cancelar</a>
 
@@ -120,7 +116,6 @@
                 });
             }
 
-
             // Comentario
             const commentInput = document.getElementById('content');
             if (commentInput) {
@@ -130,11 +125,9 @@
                 });
             }
 
-
             // Actualizar valor de rating visual
             const ratingInputs = document.querySelectorAll('input[name="rating"]');
             const ratingValue = document.querySelector('.rating-value span');
-
 
             ratingInputs.forEach(input => {
                 input.addEventListener('change', function () {
@@ -147,5 +140,4 @@
     </script>
 
 </body>
-
 </html>
