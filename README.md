@@ -75,11 +75,11 @@ Una vez tiene Compartido el repositorio, lo vamos a clonar desde github desktop 
 a continuación nos iremos a nuestro navegador y pondremos https:localhost/8080/juegos .
 
 ## **5. Credenciales de prueba para cada rol**
-
+admin@gamescore.com = admin123
+user1@test.com = user123
 
 ## **6. Capturas de pantalla de todas las vistas principales**
-![alt text](inicio.PNG)
-![alt text](juegos.PNG)
-![alt text](login.PNG)
-![alt text](verdetalles.PNG)
-![alt text](loginhecho.PNG)
+
+<div class="contenedor-imagen">
+    <img src="capturas\verdetalles.PNG" alt="Descripción de la imagen">
+</div>

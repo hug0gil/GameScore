@@ -58,6 +58,7 @@ public class YoutubeTrailerService {
      */
     private Optional<String> executeSearchWithJsoup(String searchQuery) {
         logger.info("1. TÉRMINOS DE BÚSQUEDA (JSoup): '{}'", searchQuery);
+
         String url = UriComponentsBuilder.fromUriString(YOUTUBE_API_URL)
                 .queryParam("key", youtubeApiKey)
                 .queryParam("part", "id")
@@ -77,7 +78,6 @@ public class YoutubeTrailerService {
                     .timeout(10000) // 10 segundos de timeout
                     .ignoreContentType(true) // Importante para que acepte JSON
                     .execute();
-            // --- FIN DEL CAMBIO ---
 
             String jsonResponse = response.body();
             logger.info("3. RESPUESTA JSON (JSoup): {}", jsonResponse);
@@ -100,12 +100,10 @@ public class YoutubeTrailerService {
         }
     }
 
-    // Mantén tu método de test con RestTemplate si quieres, pero ahora sabemos que
-    // no es fiable
-    // para el proceso de fondo. O mejor, actualízalo para usar JSoup también.
+    // punto de acceso y prueba
+    // lo vamos a utilizar para verificar la conexion y la logica de la api
     public String testYoutubeSearch(String gameName) {
-        // ... (puedes actualizar este método para que también use
-        // executeSearchWithJsoup si quieres)
+
         String genericQuery = gameName + " teaser trailer";
         Optional<String> result = executeSearchWithJsoup(genericQuery);
         return result.orElse("No se encontró tráiler en la prueba con JSoup.");
