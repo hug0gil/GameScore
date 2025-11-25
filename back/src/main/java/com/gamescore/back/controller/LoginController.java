@@ -1,8 +1,10 @@
 package com.gamescore.back.controller;
 
 import com.gamescore.back.model.User;
+import com.gamescore.back.service.EmailService;
 import com.gamescore.back.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class LoginController {
 
     private final UserService userService;
+    private final EmailService emailService;
 
     // --- LOGIN (GET) ---
     @GetMapping("/login")
@@ -26,36 +30,40 @@ public class LoginController {
         return "login";
     }
 
-    // --- REGISTER (GET) -> ESTE ES EL QUE TE FALTA O FALLA ---
-    @GetMapping("/registro")
+    // --- REGISTER (GET) ---
+    @GetMapping("/registro") // URL: http://localhost:8080/registro
     public String registerPage(Model model) {
-        // Importante: Pasamos un objeto vacío para que Thymeleaf pueda enlazar los campos
         model.addAttribute("user", new User());
-        return "register";
+        return "register"; // Archivo: templates/register.html
     }
 
-    // --- REGISTER (POST) -> ESTE PROCESA EL FORMULARIO ---
+    // --- REGISTER (POST) ---
     @PostMapping("/registro")
     public String registerUser(@ModelAttribute("user") User user, 
                                BindingResult result, 
                                Model model) {
         
-        // 1. Validar errores de formulario
         if (result.hasErrors()) {
-            return "register";
+            return "register"; // Si hay error, volvemos a templates/registro.html
         }
 
         try {
-            // 2. Registrar usuario
-            userService.registerUser(user);
+            // 1. Registrar usuario
+            User savedUser = userService.registerUser(user);
             
-            // 3. Redirigir al login si todo sale bien
+            // 2. Enviar Email
+            try {
+                log.info("Enviando email de confirmación a: {}", savedUser.getEmail());
+                emailService.sendWelcomeAndConfirmation(savedUser.getEmail(), savedUser.getName());
+            } catch (Exception e) {
+                log.error("Error al enviar email de bienvenida", e);
+            }
+            
             return "redirect:/login?registered"; 
             
         } catch (IllegalArgumentException e) {
-            // 4. Capturar errores de negocio (email duplicado, etc.)
             model.addAttribute("errorMessage", e.getMessage());
-            return "register"; // Volver al formulario con el error
+            return "register";
         }
     }
 }

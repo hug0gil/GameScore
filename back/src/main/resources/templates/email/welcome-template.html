@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Bienvenido a GameScore</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #E9E7E4; font-family: sans-serif;">
+    
+    <div style="max-width: 600px; margin: 0 auto; background-color: #FFFFFF; border: 4px solid #2D2D2D; box-shadow: 8px 8px 0px #F38801; padding: 0;">
+        
+        <!-- HEADER AMARILLO RETRO -->
+        <div style="background-color: #FFB800; padding: 25px; border-bottom: 4px solid #2D2D2D; text-align: center;">
+            <h1 style="margin: 0; color: #2D2D2D; font-family: 'Courier New', monospace; font-size: 28px; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 0px #fff;">
+                GAME SCORE 🎮
+            </h1>
+        </div>
+
+        <!-- CONTENIDO -->
+        <div style="padding: 40px 30px;">
+            
+            <!-- SALUDO -->
+            <h2 style="color: #333333; margin-top: 0; font-size: 22px;">
+                ¡Hola, <span th:text="${username}" style="color: #FFB800; background: #2D2D2D; padding: 2px 6px;">Jugador</span>!
+            </h2>
+            
+            <p style="font-size: 16px; line-height: 1.6; color: #555;">
+                Tu cuenta ha sido registrada correctamente en nuestra base de datos. Ya puedes empezar a guardar tus juegos favoritos, escribir reseñas y subir de nivel.
+            </p>
+            
+            <!-- CAJA DE ESTADO -->
+            <div style="background-color: #F9F9F9; border-left: 6px solid #55B957; padding: 20px; margin: 30px 0; border: 1px solid #eee;">
+                <p style="margin: 0 0 5px 0; font-weight: bold; color: #2D2D2D; text-transform: uppercase;">
+                    ✅ ESTADO DE CUENTA: ACTIVA
+                </p>
+                <p style="margin: 0; font-size: 14px; color: #666;">
+                    Todo está listo para tu primera partida.
+                </p>
+            </div>
+            
+            <hr style="border: 0; border-top: 2px dashed #ccc; margin: 30px 0;">
+            
+            <p style="font-size: 12px; color: #888; text-align: center; margin: 0;">
+                &copy; 2025 GameScore Systems. Press Start to Continue.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -27,7 +27,7 @@ public class EmailService {
     private MailjetClient mailjetClient;
 
     @Autowired
-    private TemplateEngine templateEngine; // Necesario para procesar los HTML
+    private TemplateEngine templateEngine;
 
     @Value("${mailjet.sender.email}")
     private String senderEmail;
@@ -36,72 +36,70 @@ public class EmailService {
     private String baseUrl;
 
     // ============================================================
-    // 1. MÉTODOS DE NEGOCIO (Los que llaman tus Controladores)
+    // 1. MÉTODOS DE NEGOCIO
     // ============================================================
 
     /**
-     * Envía el resumen semanal (Llamado desde ProfileController)
+     * Envía el resumen semanal
      */
-public void sendWeeklySummary(User user) {
-    Context context = new Context();
-    
-    // Pasamos el usuario
-    context.setVariable("user", user);
-    
-    // DATO REAL 1: Contador de Logins
-    context.setVariable("loginCount", user.getLoginCount());
-    
-    // DATO REAL 2: Cantidad de Favoritos (Protegemos contra nulos)
-    int favCount = (user.getFavorites() != null) ? user.getFavorites().size() : 0;
-    context.setVariable("favoritesCount", favCount);
-    
-    // DATO REAL 3: Lista de nombres de los 3 primeros favoritos
-    List<String> favNames = new ArrayList<>();
-    if (user.getFavorites() != null && !user.getFavorites().isEmpty()) {
-        favNames = user.getFavorites().stream()
-                .limit(3)
-                .map(Game::getName) // Asumiendo que Game tiene getName()
-                .collect(Collectors.toList());
-    } else {
-        favNames.add("Ninguno aún");
-    }
-    context.setVariable("favoriteGamesList", favNames);
+    public void sendWeeklySummary(User user) {
+        Context context = new Context();
+        
+        context.setVariable("user", user);
+        context.setVariable("loginCount", user.getLoginCount());
+        
+        int favCount = (user.getFavorites() != null) ? user.getFavorites().size() : 0;
+        context.setVariable("favoritesCount", favCount);
+        
+        List<String> favNames = new ArrayList<>();
+        if (user.getFavorites() != null && !user.getFavorites().isEmpty()) {
+            favNames = user.getFavorites().stream()
+                    .limit(3)
+                    .map(Game::getName)
+                    .collect(Collectors.toList());
+        } else {
+            favNames.add("Ninguno aún");
+        }
+        context.setVariable("favoriteGamesList", favNames);
 
-    // Procesar plantilla
-    String htmlContent = templateEngine.process("email/summary-template", context);
-    sendEmail(user.getEmail(), user.getName(), "🎮 Tu Estadísticas de GameScore", htmlContent);
-}
+        String htmlContent = templateEngine.process("email/summary-template", context);
+        sendEmail(user.getEmail(), user.getName(), "🎮 Tus Estadísticas de GameScore", htmlContent);
+    }
 
     /**
-     * Envía bienvenida y link de confirmación (Llamado desde AuthController)
+     * Envía bienvenida
+     * NOTA: Como quitamos el token, asegúrate de que LoginController
+     * llame a este método pasando solo (email, name).
      */
-    public void sendWelcomeAndConfirmation(String email, String name, String token) {
+    public void sendWelcomeAndConfirmation(String email, String name) {
         Context context = new Context();
         context.setVariable("username", name);
-        context.setVariable("confirmationUrl", baseUrl + "/auth/confirm?token=" + token);
+        
+        // Redirige al Login directamente
+        context.setVariable("confirmationUrl", baseUrl + "/login");
 
-        // Asegúrate de tener 'email/welcome-template.html' creado
-        // Si no lo tienes, usa una cadena simple por ahora o crea el archivo
         String htmlContent = templateEngine.process("email/welcome-template", context);
 
-        sendEmail(email, name, "¡Bienvenido a GameScore! Confirma tu cuenta", htmlContent);
+        sendEmail(email, name, "¡Bienvenido a GameScore!", htmlContent);
     }
 
     /**
-     * Envía link de recuperación de contraseña (Llamado desde AuthController)
+     * Envía link de recuperación de contraseña
      */
     public void sendPasswordReset(String email, String token) {
         Context context = new Context();
-        context.setVariable("resetUrl", baseUrl + "/auth/reset-password?token=" + token);
+        
+        // --- CORRECCIÓN AQUÍ ---
+        // Debe coincidir con @GetMapping("/cambiar-password") del PasswordResetController
+        context.setVariable("resetUrl", baseUrl + "/cambiar-password?token=" + token);
 
-        // Asegúrate de tener 'email/reset-password-template.html'
         String htmlContent = templateEngine.process("email/reset-password-template", context);
 
         sendEmail(email, "Usuario", "Recuperar Contraseña - GameScore", htmlContent);
     }
 
     // ============================================================
-    // 2. MÉTODO PUBLIC GENÉRICO (Conexión con Mailjet)
+    // 2. MÉTODO GENÉRICO
     // ============================================================
 
     public void sendEmail(String toEmail, String toName, String subject, String htmlContent) {
@@ -123,12 +121,10 @@ public void sendWeeklySummary(User user) {
             MailjetResponse response = mailjetClient.post(request);
 
             if (response.getStatus() != 200) {
-                // Loguear error pero no romper la app
                 System.err.println("Error Mailjet: " + response.getStatus() + " " + response.getData());
             }
         } catch (MailjetException e) {
             e.printStackTrace();
-            // Opcional: Lanzar RuntimeException si quieres que el controlador se entere
         }
     }
 }
