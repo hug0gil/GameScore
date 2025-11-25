@@ -30,7 +30,8 @@
                         <!-- FORMULARIO -->
                         <form th:action="@{/perfil/actualizar}" method="post" th:object="${user}">
                             <!-- CSRF Token (Seguridad) -->
-                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
+                                th:value="${_csrf.token}" />
 
                             <!-- PREVISUALIZACIÓN AVATAR -->
                             <div class="text-center mb-4">
