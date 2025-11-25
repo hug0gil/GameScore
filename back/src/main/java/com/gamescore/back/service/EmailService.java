@@ -48,22 +48,24 @@ public class EmailService {
         context.setVariable("user", user);
         context.setVariable("loginCount", user.getLoginCount());
         
-        int favCount = (user.getFavorites() != null) ? user.getFavorites().size() : 0;
-        context.setVariable("favoritesCount", favCount);
+        // int favCount = (user.getFavorites() != null) ? user.getFavorites().size() : 0;
+        // context.setVariable("favoritesCount", favCount);
         
-        List<String> favNames = new ArrayList<>();
-        if (user.getFavorites() != null && !user.getFavorites().isEmpty()) {
-            favNames = user.getFavorites().stream()
-                    .limit(3)
-                    .map(Game::getName)
-                    .collect(Collectors.toList());
-        } else {
-            favNames.add("Ninguno aún");
-        }
-        context.setVariable("favoriteGamesList", favNames);
+        // List<String> favNames = new ArrayList<>();
+        // if (user.getFavorites() != null && !user.getFavorites().isEmpty()) {
+        //     favNames = user.getFavorites().stream()
+        //             .limit(3)
+        //             .map(Game::getName)
+        //             .collect(Collectors.toList());
+        // } else {
+        //     favNames.add("Ninguno aún");
+        // }
+        // context.setVariable("favoriteGamesList", favNames);
 
-        String htmlContent = templateEngine.process("email/summary-template", context);
-        sendEmail(user.getEmail(), user.getName(), "🎮 Tus Estadísticas de GameScore", htmlContent);
+        // String htmlContent = templateEngine.process("email/summary-template", context);
+        // sendEmail(user.getEmail(), user.getName(), "🎮 Tus Estadísticas de GameScore", htmlContent);
+
+        
     }
 
     /**

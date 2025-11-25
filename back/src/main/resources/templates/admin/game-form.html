@@ -14,16 +14,15 @@
             <h1 class="text-white mb-4" th:text="${game.id == null ? 'Añadir Nuevo Juego' : 'Editar Juego'}">Formulario
                 de Juego</h1>
 
-            <!-- Formulario dinámico -->
-            <form th:action="@{/admin/juegos/editar/{id}(id=${game.id})}" th:object="${game}" method="post"
-                class="text-white">
+            <form th:action="${game.id == null} ? @{/admin/juegos/crear} : @{/admin/juegos/editar/{id}(id=${game.id})}"
+                th:object="${game}" method="post" class="text-white">
+
+                <!-- Token CSRF -->
+                <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
 
                 <!-- Campo oculto para el ID en modo edición -->
                 <input type="hidden" th:if="${game.id != null}" th:field="*{id}" />
 
-
-
-                <!-- Fila 1: Nombre y Fecha de Lanzamiento -->
                 <div class="row">
                     <div class="col-md-8 mb-3">
                         <label for="name" class="form-label">Nombre del Juego</label>
@@ -32,18 +31,20 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="releaseDate" class="form-label">Fecha de Lanzamiento</label>
-                        <input type="date" class="form-control" id="releaseDate" name="releaseDate"
-                            th:value="${game.releaseDate != null} ? ${#temporals.format(game.releaseDate, 'yyyy-MM-dd')} : ''">
+                        <input type="date" class="form-control" id="releaseDate" th:field="*{releaseDate}"
+                            th:value="${game.releaseDate != null} ? ${#temporals.format(game.releaseDate, 'yyyy-MM-dd')} : ''"
+                            required>
                     </div>
                 </div>
 
-                <!-- Fila 2: Descripción -->
+                <!-- Descripción -->
                 <div class="mb-3">
                     <label for="description" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="description" rows="5" th:field="*{description}"></textarea>
+                    <textarea class="form-control" id="description" rows="5" th:field="*{description}"
+                        required></textarea>
                 </div>
 
-                <!-- Fila 3: URLs -->
+                <!-- URLs (opcionales) -->
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="backgroundUrl" class="form-label">URL de la Imagen de Fondo</label>
@@ -62,39 +63,35 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="slug" class="form-label">Slug del juego (espacios = - y mayus = minus)</label>
-                        <input type="text" th:field="*{slug}" class="form-control" id="slug" min="0" max="100" />
+                        <input type="text" th:field="*{slug}" class="form-control" id="slug" maxlength="100" required />
                     </div>
                 </div>
 
-                <!-- Fila 4: Ratings -->
+                <!-- Ratings -->
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="rating" class="form-label">Rating (0.0 a 10.0)</label>
                         <input type="number" class="form-control" id="rating" th:field="*{rating}" step="0.01" min="0"
-                            max="10">
+                            max="10" required>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="metacritic" class="form-label">Puntuación Metacritic (0 a 100)</label>
                         <input type="number" class="form-control" id="metacritic" th:field="*{metacritic}" min="0"
-                            max="100">
+                            max="100" required>
                     </div>
                 </div>
 
-
-
                 <input type="hidden" th:field="*{rawgId}" />
-
 
                 <hr class="my-4">
 
-                <!-- Botones de Acción -->
                 <div class="d-flex justify-content-end gap-2">
                     <a th:href="@{/admin/juegos}" class="btn btn-secondary">Cancelar</a>
                     <button type="submit" class="btn btn-primary"
                         th:text="${game.id == null ? 'Crear Juego' : 'Guardar Cambios'}">Guardar</button>
                 </div>
-
             </form>
+
 
         </div>
     </main>

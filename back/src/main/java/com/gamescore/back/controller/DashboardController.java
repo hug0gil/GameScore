@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +40,10 @@ public class DashboardController {
     private final ReviewService reviewService;
     private final UserService userService;
 
+    public void addCsrfToken(Model model, CsrfToken token) {
+        model.addAttribute("_csrf", token);
+    }
+
     // =======================================================================
     // VISTAS DEL DASHBOARD (GENERAL Y JUEGOS)
     // =======================================================================
@@ -50,7 +55,7 @@ public class DashboardController {
         return "admin/dashboard";
     }
 
-    @GetMapping("juegos")
+    @GetMapping("/juegos")
     public String listGames(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(required = false) String keyword,
@@ -80,7 +85,7 @@ public class DashboardController {
             @RequestParam(defaultValue = "0") int page,
             Model model) {
 
-        int pageSize = 3;
+        int pageSize = 5;
         Page<User> usersPage;
 
         if ((role != null && !role.isEmpty()) && (keyword != null && !keyword.isEmpty())) {
@@ -182,6 +187,12 @@ public class DashboardController {
     public String newGameForm(Model model) {
         model.addAttribute("game", new Game());
         return "admin/game-form";
+    }
+
+    @PostMapping("/juegos/crear")
+    public String crearJuego(@ModelAttribute("game") Game game) {
+        gameService.save(game);
+        return "redirect:/admin/juegos";
     }
 
     @GetMapping("/juegos/editar/{id}")

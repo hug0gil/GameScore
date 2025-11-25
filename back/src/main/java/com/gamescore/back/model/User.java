@@ -95,15 +95,6 @@ public class User {
         return (int) ((daysIntoLevel / 30.0) * 100);
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_favorites", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "game_id"))
-    @Builder.Default
-    private Set<Game> favorites = new HashSet<>();
-
-    public void addFavorite(Game game) {
-        this.favorites.add(game);
-    }
-
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @Builder.Default
     private List<Review> reviews = new ArrayList<>();

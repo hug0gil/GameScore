@@ -7,6 +7,7 @@ import com.gamescore.back.model.enums.ReviewStatus;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,6 +25,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
          * @param user El objeto User.
          * @return Lista de Reviews.
          */
+        @EntityGraph(attributePaths = "user")
         List<Review> findByUser(User user);
 
         /**
@@ -32,6 +34,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
          * @param game El objeto Game.
          * @return Lista de Reviews.
          */
+        @EntityGraph(attributePaths = "game")
         List<Review> findByGame(Game game);
 
         /**
@@ -40,6 +43,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
          * @param status El estado de la reseña (ReviewStatus).
          * @return Lista de Reviews.
          */
+        @EntityGraph(attributePaths = { "user", "game" })
         List<Review> findByStatus(ReviewStatus status);
 
         // -------------------------------------------------------------------
@@ -54,50 +58,117 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
          * @param status El estado de la reseña (ReviewStatus, ej: APPROVED).
          * @return Lista de Reviews.
          */
+        @EntityGraph(attributePaths = { "user", "game" })
         List<Review> findByGameAndStatus(Game game, ReviewStatus status);
 
         /**
          * Busca si existe una reseña hecha por un usuario para un juego específico.
-         * Se usa para validar que un usuario no cree más de una reseña por juego.
+         * 💡 Se usa para validar que un usuario no cree más de una reseña por juego.
          * 
          * @param user El objeto User.
          * @param game El objeto Game.
          * @return Optional<Review> (vacío si no existe).
          */
+        @EntityGraph(attributePaths = { "user", "game" })
         Optional<Review> findByUserAndGame(User user, Game game);
 
+        /**
+         * Busca reseñas por palabra clave en juego o usuario.
+         * Carga explícitamente user y game para evitar LazyInitializationException.
+         */
+        @EntityGraph(attributePaths = { "user", "game" })
         @Query("""
                             SELECT r
                             FROM Review r
-                            JOIN FETCH r.user
-                            JOIN FETCH r.game
                             WHERE (:keyword IS NULL
                                    OR LOWER(r.game.name) LIKE LOWER(CONCAT('%', :keyword, '%'))
                                    OR LOWER(r.user.name) LIKE LOWER(CONCAT('%', :keyword, '%')))
+                            ORDER BY r.createdAt DESC
                         """)
         List<Review> searchWithGameAndUser(@Param("keyword") String keyword);
 
+        /**
+         * Obtiene todas las reseñas con sus relaciones user y game cargadas.
+         */
+        @EntityGraph(attributePaths = { "user", "game" })
+        @Query("SELECT r FROM Review r ORDER BY r.createdAt DESC")
+        List<Review> findAllWithGameAndUser();
+
+        /**
+         * Cuenta reseñas por estado.
+         */
+        long countByStatus(ReviewStatus status);
+
+        /**
+         * Busca reseñas aprobadas de un juego específico.
+         */
+        @EntityGraph(attributePaths = { "user", "game" })
+        List<Review> findByGameIdAndStatus(Long gameId, ReviewStatus status);
+
+        /**
+         * Obtiene reseñas aprobadas de un juego con todas sus relaciones cargadas.
+         * Incluye: user, game, y reviewedBy (moderador).
+         */
+        @EntityGraph(attributePaths = { "user", "game", "reviewedBy" })
         @Query("""
                             SELECT r
                             FROM Review r
-                            JOIN FETCH r.user
-                            JOIN FETCH r.game
+                            WHERE r.game.id = :gameId AND r.status = 'APPROVED'
+                            ORDER BY r.createdAt DESC
                         """)
-        List<Review> findAllWithGameAndUser();
+        List<Review> findApprovedReviewsByGameIdFull(@Param("gameId") Long gameId);
 
-        long countByStatus(ReviewStatus status);
-
-        List<Review> findByGameIdAndStatus(Long gameId, ReviewStatus status);
-
+        /**
+         * Busca reseñas con filtros: palabra clave, estado y rating.
+         * Carga game para evitar lazy loading.
+         */
+        @EntityGraph(attributePaths = { "user", "game" })
         @Query("""
-                            SELECT r FROM Review r
+                            SELECT r
+                            FROM Review r
                             WHERE (:keyword IS NULL OR LOWER(r.content) LIKE LOWER(CONCAT('%', :keyword, '%')))
                               AND (:status IS NULL OR r.status = :status)
                               AND (:rating IS NULL OR r.rating = :rating)
+                            ORDER BY r.createdAt DESC
                         """)
         Page<Review> searchWithFilters(
                         @Param("keyword") String keyword,
                         @Param("status") ReviewStatus status,
+                        @Param("rating") Integer rating, Pageable pageable);
+
+        /**
+         * Obtiene todas las reseñas paginadas con game cargado.
+         */
+        @EntityGraph(attributePaths = { "user", "game" })
+        @Query("SELECT r FROM Review r ORDER BY r.createdAt DESC")
+        Page<Review> findAllWithGame(Pageable pageable);
+
+        /**
+         * Busca reseñas paginadas con filtros.
+         * Ideal para la página de administración.
+         */
+        @EntityGraph(attributePaths = { "user", "game" })
+        @Query("""
+                            SELECT r
+                            FROM Review r
+                            WHERE (:keyword IS NULL
+                                   OR LOWER(r.title) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                                   OR LOWER(r.content) LIKE LOWER(CONCAT('%', :keyword, '%')))
+                              AND (:status IS NULL OR r.status = :status)
+                              AND (:rating IS NULL OR r.rating = :rating)
+                            ORDER BY r.createdAt DESC
+                        """)
+        Page<Review> findWithFiltersAndUser(
+                        @Param("keyword") String keyword,
+                        @Param("status") ReviewStatus status,
                         @Param("rating") Integer rating,
                         Pageable pageable);
+
+        /**
+         * Obtiene una reseña por ID con todas sus relaciones.
+         */
+        @EntityGraph(attributePaths = { "user", "game", "reviewedBy" })
+        @Query("SELECT r FROM Review r WHERE r.id = :id")
+        Optional<Review> findByIdWithRelations(@Param("id") Long id);
+
 }

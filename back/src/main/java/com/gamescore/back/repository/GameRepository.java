@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -36,8 +37,15 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
     List<GameListDTO> findTop3ByOrderByRatingDesc();
 
-    @Query("SELECT g FROM Game g JOIN FETCH g.genres JOIN FETCH g.platforms WHERE g.slug = :slug")
+    @EntityGraph(attributePaths = { "genres", "platforms" })
+    @Query("SELECT g FROM Game g WHERE lower(trim(g.slug)) = lower(trim(:slug))")
     Optional<Game> findBySlug(@Param("slug") String slug);
 
     Page<Game> findByNameContainingIgnoreCase(String keyword, Pageable pageable);
+
+    @Query("SELECT g FROM Game g " +
+            "LEFT JOIN FETCH g.genres " +
+            "LEFT JOIN FETCH g.platforms " +
+            "WHERE g.slug = :slug")
+    Optional<Game> findBySlugWithGenresAndPlatforms(@Param("slug") String slug);
 }

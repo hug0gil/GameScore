@@ -9,28 +9,26 @@ import com.gamescore.back.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/juegos")
 public class GameController {
 
     private final GameService gameService;
     private final ReviewService reviewService;
 
-    @GetMapping("/")
-    public String showIndexPage(Model model) {
-        return "index";
-    }
-
-    @GetMapping("/juegos")
+    @GetMapping
     public String listGames(
             @RequestParam(defaultValue = "0") int page,
             Model model) {
@@ -47,28 +45,19 @@ public class GameController {
         return "games";
     }
 
-    @GetMapping("/juego/{slug}")
+    @GetMapping("/{slug}")
     public String showGameDetailPage(@PathVariable("slug") String slug, Model model) {
+        System.out.println("Slug recibido: [" + slug + "]");
+
         Game game = gameService.findBySlug(slug)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Juego no encontrado"));
 
-        // Obtener las reseñas aprobadas para este juego específico
         List<Review> approvedReviews = reviewService.findApprovedReviewsByGameId(game.getId());
 
         model.addAttribute("game", game);
         model.addAttribute("reviews", approvedReviews);
 
         return "game-detail";
-    }
-
-    @GetMapping("/sobre-nosotros")
-    public String sobreNosotros() {
-        return "sobre-nosotros"; // nombre del template HTML en templates/
-    }
-
-    @GetMapping("/politica-privacidad")
-    public String politicaPrivacidad() {
-        return "politica-privacidad"; // nombre del template HTML en templates/
     }
 
 }

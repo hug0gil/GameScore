@@ -10,6 +10,7 @@ import com.gamescore.back.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -56,7 +57,7 @@ public class ReviewService {
 
     // Obtiene solo las reseñas APROBADAS para mostrar en la vista de detalle.
     public List<Review> findApprovedReviewsByGameId(Long gameId) {
-        return reviewRepository.findByGameIdAndStatus(gameId, ReviewStatus.APPROVED);
+        return reviewRepository.findApprovedReviewsByGameIdFull(gameId);
     }
 
     public long countPendingReviews() {
@@ -214,14 +215,15 @@ public class ReviewService {
         reviewRepository.save(review);
     }
 
-    public Page<Review> findAllPaged(int page, int pageSize) {
-        Pageable pageable = PageRequest.of(page, pageSize);
-        return reviewRepository.findAll(pageable);
+    public Page<Review> findAllPaged(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return reviewRepository.findAllWithGame(pageable);
     }
 
     public Page<Review> searchPagedWithFilters(String keyword, ReviewStatus status, Integer rating, int page,
-            int pageSize) {
-        Pageable pageable = PageRequest.of(page, pageSize);
+            int size) {
+        Pageable pageable = PageRequest.of(page, size);
         return reviewRepository.searchWithFilters(keyword, status, rating, pageable);
     }
+
 }
