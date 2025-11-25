@@ -83,3 +83,31 @@ user1@test.com = user123
 <div class="contenedor-imagen">
     <img src="capturas\verdetalles.PNG" alt="Descripción de la imagen">
 </div>
+
+<div class="contenedor-imagen">
+    <img src="capturas\detallesjuego.PNG" alt="Descripción de la imagen">
+</div>
+
+<div class="contenedor-imagen">
+    <img src="capturas\editar.PNG" alt="Descripción de la imagen">
+</div>
+
+<div class="contenedor-imagen">
+    <img src="capturas\envierresumen.PNG" alt="Descripción de la imagen">
+</div>
+
+<div class="contenedor-imagen">
+    <img src="capturas\inicio.PNG" alt="Descripción de la imagen">
+</div>
+
+<div class="contenedor-imagen">
+    <img src="capturas\juegos.PNG" alt="Descripción de la imagen">
+</div>
+
+<div class="contenedor-imagen">
+    <img src="capturas\loginhecho.PNG" alt="Descripción de la imagen">
+</div>
+
+<div class="contenedor-imagen">
+    <img src="capturas\registrateaqui.PNG" alt="Descripción de la imagen">
+</div>
